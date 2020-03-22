@@ -1,6 +1,6 @@
 {
-  "releaseNotes": "Change-logs\n - ",
-  "downloadUrl": "",
-  "versionName": "",
-  "versionCode":
+  "releaseNotes": "Change-logs\n - Initial Release",
+  "downloadUrl": "https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.0/com.nfs.nfsmanager-v1.0-release.apk",
+  "versionName": "v1.0",
+  "versionCode": 1
 }
