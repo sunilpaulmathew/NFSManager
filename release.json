@@ -1,6 +1,6 @@
 {
-  "releaseNotes": "Change-logs\n - Initial Release",
-  "downloadUrl": "https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.0/com.nfs.nfsmanager-v1.0-release.apk",
-  "versionName": "v1.0",
-  "versionCode": 1
+  "releaseNotes": "Change-logs\n - Fixed magisk log not working for basic users.\n - Updated settings UI.\n - Miscellaneous changes.",
+  "downloadUrl": "https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.1/com.nfs.nfsmanager-v1.1-release.apk",
+  "versionName": "v1.1",
+  "versionCode": 2
 }
