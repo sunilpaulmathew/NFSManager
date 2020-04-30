@@ -1,5 +1,7 @@
 ![NFS Manager](https://raw.githubusercontent.com/sunilpaulmathew/NFSManager/master/banner.png)
 
+![](https://img.shields.io/github/downloads/sunilpaulmathew/NFSManager/total)
+
 ### NFS Manager is a simple app to control NFS Injector parameters, a Magisk module which aims to improve kernel/RAM management, by using values between performance and battery savings.
 
 ## Download
