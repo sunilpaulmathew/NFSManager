@@ -1,6 +1,6 @@
 {
-  "releaseNotes": "Change-logs\n - Prevent users to access the app, if NFS initialization is not completed.\n - Show warning message to avoid using performance governor.\n - Added super sampling.\n - Moved About dialogue to the settings menu.\n - Updated pro-user checking.\n - Added more apps to conflicting programs list.\n - Updated Analytics/Ads Disabler.\n - Overall code cleaning & improvements.\n - Update build tools.\n - Miscellaneous changes.",
-  "downloadUrl": "https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.2/com.nfs.nfsmanager-v1.2-release.apk",
-  "versionName": "v1.2",
-  "versionCode": 3
+  "releaseNotes": "Change-logs\n - Switched to libsu.\n - Updated pro-user check.\n - Miscellaneous changes.",
+  "downloadUrl": "https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.3/com.nfs.nfsmanager-v1.3-release.apk",
+  "versionName": "v1.3",
+  "versionCode": 4
 }
