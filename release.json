@@ -1,6 +1,6 @@
 {
-  "releaseNotes": "Change-logs\n - Switched to libsu.\n - Updated pro-user check.\n - Miscellaneous changes.",
+  "releaseNotes": "Change-logs\n - Implement module flashing from app.\n - Largely re-designed App UI.\n - Brand New About page, Logs view and Change-logs.\n - Implemented On-Boot service to help module to execute at boot.\n - Cleaned a bunch of unused code from app.\n - Improved Root handling.\n - Improved conflicts app detection.\n - Replaced toast messages with snackbar\n - Added Russian, German, Spanish, French and Italian translations.\n - Removed option to input Registration Key.\n - Miscellaneous changes.",
   "downloadUrl": "https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.3/com.nfs.nfsmanager-v1.3-release.apk",
-  "versionName": "v1.3",
-  "versionCode": 4
+  "versionName": "v1.4",
+  "versionCode": 5
 }
