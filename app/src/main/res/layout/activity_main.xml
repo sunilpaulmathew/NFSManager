@@ -1,0 +1,190 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:gravity="center"
+                    android:src="@drawable/ic_nfs"
+                    android:background="@color/ColorBlack"
+                    android:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/settings_menu"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="75dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_gravity="end"
+                    android:background="@null"
+                    android:src="@drawable/ic_settings"
+                    android:tint="@color/ColorWhite" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/support_statue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:baselineAligned="false"
+                android:visibility="gone" >
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/module_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:tint="?android:attr/textColorPrimary"
+                    android:scaleType="fitCenter"
+                    android:background="@null" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/module_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="45dp"
+                    android:gravity="start"
+                    android:textColor="?android:attr/colorAccent"
+                    android:layout_gravity="start"
+                    android:textSize="20sp" />
+            </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/status_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="start"
+                android:layout_gravity="start"
+                android:textSize="15sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/unsupported_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:gravity="center" >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/unsupported_Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textColor="?android:attr/colorAccent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/no_root_Image"
+                android:layout_width="50sp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="85dp"
+                android:layout_marginEnd="25dp"
+                android:layout_gravity="end" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="75dp" >
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_gravity="bottom" >
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ads:adUnitId="ca-app-pub-7791710838910455/6108961556"
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:layout_gravity="bottom|center"
+                ads:adSize="SMART_BANNER"
+                android:gravity="center" >
+            </com.google.android.gms.ads.AdView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/offline_ad"
+            android:layout_width="match_parent"
+            android:background="@color/ColorWhite"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_gravity="bottom" >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:textSize="20sp"
+                android:text="@string/copyright"
+                android:textColor="?android:attr/colorAccent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:textSize="17sp"
+                android:textStyle="italic|bold"
+                android:text="@string/copyright_message"
+                android:textColor="@color/ColorBlack" />
+        </LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            app:itemIconTint="?attr/colorAccent"
+            app:itemTextColor="?attr/colorAccent"
+            app:labelVisibilityMode="labeled"
+            android:layout_gravity="bottom"
+            android:background="@color/ColorBlack"
+            app:menu="@menu/bottom_navigation"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <include layout="@layout/progress_view_layout" />
+</RelativeLayout>

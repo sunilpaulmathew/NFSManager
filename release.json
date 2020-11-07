@@ -1,6 +1,0 @@
-{
-  "releaseNotes": "Change-logs\n - Removed on-boot service.\n - Updated pro-user check.\n - Updated build tools.\n - Updated DNS and Doze options.\n - Miscellaneous changes.",
-  "downloadUrl": "https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.5/com.nfs.nfsmanager-v1.5-release.apk",
-  "versionName": "v1.5",
-  "versionCode": 6
-}

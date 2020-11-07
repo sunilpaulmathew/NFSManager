@@ -1,0 +1,337 @@
+package com.nfs.nfsmanager.utils;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.snackbar.Snackbar;
+import com.nfs.nfsmanager.BuildConfig;
+import com.nfs.nfsmanager.R;
+import com.topjohnwu.superuser.Shell;
+import com.topjohnwu.superuser.ShellUtils;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+ * Created by sunilpaulmathew <sunil.kde@gmail.com> on January 07, 2020
+ */
+
+public class Utils {
+
+    static {
+        Shell.Config.verboseLogging(BuildConfig.DEBUG);
+        Shell.Config.setTimeout(10);
+    }
+
+    /*
+     * The following code is partly taken from https://github.com/SmartPack/SmartPack-Kernel-Manager
+     * Ref: https://github.com/SmartPack/SmartPack-Kernel-Manager/blob/beta/app/src/main/java/com/smartpack/kernelmanager/utils/root/RootUtils.java
+     */
+    public static boolean rootAccess() {
+        return Shell.rootAccess();
+    }
+
+    public static void runCommand(String command) {
+        Shell.su(command).exec();
+    }
+
+    @NonNull
+    static String runAndGetOutput(String command) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            List<String> outputs = Shell.su(command).exec().getOut();
+            if (ShellUtils.isValidOutput(outputs)) {
+                for (String output : outputs) {
+                    sb.append(output).append("\n");
+                }
+            }
+            return removeSuffix(sb.toString()).trim();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    @NonNull
+    public static String runAndGetError(String command) {
+        StringBuilder sb = new StringBuilder();
+        List<String> outputs = new ArrayList<>();
+        List<String> stderr = new ArrayList<>();
+        try {
+            Shell.su(command).to(outputs, stderr).exec();
+            outputs.addAll(stderr);
+            if (ShellUtils.isValidOutput(outputs)) {
+                for (String output : outputs) {
+                    sb.append(output).append("\n");
+                }
+            }
+            return removeSuffix(sb.toString()).trim();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static String removeSuffix(@Nullable String s) {
+        if (s != null && s.endsWith("\n")) {
+            return s.substring(0, s.length() - "\n".length());
+        }
+        return s;
+    }
+
+    /*
+     * The following code is partly taken from https://github.com/Grarak/KernelAdiutor
+     * Ref: https://github.com/Grarak/KernelAdiutor/blob/master/app/src/main/java/com/grarak/kerneladiutor/utils/ViewUtils.java
+     */
+
+    public static int getThemeAccentColor(Context context) {
+        return context.getResources().getColor(R.color.ColorBlue);
+    }
+
+    public static int getCardBackground(Context context) {
+        return context.getResources().getColor(R.color.ColorTeal);
+    }
+
+    public static Drawable getColoredIcon(int icon, Context context) {
+        @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = context.getResources().getDrawable(icon);
+        drawable.setTint(getThemeAccentColor(context));
+        return drawable;
+    }
+
+    /*
+     * The following code is partly taken from https://github.com/Grarak/KernelAdiutor
+     * Ref: https://github.com/Grarak/KernelAdiutor/blob/master/app/src/main/java/com/grarak/kerneladiutor/utils/Prefs.java
+     */
+    public static boolean getBoolean(String name, boolean defaults, Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(name, defaults);
+    }
+
+    public static void saveBoolean(String name, boolean value, Context context) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(name, value).apply();
+    }
+
+    /*
+     * The following code is partly taken from https://github.com/Grarak/KernelAdiutor
+     * Ref: https://github.com/Grarak/KernelAdiutor/blob/master/app/src/main/java/com/grarak/kerneladiutor/utils/Utils.java
+     */
+
+    public static boolean isDarkTheme(Context context) {
+        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static void initializeAppTheme(Context context) {
+        if (isDarkTheme(context)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    public static void initializeGoogleAds(Context context) {
+        MobileAds.initialize(context, "ca-app-pub-7791710838910455~5346544228");
+    }
+
+    public static String getInternalDataStorage() {
+        return Environment.getExternalStorageDirectory().toString() + "/NFSManager";
+    }
+
+    static boolean isAppInstalled(String appID, Context context) {
+        try {
+            context.getPackageManager().getApplicationInfo(appID, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException ignored) {
+            return false;
+        }
+    }
+
+    public static String read(String file) {
+        return runAndGetOutput("cat '" + file + "'");
+    }
+
+    public static boolean exist(String file) {
+        String output = runAndGetOutput("[ -e " + file + " ] && echo true");
+        return !output.isEmpty() && output.equals("true");
+    }
+
+    static void download(String path, String url) {
+        if (Utils.exist("/system/bin/curl") || Utils.exist("/system/bin/wget")) {
+            runCommand((Utils.exist("/system/bin/curl") ?
+                    "curl -L -o " : "wget -O ") + path + " " + url);
+        } else {
+            /*
+             * Based on the following stackoverflow discussion
+             * Ref: https://stackoverflow.com/questions/15758856/android-how-to-download-file-from-webserver
+             */
+            try (InputStream input = new URL(url).openStream();
+                 OutputStream output = new FileOutputStream(path)) {
+                byte[] data = new byte[4096];
+                int count;
+                while ((count = input.read(data)) != -1) {
+                    output.write(data, 0, count);
+                }
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    public static void create(String text, String path) {
+        runCommand("echo '" + text + "' > " + path);
+    }
+
+    public static void delete(String path) {
+        if (exist(path)) {
+            runCommand("rm -r " + path);
+        }
+    }
+
+    static String getChecksum(String path) {
+        return runAndGetOutput("sha1sum " + path);
+    }
+
+    static int strToInt(String text) {
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException ignored) {
+            return 0;
+        }
+    }
+
+    static void applyValue(String value, String path) {
+        Utils.runCommand("echo '" + value + "' > '" + path + "'");
+    }
+
+    public static void copy(String source, String dest) {
+        Utils.runCommand("cp " + source + " " + dest);
+    }
+
+    public static void longSnackbar(View view, String message) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.dismiss, v -> snackbar.dismiss());
+        snackbar.show();
+    }
+
+    public static void indefiniteSnackbar(View view, String message) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.dismiss, v -> snackbar.dismiss());
+        snackbar.show();
+    }
+
+    public static void launchUrl(View view, String url, Context context) {
+        if (isNetworkUnavailable(context)) {
+            longSnackbar(view, context.getString(R.string.no_internet));
+        } else {
+            try {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                context.startActivity(i);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static int getOrientation(Activity activity) {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && activity.isInMultiWindowMode() ?
+                Configuration.ORIENTATION_PORTRAIT : activity.getResources().getConfiguration().orientation;
+    }
+
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    public static boolean isNetworkUnavailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
+        return (cm.getActiveNetworkInfo() == null) || !cm.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
+    public static String getPath(File file) {
+        String path = file.getAbsolutePath();
+        if (path.startsWith("/document/raw:")) {
+            path = path.replace("/document/raw:", "");
+        } else if (path.startsWith("/document/primary:")) {
+            path = (Environment.getExternalStorageDirectory() + ("/") + path.replace("/document/primary:", ""));
+        } else if (path.startsWith("/document/")) {
+            path = path.replace("/document/", "/storage/").replace(":", "/");
+        }
+        if (path.startsWith("/storage_root/storage/emulated/0")) {
+            path = path.replace("/storage_root/storage/emulated/0", "/storage/emulated/0");
+        } else if (path.startsWith("/storage_root")) {
+            path = path.replace("storage_root", "storage/emulated/0");
+        }
+        if (path.startsWith("/external")) {
+            path = path.replace("external", "storage/emulated/0");
+        } if (path.startsWith("/root/")) {
+            path = path.replace("/root", "");
+        }
+        if (path.contains("file%3A%2F%2F%2F")) {
+            path = path.replace("file%3A%2F%2F%2F", "").replace("%2F", "/");
+        }
+        return path;
+    }
+
+    public static boolean isDocumentsUI(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /*
+     * Taken and used almost as such from the following stackoverflow discussion
+     * Ref: https://stackoverflow.com/questions/7203668/how-permission-can-be-checked-at-runtime-without-throwing-securityexception
+     */
+    public static boolean checkWriteStoragePermission(Context context) {
+        String permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        int res = context.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public static String readAssetFile(Context context, String file) {
+        InputStream input = null;
+        BufferedReader buf = null;
+        try {
+            StringBuilder s = new StringBuilder();
+            input = context.getAssets().open(file);
+            buf = new BufferedReader(new InputStreamReader(input));
+
+            String str;
+            while ((str = buf.readLine()) != null) {
+                s.append(str).append("\n");
+            }
+            return s.toString().trim();
+        } catch (IOException ignored) {
+        } finally {
+            try {
+                if (input != null) input.close();
+                if (buf != null) buf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+}
