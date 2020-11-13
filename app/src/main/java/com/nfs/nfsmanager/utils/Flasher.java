@@ -1,9 +1,5 @@
 package com.nfs.nfsmanager.utils;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-
 import java.io.File;
 import java.io.FileDescriptor;
 
@@ -21,45 +17,10 @@ public class Flasher {
 
     public static StringBuilder mFlashingResult = null, mFlashingOutput = null;
 
-    public static boolean mModuleInvalid = false, mManagerUpdateAvailable = false;
-
-    private static int getCurrentVersion(Context context) {
-        try {
-            PackageInfo pm = context.getPackageManager().getPackageInfo("com.nfs.nfsmanager", 0);
-            return pm.versionCode;
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
-        return 0;
-    }
-
-    private static int getLatestVersion(String path, Context context) {
-        PackageManager pm = context.getPackageManager();
-        PackageInfo info = pm.getPackageArchiveInfo(path, 0);
-        if (info == null) return 0;
-        return info.versionCode;
-    }
+    public static boolean mFlashing = false, mModuleInvalid = false;
 
     private static String mountRootFS(String command) {
         return "mount -o remount," + command + " /";
-    }
-
-    private static void mount(String source, String dest) {
-        Utils.runCommand("mount -o --bind" + " " + source + " " + dest);
-    }
-
-    private static boolean isUnzipAvailable() {
-        return !Utils.runAndGetError("unzip --help").contains(
-                "/system/bin/sh: unzip: inaccessible or not found");
-    }
-
-    private static String BusyBoxPath() {
-        if (Utils.exist("/sbin/.magisk/busybox")) {
-            return "/sbin/.magisk/busybox";
-        } else if (Utils.exist("/sbin/.core/busybox")) {
-            return "/sbin/.core/busybox";
-        } else {
-            return null;
-        }
     }
 
     private static void prepareFolder(String path) {
@@ -70,7 +31,7 @@ public class Flasher {
         file.mkdirs();
     }
 
-    public static void flashModule(Context context) {
+    public static void flashModule() {
         /*
          * Flashing recovery zip without rebooting to custom recovery
          * Credits to osm0sis @ xda-developers.com
@@ -85,21 +46,13 @@ public class Flasher {
         } else {
             prepareFolder(FLASH_FOLDER);
         }
-        mFlashingResult.append("** Checking for unzip binary: ");
-        if (isUnzipAvailable()) {
-            mFlashingResult.append("Available *\n\n");
-        } else if (BusyBoxPath() != null) {
-            mFlashingResult.append("Native Binary Unavailable *\nloop mounting BusyBox binaries to '/system/xbin' *\n\n");
-            mount(BusyBoxPath(), Utils.exist("/system/xbin") ? "/system/xbin" : "/system/bin");
-        } else {
-            mFlashingResult.append("Unavailable *\n\n");
-        }
         mFlashingResult.append("** Extracting ").append(mZipName).append(" into working folder: ");
-        Utils.runAndGetError("unzip " + path + " -d '" + FLASH_FOLDER + "'");
+        Utils.runAndGetError((Utils.magiskBusyBox() != null ? Utils.magiskBusyBox() + " unzip " : "unzip ") + path + " -d '" + FLASH_FOLDER + "'");
         if (Utils.exist(ZIPFILE_EXTRACTED)) {
             mFlashingResult.append(" Done *\n\n");
             mFlashingResult.append(" Checking Module: ");
             if (Utils.read(FLASH_FOLDER + "/module.prop").contains("name=NFS INJECTOR @nfsinjector")) {
+                mModuleInvalid = false;
                 mFlashingResult.append(" Done *\n\n");
                 mFlashingResult.append("** Preparing a recovery-like environment for flashing...\n");
                 Utils.runCommand("cd '" + FLASH_FOLDER + "'");
@@ -114,10 +67,6 @@ public class Flasher {
                     mFlashingOutput.setLength(0);
                 }
                 mFlashingOutput.append(Utils.runAndGetOutput(flashingCommand));
-                if (getCurrentVersion(context) < getLatestVersion(FLASH_FOLDER + "/com.nfs.nfsmanager.apk", context)) {
-                    Utils.runCommand("mv " + FLASH_FOLDER + "/com.nfs.nfsmanager.apk " + Utils.getInternalDataStorage() + "/com.nfs.nfsmanager.apk");
-                    mManagerUpdateAvailable = true;
-                }
                 mFlashingResult.append(mFlashingOutput.toString());
             } else {
                 mModuleInvalid = true;

@@ -1,0 +1,75 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="75dp"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorBlack"
+            android:gravity="center_vertical"
+            android:padding="10dp" >
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/back"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/ColorBlack"
+                android:tint="?android:attr/colorAccent"
+                android:gravity="center_vertical"
+                android:src="@drawable/ic_back" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:textColor="?android:attr/colorAccent"
+                android:textIsSelectable="true"
+                android:textSize="17sp" />
+        </FrameLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/output"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="start"
+                android:textColor="?android:attr/textColorPrimary" />
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/ColorBlack"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reboot_message"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:textColor="?android:attr/colorAccent"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:text="@string/reboot_message"
+            android:visibility="gone"
+            android:textSize="15sp"
+            android:padding="10dp" />
+    </LinearLayout>
+</RelativeLayout>

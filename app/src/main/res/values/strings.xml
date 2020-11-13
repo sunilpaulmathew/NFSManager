@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">NFS Manager</string>
 
-    <string name="app_update_available">Flashing completed Successfully! Do you want to update NFS Manager, which is also bundled with this module?</string>
     <string name="apply">Apply</string>
     <string name="about">About</string>
     <string name="add_disabler">SpyCleaner</string>
@@ -53,7 +52,6 @@
     <string name="get_it">Get it</string>
     <string name="got_it">Got It</string>
     <string name="governor">CPU Governor</string>
-    <string name="install">Install</string>
     <string name="invalid_module">You\'re selected an invalid module file! Aborting.</string>
     <string name="invalid_zip">Please select a file with \'.zip\' extension!</string>
     <string name="magisk_log">Magisk Log</string>

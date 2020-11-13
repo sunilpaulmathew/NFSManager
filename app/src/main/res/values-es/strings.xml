@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <string name="app_update_available">¡Flasheo completado con éxito! ¿Desea actualizar el NFS Manager, que también se incluye en este módulo?</string>
     <string name="about">Acerca de</string>
     <string name="add_disabler">Deshabilitar analíticas/anuncios</string>
     <string name="always_show">Mostrar siempre</string>
@@ -43,7 +42,6 @@
     <string name="get_it">Entendido</string>
     <string name="got_it">Entendido</string>
     <string name="governor">Gobernador de la CPU</string>
-    <string name="install">Instalar</string>
     <string name="invalid_module">¡Ha seleccionado un archivo de módulo no válido! Abortando</string>
     <string name="magisk_log">Registro de Magisk</string>
     <string name="more_apps">Más del desarrollador (Play Store)</string>

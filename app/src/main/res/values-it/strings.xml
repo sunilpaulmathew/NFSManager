@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <string name="app_update_available">Installazione completata con successo! Vuoi aggiornare NFS Manager, che è incluso nel modulo?</string>
     <string name="about">Informazioni</string>
     <string name="add_disabler">Analitiche/Pubblicità Disabilitate</string>
     <string name="always_show">Mostra sempre</string>
@@ -41,7 +40,6 @@
     <string name="get_it">Ottieni</string>
     <string name="got_it">Fatto</string>
     <string name="governor">CPU Governor</string>
-    <string name="install">Installa</string>
     <string name="invalid_module">Hai selezionato un modulo non valido! Interruzione.</string>
     <string name="magisk_log">Log di Magisk</string>
     <string name="more_apps">Altro dagli sviluppatori</string>

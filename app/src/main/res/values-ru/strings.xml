@@ -4,7 +4,6 @@
     <string name="add_disabler">SpyCleaner</string>
     <string name="always_show">Показывать всегда</string>
     <string name="app_name">NFS Manager</string>
-    <string name="app_update_available">Прошивка успешно завершена! Вы хотите обновить NFS Managerкоторый также входит в комплект этого модуля?</string>
     <string name="apply">Применить</string>
     <string name="balanced">Баланс</string>
     <string name="battery">Энергосбережение</string>
@@ -53,7 +52,6 @@
     <string name="get_it">Принять это</string>
     <string name="got_it">Получить это</string>
     <string name="governor">Регулятор CPU</string>
-    <string name="install">Установить</string>
     <string name="invalid_module">Вы выбрали неверный файл модуля! Отмена.</string>
     <string name="invalid_zip">"Пожалуйста, выберите файл с расширением '.zip'!"</string>
     <string name="magisk_log">Лог из Magisk</string>

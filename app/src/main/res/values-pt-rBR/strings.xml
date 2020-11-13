@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <string name="app_update_available">Atualizado com sucesso! Atualizar NFS Manager com o módulo incluido?</string>
     <string name="apply">Aplicar</string>
     <string name="about">Sobre</string>
     <string name="add_disabler">SpyCleaner</string>
@@ -52,7 +51,6 @@
     <string name="get_it">Aceito</string>
     <string name="got_it">Entendi</string>
     <string name="governor">Governador CPU</string>
-    <string name="install">Instalar</string>
     <string name="invalid_module">Selecionou um modo inválido! A cancelar.</string>
     <string name="invalid_zip">Por favor selecione um ficheiro com extensão \'.zip\' !</string>
     <string name="magisk_log">Magisk Log</string>

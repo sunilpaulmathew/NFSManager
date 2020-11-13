@@ -33,6 +33,7 @@ import com.nfs.nfsmanager.utils.Flasher;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
+import com.nfs.nfsmanager.utils.activities.FlashingActivity;
 import com.nfs.nfsmanager.utils.activities.LogsActivity;
 import com.nfs.nfsmanager.utils.fragments.AboutFragment;
 import com.nfs.nfsmanager.utils.fragments.DashBoardFragment;
@@ -289,14 +290,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                mProgressLayout.setVisibility(View.VISIBLE);
-                mProgressMessage.setText(getString(R.string.flashing, file.getName()) + "...");
                 Flasher.mZipName = file.getName();
-                if (Flasher.mFlashingResult == null) {
-                    Flasher.mFlashingResult = new StringBuilder();
-                } else {
-                    Flasher.mFlashingResult.setLength(0);
-                }
+                Flasher.mFlashingResult = new StringBuilder();
+                Flasher.mFlashingOutput = new StringBuilder();
+                Flasher.mFlashing = true;
+                Intent flashing = new Intent(activity, FlashingActivity.class);
+                startActivity(flashing);
             }
             @Override
             protected Void doInBackground(Void... voids) {
@@ -306,40 +305,13 @@ public class MainActivity extends AppCompatActivity {
                 Flasher.mFlashingResult.append("** Copying '").append(file.getName()).append("' into temporary folder: ");
                 Flasher.mFlashingResult.append(Utils.runAndGetError("cp '" + file.toString() + "' /data/local/tmp/flash.zip"));
                 Flasher.mFlashingResult.append(Utils.exist("/data/local/tmp/flash.zip") ? "Done *\n\n" : "\n\n");
-                Flasher.flashModule(activity);
+                Flasher.flashModule();
                 return null;
             }
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                mProgressLayout.setVisibility(View.GONE);
-                MaterialAlertDialogBuilder flasher = new MaterialAlertDialogBuilder(activity);
-                if (Flasher.mFlashingOutput != null && Flasher.mManagerUpdateAvailable) {
-                    Utils.indefiniteSnackbar(mBottomNav, getString(R.string.reboot_message));
-                    flasher.setMessage(R.string.app_update_available);
-                    flasher.setNegativeButton(getString(R.string.cancel), (dialog, id) -> {
-                    });
-                    flasher.setPositiveButton(getString(R.string.install), (dialog, id) -> {
-                        UpdateCheck.installUpdate(Utils.getInternalDataStorage() + "/com.nfs.nfsmanager.apk", activity);
-                    });
-                } else if (Flasher.mFlashingOutput != null) {
-                    Utils.indefiniteSnackbar(mBottomNav, getString(R.string.reboot_message));
-                    flasher.setIcon(R.mipmap.ic_launcher);
-                    flasher.setTitle(R.string.app_name);
-                    flasher.setMessage(Flasher.mFlashingOutput.toString().replace("MMT Extended by Zackptg5 @ XDA", "")
-                            .replace("*", "").replace("\n \n", ""));
-                    flasher.setCancelable(false);
-                    flasher.setNeutralButton(getString(R.string.cancel), (dialog, id) -> {
-                    });
-                    flasher.setPositiveButton(getString(R.string.reboot), (dialog, id) -> {
-                        reboot("");
-                    });
-                } else {
-                    flasher.setMessage(Flasher.mModuleInvalid ? getString(R.string.invalid_module) : getString(R.string.flashing_failed));
-                    flasher.setPositiveButton(getString(R.string.cancel), (dialog, id) -> {
-                    });
-                }
-                flasher.show();
+                Flasher.mFlashing = false;
             }
         }.execute();
     }
