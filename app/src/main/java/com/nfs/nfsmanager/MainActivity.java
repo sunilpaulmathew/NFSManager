@@ -27,10 +27,6 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.utils.Flasher;
@@ -63,13 +59,11 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Initialize Dark Theme & Google Ads
+        // Initialize App Theme
         Utils.initializeAppTheme(this);
-        Utils.initializeGoogleAds(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AdView mAdView = findViewById(R.id.adView);
         AppCompatImageButton mModuleImage = findViewById(R.id.module_image);
         mSettings =  findViewById(R.id.settings_menu);
         AppCompatImageView mUnsupportedImage = findViewById(R.id.no_root_Image);
@@ -149,20 +143,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!NFS.isProUser() && Utils.getOrientation(this) == Configuration.ORIENTATION_PORTRAIT) {
-            mAdView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    mAdView.setVisibility(View.VISIBLE);
-                }
-                @Override
-                public void onAdFailedToLoad(LoadAdError adError) {
-                    mAdView.setVisibility(View.GONE);
-                    mOffLineAd.setVisibility(View.VISIBLE);
-                }
-            });
-            AdRequest adRequest = new AdRequest.Builder()
-                    .build();
-            mAdView.loadAd(adRequest);
+            mOffLineAd.setVisibility(View.VISIBLE);
         }
     }
 

@@ -100,7 +100,7 @@
                 android:id="@+id/no_root_Image"
                 android:layout_width="50sp"
                 android:layout_height="50dp"
-                android:layout_marginBottom="85dp"
+                android:layout_marginTop="85dp"
                 android:layout_marginEnd="25dp"
                 android:layout_gravity="end" />
         </LinearLayout>
@@ -118,28 +118,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="5dp"
-            android:layout_marginHorizontal="5dp"
-            android:layout_gravity="bottom" >
-
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                ads:adUnitId="ca-app-pub-7791710838910455/6108961556"
-                xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:layout_gravity="bottom|center"
-                ads:adSize="SMART_BANNER"
-                android:gravity="center" >
-            </com.google.android.gms.ads.AdView>
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/offline_ad"
