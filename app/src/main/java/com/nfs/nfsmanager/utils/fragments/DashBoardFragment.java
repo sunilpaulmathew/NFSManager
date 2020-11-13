@@ -2,7 +2,6 @@ package com.nfs.nfsmanager.utils.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -22,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.Utils;
@@ -104,7 +104,7 @@ public class DashBoardFragment extends Fragment {
     }
 
     private void showUpdateModeDialog(int value, String message) {
-        new AlertDialog.Builder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setMessage(getString(R.string.mode_change_question, message))
                 .setNegativeButton(R.string.cancel, (dialog, which) -> {
                 })

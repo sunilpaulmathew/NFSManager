@@ -1,7 +1,6 @@
 package com.nfs.nfsmanager.utils.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,6 +16,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
@@ -71,7 +71,7 @@ public class NFSLogFragment extends Fragment {
                 super.onPostExecute(aVoid);
                 mProgressLayout.setVisibility(View.GONE);
                 if (Utils.exist(Utils.getInternalDataStorage() + "/nfs.log")) {
-                    new AlertDialog.Builder(context)
+                    new MaterialAlertDialogBuilder(context)
                             .setMessage(context.getString(R.string.export_completed, Utils.getInternalDataStorage()))
                             .setCancelable(false)
                             .setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> {

@@ -19,7 +19,6 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -33,6 +32,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.utils.Flasher;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!Utils.rootAccess() || !NFS.magiskSupported()) {
                     Utils.launchUrl(mBottomNav, "https://www.google.com/search?site=&source=hp&q=android+rooting+magisk", this);
                 } else if (mSleeping) {
-                    new AlertDialog.Builder(this)
+                    new MaterialAlertDialogBuilder(this)
                             .setMessage(getString(R.string.sleeping_message))
                             .setCancelable(false)
                             .setPositiveButton(getString(R.string.cancel), (dialog1, id1) -> {
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                     restartApp();
                     break;
                 case 4:
-                    new AlertDialog.Builder(this)
+                    new MaterialAlertDialogBuilder(this)
                             .setIcon(R.mipmap.ic_launcher)
                             .setTitle(getString(R.string.delete_title))
                             .setMessage(getText(R.string.delete_message))
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
         checkBox.setText(getString(R.string.always_show));
         checkBox.setOnCheckedChangeListener((buttonView, isChecked)
                 -> mWarning = isChecked);
-        AlertDialog.Builder warning = new AlertDialog.Builder(Objects.requireNonNull(this));
+        MaterialAlertDialogBuilder warning = new MaterialAlertDialogBuilder(Objects.requireNonNull(this));
         warning.setIcon(R.mipmap.ic_launcher);
         warning.setTitle(getString(R.string.nfs_conflicts));
         warning.setMessage(getString(R.string.nfs_conflicts_summary) +
@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 mProgressLayout.setVisibility(View.GONE);
-                android.app.AlertDialog.Builder flasher = new android.app.AlertDialog.Builder(activity);
+                MaterialAlertDialogBuilder flasher = new MaterialAlertDialogBuilder(activity);
                 if (Flasher.mFlashingOutput != null && Flasher.mManagerUpdateAvailable) {
                     Utils.indefiniteSnackbar(mBottomNav, getString(R.string.reboot_message));
                     flasher.setMessage(R.string.app_update_available);
@@ -407,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
                 Utils.longSnackbar(mBottomNav, getString(R.string.invalid_zip));
                 return;
             }
-            AlertDialog.Builder manualFlash = new AlertDialog.Builder(this);
+            MaterialAlertDialogBuilder manualFlash = new MaterialAlertDialogBuilder(this);
             manualFlash.setMessage(getString(R.string.sure_message, new File(mPath).getName()));
             manualFlash.setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
             });
@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
         tcp = NFS.getTCP();
 
         if (NFS.getGOV().equals("performance")) {
-            new AlertDialog.Builder(this)
+            new MaterialAlertDialogBuilder(this)
                     .setIcon(R.mipmap.ic_launcher)
                     .setTitle(R.string.warning)
                     .setMessage(getString(R.string.performance_warning))
@@ -476,7 +476,7 @@ public class MainActivity extends AppCompatActivity {
                     || selinux != NFS.getSELinuxMode() || sync != NFS.getSync() || tt != NFS.getTT()
                     || sf != NFS.getSF() || zygot != NFS.getZygote() || !gov.equals(NFS.getGOV())
                     || !sched.equals(NFS.getSched()) || !tcp.equals(NFS.getTCP())) {
-                new AlertDialog.Builder(this)
+                new MaterialAlertDialogBuilder(this)
                         .setMessage(getString(R.string.reboot_dialog))
                         .setCancelable(false)
                         .setIcon(R.mipmap.ic_launcher)
