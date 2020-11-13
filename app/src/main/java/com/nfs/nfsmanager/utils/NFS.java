@@ -13,6 +13,8 @@ import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /*
@@ -74,11 +76,13 @@ public class NFS {
         return "";
     }
 
-    private static String DozeMode(Context context) {
-        return context.getString(R.string.doze_disable) + "," +
-                context.getString(R.string.doze_default) + "," +
-                context.getString(R.string.doze_custom) + "," +
-                context.getString(R.string.doze_force);
+    private static List<String> DozeMode(Context context) {
+        List<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.doze_disable));
+        list.add(context.getString(R.string.doze_default));
+        list.add(context.getString(R.string.doze_custom));
+        list.add(context.getString(R.string.doze_force));
+        return list;
     }
 
     public static String getDozeMode(Context context) {
@@ -95,9 +99,11 @@ public class NFS {
         }
     }
 
-    private static String Shield(Context context) {
-        return context.getString(R.string.device_default) + "," +
-                context.getString(R.string.custom_nfs) ;
+    private static List<String> Shield(Context context) {
+        List<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.device_default));
+        list.add(context.getString(R.string.custom_nfs));
+        return list;
     }
 
     public static String getShield(Context context) {
@@ -110,12 +116,14 @@ public class NFS {
         }
     }
 
-    private static String DNSMode(Context context) {
-        return context.getString(R.string.off) + "," +
-                context.getString(R.string.dns_cloudfare) + "," +
-                context.getString(R.string.dns_google) + "," +
-                context.getString(R.string.dns_watch) + "," +
-                context.getString(R.string.dns_neustar);
+    private static List<String> DNSMode(Context context) {
+        List<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.off));
+        list.add(context.getString(R.string.dns_cloudfare));
+        list.add(context.getString(R.string.dns_google));
+        list.add(context.getString(R.string.dns_watch));
+        list.add(context.getString(R.string.dns_neustar));
+        return list;
     }
 
     public static String getDNSMode(Context context) {
@@ -134,10 +142,12 @@ public class NFS {
         }
     }
 
-    private static String Ads(Context context) {
-        return context.getString(R.string.execute_no) + "," +
-                context.getString(R.string.execute_disable) + "," +
-                context.getString(R.string.execute_default);
+    private static List<String> Ads(Context context) {
+        List<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.execute_no));
+        list.add(context.getString(R.string.execute_disable));
+        list.add(context.getString(R.string.execute_default));
+        return list;
     }
 
     public static String getAds(Context context) {
@@ -152,9 +162,11 @@ public class NFS {
         }
     }
 
-    private static String enableDisable(Context context) {
-        return context.getString(R.string.disable) + "," +
-                context.getString(R.string.enable);
+    private static List<String> enableDisable(Context context) {
+        List<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.disable));
+        list.add(context.getString(R.string.enable));
+        return list;
     }
 
     public static String getEnableDisable(String string, Context context) {
@@ -172,9 +184,11 @@ public class NFS {
         }
     }
 
-    private static String SELinux(Context context) {
-        return context.getString(R.string.permissive) + "," +
-                context.getString(R.string.enforcing);
+    private static List<String> SELinux(Context context) {
+        List<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.permissive));
+        list.add(context.getString(R.string.enforcing));
+        return list;
     }
 
     public static String getSELinuxMode(Context context) {
@@ -187,9 +201,11 @@ public class NFS {
         }
     }
 
-    private static String onOff(Context context) {
-        return context.getString(R.string.off) + "," +
-                context.getString(R.string.on);
+    private static List<String> onOff(Context context) {
+        List<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.off));
+        list.add(context.getString(R.string.on));
+        return list;
     }
 
     public static String getOnOff(String string, Context context) {
@@ -295,7 +311,7 @@ public class NFS {
     }
 
     public static void setDozeMode(AppCompatTextView textView, View view, Context context) {
-        String[] mItem = DozeMode(context).split(",");
+        String[] mItem = DozeMode(context).toArray(new String[0]);
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         Menu menu = popupMenu.getMenu();
         for (i = 0; i < mItem.length; i++) {
@@ -323,7 +339,7 @@ public class NFS {
     }
 
     public static void setShield(AppCompatTextView textView, View view, Context context) {
-        String[] mItem = Shield(context).split(",");
+        String[] mItem = Shield(context).toArray(new String[0]);
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         Menu menu = popupMenu.getMenu();
         for (i = 0; i < mItem.length; i++) {
@@ -347,7 +363,7 @@ public class NFS {
     }
 
     public static void setDNSMode(AppCompatTextView textView, View view, Context context) {
-        String[] mItem = DNSMode(context).split(",");
+        String[] mItem = DNSMode(context).toArray(new String[0]);
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         Menu menu = popupMenu.getMenu();
         for (i = 0; i < mItem.length; i++) {
@@ -377,7 +393,7 @@ public class NFS {
     }
 
     public static void setAds(AppCompatTextView textView, View view, Context context) {
-        String[] mItem = Ads(context).split(",");
+        String[] mItem = Ads(context).toArray(new String[0]);
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         Menu menu = popupMenu.getMenu();
         for (i = 0; i < mItem.length; i++) {
@@ -403,7 +419,7 @@ public class NFS {
     }
 
     public static void setSELinuxMode(AppCompatTextView textView, View view, Context context) {
-        String[] mItem = SELinux(context).split(",");
+        String[] mItem = SELinux(context).toArray(new String[0]);
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         Menu menu = popupMenu.getMenu();
         for (i = 0; i < mItem.length; i++) {
@@ -427,7 +443,7 @@ public class NFS {
     }
 
     public static void setOnOffMenu(AppCompatTextView textView, String title, View view, Context context) {
-        String[] mItem = onOff(context).split(",");
+        String[] mItem = onOff(context).toArray(new String[0]);
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         Menu menu = popupMenu.getMenu();
         for (i = 0; i < mItem.length; i++) {
@@ -487,7 +503,7 @@ public class NFS {
     }
 
     public static void setEnableDisableMenu(AppCompatTextView textView, String title, View view, Context context) {
-        String[] mItem = enableDisable(context).split(",");
+        String[] mItem = enableDisable(context).toArray(new String[0]);
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
         Menu menu = popupMenu.getMenu();
         for (i = 0; i < mItem.length; i++) {
