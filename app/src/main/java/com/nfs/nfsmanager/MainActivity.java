@@ -15,7 +15,6 @@ import android.provider.OpenableColumns;
 import android.view.Menu;
 import android.view.SubMenu;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -28,6 +27,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.utils.Flasher;
 import com.nfs.nfsmanager.utils.NFS;
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showWarning() {
         View checkBoxView = View.inflate(this, R.layout.rv_checkbox, null);
-        CheckBox checkBox = checkBoxView.findViewById(R.id.checkbox);
+        MaterialCheckBox checkBox = checkBoxView.findViewById(R.id.checkbox);
         checkBox.setChecked(true);
         checkBox.setText(getString(R.string.always_show));
         checkBox.setOnCheckedChangeListener((buttonView, isChecked)

@@ -16,11 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.NFS;
@@ -37,8 +37,8 @@ public class DashBoardFragment extends Fragment {
 
     private AppCompatTextView mProgressMessage;
     private ArrayList <RecycleViewItem> mData = new ArrayList<>();
-    private CardView mCardView;
     private LinearLayout mProgressLayout;
+    private MaterialCardView mCardView;
     private RecycleViewAdapter mRecycleViewAdapter;
 
     @SuppressLint("UseCompatLoadingForDrawables")

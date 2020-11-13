@@ -102,8 +102,8 @@ public class AboutFragment extends Fragment {
                     settings.setData(uri);
                     holder.mRVLayout.getContext().startActivity(settings);
                 } else if (position == 6) {
-                    Intent aboutUS = new Intent(holder.mRVLayout.getContext(), ChangeLogActivity.class);
-                    holder.mRVLayout.getContext().startActivity(aboutUS);
+                    Intent changeLogs = new Intent(holder.mRVLayout.getContext(), ChangeLogActivity.class);
+                    holder.mRVLayout.getContext().startActivity(changeLogs);
                 } else if (position == 8) {
                     if (Utils.checkWriteStoragePermission(holder.mRVLayout.getContext())) {
                         UpdateCheck.manualUpdateCheck(holder.mRVLayout.getContext());

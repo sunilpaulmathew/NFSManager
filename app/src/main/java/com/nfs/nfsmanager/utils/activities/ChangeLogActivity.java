@@ -6,8 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatTextView;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.Utils;
@@ -30,9 +30,9 @@ public class ChangeLogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_changelog);
 
         AppCompatImageButton mBack = findViewById(R.id.back);
-        AppCompatTextView mChangeLog = findViewById(R.id.change_log);
-        AppCompatTextView mTitle = findViewById(R.id.app_title);
-        AppCompatTextView mCancel = findViewById(R.id.cancel_button);
+        MaterialTextView mChangeLog = findViewById(R.id.change_log);
+        MaterialTextView mTitle = findViewById(R.id.app_title);
+        MaterialTextView mCancel = findViewById(R.id.cancel_button);
         mTitle.setText(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
         String change_log = null;
         try {
