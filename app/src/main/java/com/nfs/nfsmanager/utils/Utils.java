@@ -193,13 +193,21 @@ public class Utils {
         }
     }
 
+    static String magiskBusyBox() {
+        if (Utils.exist("/data/adb/magisk/busybox")) {
+            return "/data/adb/magisk/busybox";
+        } else {
+            return null;
+        }
+    }
+
     public static void create(String text, String path) {
         runCommand("echo '" + text + "' > " + path);
     }
 
     public static void delete(String path) {
         if (exist(path)) {
-            runCommand("rm -r " + path);
+            runCommand((magiskBusyBox() != null ? Utils.magiskBusyBox() + " rm -r " : "rm -r ") + path);
         }
     }
 
