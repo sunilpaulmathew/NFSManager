@@ -160,9 +160,8 @@ public class UpdateCheck {
         if (Utils.isNetworkUnavailable(context)) {
             return;
         }
-        if (Utils.runAndGetError(Utils.magiskBusyBox() + " wget").contains("applet not found") &&
-                Utils.runAndGetError(Utils.magiskBusyBox() + " curl").contains("applet not found") &&
-                !Utils.exist("/system/bin/curl") && !Utils.exist("/system/bin/wget")) {
+        if (!Utils.isMagiskBinaryExist("curl") && !Utils.isMagiskBinaryExist("wget")
+                && !Utils.exist("/system/bin/curl") && !Utils.exist("/system/bin/wget")) {
             return;
         }
         if (!UpdateCheck.hasVersionInfo(context) || (UpdateCheck.lastModified(context) + 3720000L < System.currentTimeMillis())) {
