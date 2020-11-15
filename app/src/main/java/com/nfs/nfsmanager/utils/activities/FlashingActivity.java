@@ -3,6 +3,7 @@ package com.nfs.nfsmanager.utils.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.nfs.nfsmanager.utils.Flasher;
 
 public class FlashingActivity extends AppCompatActivity {
 
+    private LinearLayout mProgressLayout;
     private MaterialTextView mFlashingOutput;
     private MaterialTextView mReboot;
     private MaterialTextView mTitle;
@@ -32,6 +34,9 @@ public class FlashingActivity extends AppCompatActivity {
         mTitle = findViewById(R.id.title);
         mFlashingOutput = findViewById(R.id.output);
         mReboot = findViewById(R.id.reboot_message);
+        mProgressLayout = findViewById(R.id.flashing_progress);
+        MaterialTextView mProgressText = findViewById(R.id.progress_text);
+        mProgressText.setText(getString(R.string.flashing, "..."));
         refreshStatus();
         mBack.setOnClickListener(v -> onBackPressed());
     }
@@ -44,9 +49,13 @@ public class FlashingActivity extends AppCompatActivity {
                     while (!isInterrupted()) {
                         Thread.sleep(100);
                         runOnUiThread(() -> {
+                            if (!Flasher.mFlashing) {
+                                mProgressLayout.setVisibility(View.GONE);
+                            }
                             if (Flasher.mModuleInvalid) {
-                                mTitle.setText(getString(R.string.flashing, "aborted"));
-                                mFlashingOutput.setText(getString(R.string.invalid_module));
+                                mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing, "...") :
+                                        getString(R.string.flashing, "aborted"));
+                                mFlashingOutput.setText(Flasher.mFlashing ? "" : getString(R.string.invalid_module));
                             } else {
                                 mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing, "...") :
                                         Flasher.mFlashingOutput != null  && !Flasher.mFlashingOutput.toString().isEmpty() ?

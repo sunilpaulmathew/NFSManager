@@ -72,4 +72,32 @@
             android:textSize="15sp"
             android:padding="10dp" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/flashing_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="15dp"
+        android:alpha="0.75" >
+
+        <ProgressBar
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressBackgroundTint="?android:attr/colorAccent"
+            android:layout_gravity="center" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/progress_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic"
+            android:textColor="?android:attr/colorAccent"
+            android:textSize="15sp"
+            android:padding="10dp" />
+    </LinearLayout>
 </RelativeLayout>
