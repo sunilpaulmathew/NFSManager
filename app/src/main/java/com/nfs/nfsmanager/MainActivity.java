@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -29,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.utils.Flasher;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
@@ -49,7 +49,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private AppCompatImageButton mSettings;
-    private AppCompatTextView mProgressMessage;
+    private MaterialTextView mProgressMessage;
     private boolean mExit, mSleeping = false, mWarning = true;
     private BottomNavigationView mBottomNav;
     private LinearLayout mProgressLayout;
@@ -68,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
         AppCompatImageButton mModuleImage = findViewById(R.id.module_image);
         mSettings =  findViewById(R.id.settings_menu);
         AppCompatImageView mUnsupportedImage = findViewById(R.id.no_root_Image);
-        AppCompatTextView mModuleStatus = findViewById(R.id.status_message);
-        AppCompatTextView mModuleTitle = findViewById(R.id.module_version);
+        MaterialTextView mModuleStatus = findViewById(R.id.status_message);
+        MaterialTextView mModuleTitle = findViewById(R.id.module_version);
         mProgressMessage = findViewById(R.id.progress_text);
-        AppCompatTextView mUnsupportedText = findViewById(R.id.unsupported_Text);
+        MaterialTextView mUnsupportedText = findViewById(R.id.unsupported_Text);
         FrameLayout mStatusLayout = findViewById(R.id.support_statue);
         LinearLayout mOffLineAd = findViewById(R.id.offline_ad);
         mProgressLayout = findViewById(R.id.progress_layout);

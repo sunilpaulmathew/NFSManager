@@ -57,7 +57,7 @@
                     android:scaleType="fitCenter"
                     android:background="@null" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/module_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                     android:textSize="20sp" />
             </FrameLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/status_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             android:visibility="gone"
             android:gravity="center" >
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/unsupported_Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
             android:layout_marginHorizontal="5dp"
             android:layout_gravity="bottom" >
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -140,7 +140,7 @@
                 android:text="@string/copyright"
                 android:textColor="?android:attr/colorAccent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

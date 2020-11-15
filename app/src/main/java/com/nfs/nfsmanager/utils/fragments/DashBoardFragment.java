@@ -15,13 +15,13 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.Utils;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class DashBoardFragment extends Fragment {
 
-    private AppCompatTextView mProgressMessage;
+    private MaterialTextView mProgressMessage;
     private ArrayList <RecycleViewItem> mData = new ArrayList<>();
     private LinearLayout mProgressLayout;
     private MaterialCardView mCardView;
@@ -175,7 +175,7 @@ public class DashBoardFragment extends Fragment {
 
         public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private AppCompatImageButton mIcon;
-            private AppCompatTextView mTitle;
+            private MaterialTextView mTitle;
             private LinearLayout mLinearLayout;
 
             public ViewHolder(View view) {

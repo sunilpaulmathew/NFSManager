@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.NFS;
@@ -32,7 +32,7 @@ import java.io.File;
 public class MagiskLogFragment extends Fragment {
 
     private LinearLayout mProgressLayout;
-    private AppCompatTextView mProgressMessage;
+    private MaterialTextView mProgressMessage;
 
     @Nullable
     @Override
@@ -41,7 +41,7 @@ public class MagiskLogFragment extends Fragment {
 
         mProgressLayout = mRootView.findViewById(R.id.progress_layout);
         mProgressMessage = mRootView.findViewById(R.id.progress_text);
-        AppCompatTextView mLogText = mRootView.findViewById(R.id.log_text);
+        MaterialTextView mLogText = mRootView.findViewById(R.id.log_text);
         FloatingActionButton mSave = mRootView.findViewById(R.id.save_button);
 
         mLogText.setText(NFS.readMagiskLog());

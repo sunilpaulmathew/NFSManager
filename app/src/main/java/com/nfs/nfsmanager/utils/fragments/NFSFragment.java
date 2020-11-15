@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.Utils;
@@ -123,7 +123,7 @@ public class NFSFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private AppCompatTextView mTitle, mValue;
+            private MaterialTextView mTitle, mValue;
 
             public ViewHolder(View view) {
                 super(view);

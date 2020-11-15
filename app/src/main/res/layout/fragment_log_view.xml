@@ -17,7 +17,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/log_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
