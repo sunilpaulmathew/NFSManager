@@ -10,7 +10,7 @@ import java.io.FileDescriptor;
 public class Flasher {
 
     private static final String FLASH_FOLDER = Utils.getInternalDataStorage() + "/flash";
-    private static final String CLEANING_COMMAND = "rm -r '" + FLASH_FOLDER + "'";
+    private static final String CLEANING_COMMAND = Utils.magiskBusyBox() + " rm -r '" + FLASH_FOLDER + "'";
     private static final String ZIPFILE_EXTRACTED = Utils.getInternalDataStorage() + "/flash/META-INF/com/google/android/update-binary";
 
     public static String mZipName;
@@ -20,7 +20,7 @@ public class Flasher {
     public static boolean mFlashing = false, mModuleInvalid = false;
 
     private static String mountRootFS(String command) {
-        return "mount -o remount," + command + " /";
+        return Utils.magiskBusyBox() + " mount -o remount," + command + " /";
     }
 
     private static void prepareFolder(String path) {
@@ -39,7 +39,7 @@ public class Flasher {
         FileDescriptor fd = new FileDescriptor();
         int RECOVERY_API = 3;
         String path = "/data/local/tmp/flash.zip";
-        String flashingCommand = "sh '" + ZIPFILE_EXTRACTED + "' '" + RECOVERY_API + "' '" +
+        String flashingCommand = Utils.magiskBusyBox() + " sh '" + ZIPFILE_EXTRACTED + "' '" + RECOVERY_API + "' '" +
                 fd + "' '" + path + "'";
         if (Utils.exist(FLASH_FOLDER)) {
             Utils.runCommand(CLEANING_COMMAND);
@@ -47,7 +47,7 @@ public class Flasher {
             prepareFolder(FLASH_FOLDER);
         }
         mFlashingResult.append("** Extracting ").append(mZipName).append(" into working folder: ");
-        Utils.runAndGetError((Utils.magiskBusyBox() != null ? Utils.magiskBusyBox() + " unzip " : "unzip ") + path + " -d '" + FLASH_FOLDER + "'");
+        Utils.runAndGetError(Utils.magiskBusyBox() + " unzip " + path + " -d '" + FLASH_FOLDER + "'");
         if (Utils.exist(ZIPFILE_EXTRACTED)) {
             mFlashingResult.append(" Done *\n\n");
             mFlashingResult.append(" Checking Module: ");
@@ -57,9 +57,9 @@ public class Flasher {
                 mFlashingResult.append("** Preparing a recovery-like environment for flashing...\n");
                 Utils.runCommand("cd '" + FLASH_FOLDER + "'");
                 mFlashingResult.append(Utils.runAndGetError(mountRootFS("rw"))).append(" \n");
-                mFlashingResult.append(Utils.runAndGetError("mkdir /tmp")).append(" \n");
-                mFlashingResult.append(Utils.runAndGetError("mke2fs -F tmp.ext4 500000")).append(" \n");
-                mFlashingResult.append(Utils.runAndGetError("mount -o loop tmp.ext4 /tmp/")).append(" \n\n");
+                mFlashingResult.append(Utils.runAndGetError(Utils.magiskBusyBox() + " mkdir /tmp")).append(" \n");
+                mFlashingResult.append(Utils.runAndGetError(Utils.magiskBusyBox() + " mke2fs -F tmp.ext4 500000")).append(" \n");
+                mFlashingResult.append(Utils.runAndGetError(Utils.magiskBusyBox() + " mount -o loop tmp.ext4 /tmp/")).append(" \n\n");
                 mFlashingResult.append("** Flashing ").append(mZipName).append(" ...\n\n");
                 if (mFlashingOutput == null) {
                     mFlashingOutput = new StringBuilder();

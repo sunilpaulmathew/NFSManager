@@ -173,12 +173,10 @@ public class Utils {
     }
 
     static void download(String path, String url) {
-        if (magiskBusyBox() != null) {
-            if (!runAndGetError(magiskBusyBox() + " wget").contains("applet not found")) {
-                runCommand(magiskBusyBox() + " wget -O " + path + " " + url);
-            } else if (!runAndGetError(magiskBusyBox() + " curl").contains("applet not found")) {
-                runCommand(magiskBusyBox() + " curl -L -o " + path + " " + url);
-            }
+        if (isMagiskBinaryExist("wget")) {
+            runCommand(magiskBusyBox() + " wget -O " + path + " " + url);
+        } else if (isMagiskBinaryExist("curl")) {
+            runCommand(magiskBusyBox() + " curl -L -o " + path + " " + url);
         } else if (Utils.exist("/system/bin/curl") || Utils.exist("/system/bin/wget")) {
             runCommand((Utils.exist("/system/bin/curl") ?
                     "curl -L -o " : "wget -O ") + path + " " + url);
@@ -199,6 +197,10 @@ public class Utils {
         }
     }
 
+    static boolean isMagiskBinaryExist(String command) {
+        return magiskBusyBox() != null && !runAndGetError("/data/adb/magisk/busybox " + command).contains("applet not found");
+    }
+
     static String magiskBusyBox() {
         if (Utils.exist("/data/adb/magisk/busybox")) {
             return "/data/adb/magisk/busybox";
@@ -213,7 +215,7 @@ public class Utils {
 
     public static void delete(String path) {
         if (exist(path)) {
-            runCommand((magiskBusyBox() != null ? magiskBusyBox() + " rm -r " : "rm -r ") + path);
+            runCommand(magiskBusyBox() + " rm -r " + path);
         }
     }
 
