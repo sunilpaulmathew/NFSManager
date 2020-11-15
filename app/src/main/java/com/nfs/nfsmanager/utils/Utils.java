@@ -173,7 +173,13 @@ public class Utils {
     }
 
     static void download(String path, String url) {
-        if (Utils.exist("/system/bin/curl") || Utils.exist("/system/bin/wget")) {
+        if (magiskBusyBox() != null) {
+            if (!runAndGetError(magiskBusyBox() + " wget").contains("applet not found")) {
+                runCommand(magiskBusyBox() + " wget -O " + path + " " + url);
+            } else if (!runAndGetError(magiskBusyBox() + " curl").contains("applet not found")) {
+                runCommand(magiskBusyBox() + " curl -L -o " + path + " " + url);
+            }
+        } else if (Utils.exist("/system/bin/curl") || Utils.exist("/system/bin/wget")) {
             runCommand((Utils.exist("/system/bin/curl") ?
                     "curl -L -o " : "wget -O ") + path + " " + url);
         } else {
@@ -207,7 +213,7 @@ public class Utils {
 
     public static void delete(String path) {
         if (exist(path)) {
-            runCommand((magiskBusyBox() != null ? Utils.magiskBusyBox() + " rm -r " : "rm -r ") + path);
+            runCommand((magiskBusyBox() != null ? magiskBusyBox() + " rm -r " : "rm -r ") + path);
         }
     }
 
