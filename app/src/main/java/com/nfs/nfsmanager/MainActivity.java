@@ -115,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
                 mModuleStatus.setVisibility(View.VISIBLE);
                 mStatusLayout.setVisibility(View.VISIBLE);
                 return;
+            } else if (!NFS.isNFSRunning()) {
+                mModuleStatus.setText(getString(R.string.module_status_execution_failed));
+                mModuleStatus.setVisibility(View.VISIBLE);
+                mStatusLayout.setVisibility(View.VISIBLE);
+                return;
             } else if (!NFS.isNFSParent()) {
                 mModuleStatus.setText(getString(R.string.data_removed));
                 mModuleStatus.setVisibility(View.VISIBLE);
@@ -123,12 +128,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             mModuleStatus.setText(getString(R.string.no_support));
-            mModuleStatus.setVisibility(View.VISIBLE);
-            mStatusLayout.setVisibility(View.VISIBLE);
-            return;
-        }
-        if (!NFS.isNFSRunning()) {
-            mModuleStatus.setText(getString(R.string.module_status_execution_failed));
             mModuleStatus.setVisibility(View.VISIBLE);
             mStatusLayout.setVisibility(View.VISIBLE);
             return;
