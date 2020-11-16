@@ -241,7 +241,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case 6:
-                    Utils.runCommand(Utils.exist("/system/bin/svc") ? "svc power reboot"
+                    Utils.runCommand(Utils.isMagiskBinaryExist("svc") ? Utils.magiskBusyBox() +
+                            " svc power reboot" : Utils.exist("/system/bin/svc") ? "svc power reboot"
                             : NFS.rebootCommand());
                     break;
                 case 7:
@@ -437,7 +438,8 @@ public class MainActivity extends AppCompatActivity {
                             super.onBackPressed();
                         })
                         .setPositiveButton(getString(R.string.reboot), (dialog1, id1) -> {
-                            Utils.runCommand(Utils.exist("/system/bin/svc") ? "svc power reboot"
+                            Utils.runCommand(Utils.isMagiskBinaryExist("svc") ? Utils.magiskBusyBox() +
+                                    " svc power reboot" : Utils.exist("/system/bin/svc") ? "svc power reboot"
                                     : NFS.rebootCommand());
                         })
                         .show();

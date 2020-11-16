@@ -197,11 +197,11 @@ public class Utils {
         }
     }
 
-    static boolean isMagiskBinaryExist(String command) {
+    public static boolean isMagiskBinaryExist(String command) {
         return magiskBusyBox() != null && !runAndGetError("/data/adb/magisk/busybox " + command).contains("applet not found");
     }
 
-    static String magiskBusyBox() {
+    public static String magiskBusyBox() {
         if (Utils.exist("/data/adb/magisk/busybox")) {
             return "/data/adb/magisk/busybox";
         } else {
