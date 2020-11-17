@@ -65,7 +65,6 @@
     <string name="press_back">Appuyez à nouveau pour quitter</string>
     <string name="reboot">Redémarrer</string>
     <string name="reboot_dialog">Un redémarrage est nécessaire pour que les modifications que vous avez apportées soient appliquées. Voulez-vous redémarrer maintenant?</string>
-    <string name="reboot_message">N\'oubliez pas de redémarrer votre appareil pour que le nouveau module soit en mise à jour!</string>
     <string name="reboot_required">Redémarrage nécessaire!</string>
     <string name="rebooting">Redémarrage</string>
     <string name="recovery">Récupération</string>

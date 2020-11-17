@@ -64,7 +64,6 @@
     <string name="press_back">Premi di nuovo indietro per uscire</string>
     <string name="reboot">Riavvia</string>
     <string name="reboot_dialog">È richiesto un riavvio per applicare i cambiamenti effettuati. Vuoi riavviare adesso?</string>
-    <string name="reboot_message">Non dimenticare di riavviare il dispositivo per rendere effettivo il nuovo modulo!</string>
     <string name="reboot_required">Riavvio Richiesto!</string>
     <string name="rebooting">Riavvio</string>
     <string name="recovery">Ripristino</string>

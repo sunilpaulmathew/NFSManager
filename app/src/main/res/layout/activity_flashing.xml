@@ -61,15 +61,15 @@
         android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/reboot_message"
+            android:id="@+id/reboot"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:textColor="?android:attr/colorAccent"
             android:textStyle="bold"
             android:gravity="center_horizontal"
-            android:text="@string/reboot_message"
+            android:text="@string/reboot"
             android:visibility="gone"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:padding="10dp" />
     </LinearLayout>
 

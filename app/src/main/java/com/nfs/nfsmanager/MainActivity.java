@@ -241,15 +241,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case 6:
-                    Utils.runCommand(Utils.isMagiskBinaryExist("svc") ? Utils.magiskBusyBox() +
-                            " svc power reboot" : Utils.exist("/system/bin/svc") ? "svc power reboot"
-                            : NFS.rebootCommand());
+                    Utils.reboot("", mProgressLayout, mProgressMessage, this);
                     break;
                 case 7:
-                    reboot(" recovery");
+                    Utils.reboot(" recovery", mProgressLayout, mProgressMessage, this);
                     break;
                 case 8:
-                    reboot(" bootloader");
+                    Utils.reboot(" bootloader", mProgressLayout, mProgressMessage, this);
                     break;
             }
             return false;
@@ -312,29 +310,6 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Flasher.mFlashing = false;
-            }
-        }.execute();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public void reboot(String string) {
-        new AsyncTask<Void, Void, Void>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mProgressLayout.setVisibility(View.VISIBLE);
-                mProgressMessage.setText(getString(R.string.rebooting) + "...");
-            }
-            @Override
-            protected Void doInBackground(Void... voids) {
-                Utils.runCommand(NFS.rebootCommand() + string);
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                mProgressLayout.setVisibility(View.GONE);
             }
         }.execute();
     }
@@ -438,9 +413,7 @@ public class MainActivity extends AppCompatActivity {
                             super.onBackPressed();
                         })
                         .setPositiveButton(getString(R.string.reboot), (dialog1, id1) -> {
-                            Utils.runCommand(Utils.isMagiskBinaryExist("svc") ? Utils.magiskBusyBox() +
-                                    " svc power reboot" : Utils.exist("/system/bin/svc") ? "svc power reboot"
-                                    : NFS.rebootCommand());
+                            Utils.reboot("", mProgressLayout, mProgressMessage, this);
                         })
                         .show();
             } else {

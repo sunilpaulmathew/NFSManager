@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.Flasher;
+import com.nfs.nfsmanager.utils.Utils;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on November 13, 2020
@@ -33,12 +34,16 @@ public class FlashingActivity extends AppCompatActivity {
         AppCompatImageButton mBack = findViewById(R.id.back);
         mTitle = findViewById(R.id.title);
         mFlashingOutput = findViewById(R.id.output);
-        mReboot = findViewById(R.id.reboot_message);
+        mReboot = findViewById(R.id.reboot);
         mProgressLayout = findViewById(R.id.flashing_progress);
         MaterialTextView mProgressText = findViewById(R.id.progress_text);
         mProgressText.setText(getString(R.string.flashing, "..."));
         refreshStatus();
         mBack.setOnClickListener(v -> onBackPressed());
+        mReboot.setOnClickListener(v -> {
+            Utils.reboot("", mProgressLayout, mProgressText, this);
+            finish();
+        });
     }
 
     public void refreshStatus() {

@@ -83,7 +83,6 @@
     <string name="press_back">Press back again to exit</string>
     <string name="reboot">Reboot</string>
     <string name="reboot_dialog">A reboot is required to get the changes you made in effect. Do you want to reboot Now?</string>
-    <string name="reboot_message">Don\'t forget to reboot your device to get the new module in effect!</string>
     <string name="reboot_required">Reboot Required!</string>
     <string name="rebooting">Rebooting</string>
     <string name="recovery">Recovery</string>

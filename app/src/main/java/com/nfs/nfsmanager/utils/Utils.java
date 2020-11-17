@@ -10,16 +10,19 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
 import com.topjohnwu.superuser.Shell;
@@ -346,6 +349,37 @@ public class Utils {
             }
         }
         return null;
+    }
+
+    private static String rebootCommand() {
+        return "am broadcast android.intent.action.ACTION_SHUTDOWN " + "&&" +
+                " sync " + "&&" +
+                " echo 3 > /proc/sys/vm/drop_caches " + "&&" +
+                " sync " + "&&" +
+                " sleep 3 " + "&&" +
+                " reboot";
+    }
+
+    public static void reboot(String string, LinearLayout linearLayout, MaterialTextView textView, Context context) {
+        new AsyncTask<Void, Void, Void>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                linearLayout.setVisibility(View.VISIBLE);
+                textView.setText(context.getString(R.string.rebooting) + "...");
+            }
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Utils.runCommand(rebootCommand() + string);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                linearLayout.setVisibility(View.GONE);
+            }
+        }.execute();
     }
 
 }

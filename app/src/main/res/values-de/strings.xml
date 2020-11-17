@@ -64,7 +64,6 @@
     <string name="press_back">Zum Beenden erneut drücken</string>
     <string name="reboot">Neustart</string>
     <string name="reboot_dialog">Ein Neustart ist erforderlich, um die vorgenommenen Änderungen anzuwenden. Möchten Sie jetzt neu starten?</string>
-    <string name="reboot_message">Vergessen Sie nicht, Ihr Gerät neu zu starten, damit das neue Modul funktioniert!</string>
     <string name="reboot_required">Neustart erforderlich!</string>
     <string name="rebooting">Neustart</string>
     <string name="recovery">Recovery</string>

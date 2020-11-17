@@ -86,7 +86,6 @@
     <string name="press_back">Нажмите назад ещё раз для выхода</string>
     <string name="reboot">Перезагрузка</string>
     <string name="reboot_dialog">Необходима перезагрузка, чтобы изменения вступили в силу. Вы хотите перезагрузить сейчас?</string>
-    <string name="reboot_message">Не забудьте перезагрузить устройство, чтобы новый модуль вступил в силу!</string>
     <string name="reboot_required">Необходима перезагрузка!</string>
     <string name="rebooting">Перезагрузка</string>
     <string name="recovery">В рекавери</string>

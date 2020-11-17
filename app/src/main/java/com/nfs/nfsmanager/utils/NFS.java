@@ -651,15 +651,6 @@ public class NFS {
         return hasAds() && hasTT() && hasOW() && hasShield() && hasSF();
     }
 
-    public static String rebootCommand() {
-        return "am broadcast android.intent.action.ACTION_SHUTDOWN " + "&&" +
-                " sync " + "&&" +
-                " echo 3 > /proc/sys/vm/drop_caches " + "&&" +
-                " sync " + "&&" +
-                " sleep 3 " + "&&" +
-                " reboot";
-    }
-
     public static String conflictsList(Context context) {
         StringBuilder sb = new StringBuilder();
         if (Utils.exist("/data/adb/modules/GPUTurboBoost")) {

@@ -67,7 +67,6 @@
     <string name="press_back">Toque voltar para sair</string>
     <string name="reboot">Reiniciar</string>
     <string name="reboot_dialog">É necessário reiniciar para obter as alterações feitas.. Deseja reiniciar agora?</string>
-    <string name="reboot_message">Reinicie o dispositivo para que o novo módulo tenha efeito!</string>
     <string name="reboot_required">Reinicio obrigatório!</string>
     <string name="rebooting">A reiniciar</string>
     <string name="recovery">Recovery</string>
