@@ -1,8 +1,8 @@
 ![NFS Manager](app/src/main/res/drawable/ic_nfs.png)
 
-[![](https://img.shields.io/badge/NFS%20Manager-v1.7-green)](https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.7/com.nfs.nfsmanager-v1.7-release.apk)
+[![](https://img.shields.io/badge/NFS%20Manager-v1.8-green)](https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.8/com.nfs.nfsmanager-v1.8-release.apk)
 ![](https://img.shields.io/github/downloads/sunilpaulmathew/NFSManager/total)
-![](https://img.shields.io/github/downloads/sunilpaulmathew/NFSManager/v1.7/total)
+![](https://img.shields.io/github/downloads/sunilpaulmathew/NFSManager/v1.8/total)
 ![](https://img.shields.io/github/contributors/sunilpaulmathew/NFSManager)
 ![](https://img.shields.io/github/license/sunilpaulmathew/NFSManager)
 
@@ -12,7 +12,7 @@ NFS Manager is a simple application to control NFS Injector, which is a Magisk m
 ## Download
 [<img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png"
      alt=""
-     height="80">](https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.7/com.nfs.nfsmanager-v1.7-release.apk)
+     height="80">](https://github.com/sunilpaulmathew/NFSManager/releases/download/v1.8/com.nfs.nfsmanager-v1.8-release.apk)
 
 ## Development Credits
 * NFS Injector Module<br>Lead Developer - <b>K1ks</b><br>Assistance - <b>Hafiz</b>
