@@ -54,7 +54,7 @@ public class NFS {
     private static final String AVAILABLE_SCHED2 = "/sys/block/loop0/queue/scheduler";
     private static final String AVAILABLE_SCHED3 = "/sys/block/dm-0/queue/scheduler";
 
-    private static int newValue, i;
+    private static int i;
 
     public static void makeAppFolder() {
         File file = new File(Utils.getInternalDataStorage());
@@ -320,16 +320,7 @@ public class NFS {
         popupMenu.setOnMenuItemClickListener(item -> {
             for (i = 0; i < mItem.length; i++) {
                 if (item.getItemId() == i) {
-                    if (mItem[i].equals(context.getString(R.string.doze_disable))) {
-                        newValue = 0;
-                    } else if (mItem[i].equals(context.getString(R.string.doze_default))) {
-                        newValue = 1;
-                    } else if (mItem[i].equals(context.getString(R.string.doze_custom))) {
-                        newValue = 2;
-                    } else if (mItem[i].equals(context.getString(R.string.doze_force))) {
-                        newValue = 3;
-                    }
-                    Utils.applyValue(String.valueOf(newValue), DOZE);
+                    Utils.applyValue(String.valueOf(i), DOZE);
                     textView.setText(mItem[i]);
                 }
             }
@@ -348,12 +339,7 @@ public class NFS {
         popupMenu.setOnMenuItemClickListener(item -> {
             for (i = 0; i < mItem.length; i++) {
                 if (item.getItemId() == i) {
-                    if (mItem[i].equals(context.getString(R.string.device_default))) {
-                        newValue = 0;
-                    } else if (mItem[i].equals(context.getString(R.string.custom_nfs))) {
-                        newValue = 1;
-                    }
-                    Utils.applyValue(String.valueOf(newValue), SHIELD);
+                    Utils.applyValue(String.valueOf(i), SHIELD);
                     textView.setText(mItem[i]);
                 }
             }
@@ -372,18 +358,7 @@ public class NFS {
         popupMenu.setOnMenuItemClickListener(item -> {
             for (i = 0; i < mItem.length; i++) {
                 if (item.getItemId() == i) {
-                    if (mItem[i].equals(context.getString(R.string.off))) {
-                        newValue = 0;
-                    } else if (mItem[i].equals(context.getString(R.string.dns_cloudfare))) {
-                        newValue = 1;
-                    } else if (mItem[i].equals(context.getString(R.string.dns_google))) {
-                        newValue = 2;
-                    } else if (mItem[i].equals(context.getString(R.string.dns_watch))) {
-                        newValue = 3;
-                    } else if (mItem[i].equals(context.getString(R.string.dns_neustar))) {
-                        newValue = 4;
-                    }
-                    Utils.applyValue(String.valueOf(newValue), DNS);
+                    Utils.applyValue(String.valueOf(i), DNS);
                     textView.setText(mItem[i]);
                 }
             }
@@ -402,14 +377,7 @@ public class NFS {
         popupMenu.setOnMenuItemClickListener(item -> {
             for (i = 0; i < mItem.length; i++) {
                 if (item.getItemId() == i) {
-                    if (mItem[i].equals(context.getString(R.string.execute_no))) {
-                        newValue = 0;
-                    } else if (mItem[i].equals(context.getString(R.string.execute_disable))) {
-                        newValue = 1;
-                    } else if (mItem[i].equals(context.getString(R.string.execute_default))) {
-                        newValue = 2;
-                    }
-                    Utils.applyValue(String.valueOf(newValue), ADS);
+                    Utils.applyValue(String.valueOf(i), ADS);
                     textView.setText(mItem[i]);
                 }
             }
@@ -428,12 +396,7 @@ public class NFS {
         popupMenu.setOnMenuItemClickListener(item -> {
             for (i = 0; i < mItem.length; i++) {
                 if (item.getItemId() == i) {
-                    if (mItem[i].equals(context.getString(R.string.permissive))) {
-                        newValue = 0;
-                    } else if (mItem[i].equals(context.getString(R.string.enforcing))) {
-                        newValue = 1;
-                    }
-                    Utils.applyValue(String.valueOf(newValue), LINUX);
+                    Utils.applyValue(String.valueOf(i), LINUX);
                     textView.setText(mItem[i]);
                 }
             }
@@ -452,17 +415,12 @@ public class NFS {
         popupMenu.setOnMenuItemClickListener(item -> {
             for (i = 0; i < mItem.length; i++) {
                 if (item.getItemId() == i) {
-                    if (mItem[i].equals(context.getString(R.string.off))) {
-                        newValue = 0;
-                    } else if (mItem[i].equals(context.getString(R.string.on))) {
-                        newValue = 1;
-                    }
                     if (title.equals(view.getContext().getString(R.string.thermal_throttle))) {
-                        Utils.applyValue(String.valueOf(newValue), TT);
+                        Utils.applyValue(String.valueOf(i), TT);
                     } else if (title.equals(view.getContext().getString(R.string.sync))) {
-                        Utils.applyValue(String.valueOf(newValue), SYNC);
+                        Utils.applyValue(String.valueOf(i), SYNC);
                     } else if (title.equals(view.getContext().getString(R.string.super_sampling))) {
-                        Utils.applyValue(String.valueOf(newValue), SF);
+                        Utils.applyValue(String.valueOf(i), SF);
                     }
                     textView.setText(mItem[i]);
                 }
@@ -512,15 +470,10 @@ public class NFS {
         popupMenu.setOnMenuItemClickListener(item -> {
             for (i = 0; i < mItem.length; i++) {
                 if (item.getItemId() == i) {
-                    if (mItem[i].equals(context.getString(R.string.disable))) {
-                        newValue = 0;
-                    } else if (mItem[i].equals(context.getString(R.string.enable))) {
-                        newValue = 1;
-                    }
                     if (title.equals(view.getContext().getString(R.string.overwatch_engine))) {
-                        Utils.applyValue(String.valueOf(newValue), OW);
+                        Utils.applyValue(String.valueOf(i), OW);
                     } else if (title.equals(view.getContext().getString(R.string.zygote))) {
-                        Utils.applyValue(String.valueOf(newValue), ZYGOTE);
+                        Utils.applyValue(String.valueOf(i), ZYGOTE);
                     }
                     textView.setText(mItem[i]);
                 }
