@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private AppCompatImageButton mSettings;
     private MaterialTextView mProgressMessage;
     private boolean mExit, mSleeping = false, mWarning = true;
-    private BottomNavigationView mBottomNav;
+    private FrameLayout mBottomMenu;
     private LinearLayout mProgressLayout;
     private Handler mHandler = new Handler();
     private int doze, shield, dns, ads, ow, selinux, sync, tt, sf, zygot;
@@ -74,20 +74,24 @@ public class MainActivity extends AppCompatActivity {
         MaterialTextView mUnsupportedText = findViewById(R.id.unsupported_Text);
         FrameLayout mStatusLayout = findViewById(R.id.support_statue);
         LinearLayout mOffLineAd = findViewById(R.id.offline_ad);
+        mBottomMenu = findViewById(R.id.bottom_menu);
         mProgressLayout = findViewById(R.id.progress_layout);
         LinearLayout mUnsupportedLayout = findViewById(R.id.unsupported_layout);
 
-        if (!Utils.rootAccess() || !NFS.magiskSupported() || NFS.isNFSSleeping()) {
+        if (!Utils.rootAccess() || !NFS.magiskSupported() || !NFS.illegalAppsList(this).isEmpty() || NFS.isNFSSleeping()) {
+            mBottomMenu.setVisibility(View.GONE);
             mUnsupportedLayout.setVisibility(View.VISIBLE);
             mUnsupportedImage.setImageDrawable(Utils.getColoredIcon(R.drawable.ic_help, this));
             mUnsupportedText.setText(!Utils.rootAccess() ? getString(R.string.no_root) : !NFS.magiskSupported() ?
-                    getString(R.string.no_magisk) : getString(R.string.sleeping));
+                    getString(R.string.no_magisk) : !NFS.illegalAppsList(this).isEmpty() ?
+                    getString(R.string.illegal_apps) : getString(R.string.sleeping));
             mUnsupportedImage.setOnClickListener(v -> {
                 if (!Utils.rootAccess() || !NFS.magiskSupported()) {
-                    Utils.launchUrl(mBottomNav, "https://www.google.com/search?site=&source=hp&q=android+rooting+magisk", this);
-                } else if (mSleeping) {
+                    Utils.launchUrl(mBottomMenu, "https://www.google.com/search?site=&source=hp&q=android+rooting+magisk", this);
+                } else {
                     new MaterialAlertDialogBuilder(this)
-                            .setMessage(getString(R.string.sleeping_message))
+                            .setMessage(mSleeping ? getString(R.string.sleeping_message) : getString (
+                                    R.string.illegal_apps_summary, NFS.illegalAppsList(this)))
                             .setCancelable(false)
                             .setPositiveButton(getString(R.string.cancel), (dialog1, id1) -> {
                                 super.onBackPressed();
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         mSettings.setOnClickListener(v -> settingsMenu());
 
         mOffLineAd.setOnClickListener(v -> {
-            Utils.launchUrl(mBottomNav, "https://t.me/nfsreleases/424", this);
+            Utils.launchUrl(mBottomMenu, "https://t.me/nfsreleases/424", this);
         });
 
         mModuleImage.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
@@ -133,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        mBottomNav = findViewById(R.id.bottom_navigation);
+        BottomNavigationView mBottomNav = findViewById(R.id.bottom_navigation);
         mBottomNav.setOnNavigationItemSelectedListener(navListener);
         mBottomNav.setVisibility(View.VISIBLE);
 
@@ -237,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         ActivityCompat.requestPermissions(this, new String[]{
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                        Utils.longSnackbar(mBottomNav, getString(R.string.storage_access_denied));
+                        Utils.longSnackbar(mBottomMenu, getString(R.string.storage_access_denied));
                     }
                     break;
                 case 6:
@@ -332,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
                 mPath = Utils.getPath(file);
             }
             if (!mPath.endsWith("zip")) {
-                Utils.longSnackbar(mBottomNav, getString(R.string.invalid_zip));
+                Utils.longSnackbar(mBottomMenu, getString(R.string.invalid_zip));
                 return;
             }
             MaterialAlertDialogBuilder manualFlash = new MaterialAlertDialogBuilder(this);
@@ -364,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
             mSleeping = true;
         }
         if (NFS.isModuleRemoved() || NFS.isModuleDisabled()) {
-            Utils.indefiniteSnackbar(mBottomNav, getString(R.string.module_status_message, NFS.isModuleRemoved() ?
+            Utils.indefiniteSnackbar(mBottomMenu, getString(R.string.module_status_message, NFS.isModuleRemoved() ?
                     getString(R.string.removed) : getString(R.string.disabled)));
         }
 
@@ -421,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
                     mExit = false;
                     super.onBackPressed();
                 } else {
-                    Utils.longSnackbar(mBottomNav, getString(R.string.press_back));
+                    Utils.longSnackbar(mBottomMenu, getString(R.string.press_back));
                     mExit = true;
                     mHandler.postDelayed(() -> mExit = false, 2000);
                 }

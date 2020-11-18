@@ -689,6 +689,14 @@ public class NFS {
         return sb.toString();
     }
 
+    public static String illegalAppsList(Context context) {
+        StringBuilder sb = new StringBuilder();
+        if (Utils.isAppInstalled("nfg.multi_crack.android", context)) {
+            sb.append("* NFG Multi Crack\n");
+        }
+        return sb.toString();
+    }
+
     public static boolean isNFSSleeping() {
         return hasNFSLog() && readNFSLog().contains("NFS Will Comeback After 60 Seconds Sleeping")
                 || supported() && !hasNFSLog();

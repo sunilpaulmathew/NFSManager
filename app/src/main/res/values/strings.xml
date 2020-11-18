@@ -52,6 +52,8 @@
     <string name="get_it">Get it</string>
     <string name="got_it">Got It</string>
     <string name="governor">CPU Governor</string>
+    <string name="illegal_apps">Illegal Applications Detected</string>
+    <string name="illegal_apps_summary">Due to security concern\'s NFS won\'t work with the following illegal applications!\n\n%s</string>
     <string name="invalid_module">You\'re selected an invalid module file! Aborting.</string>
     <string name="invalid_zip">Please select a file with \'.zip\' extension!</string>
     <string name="magisk_log">Magisk Log</string>
