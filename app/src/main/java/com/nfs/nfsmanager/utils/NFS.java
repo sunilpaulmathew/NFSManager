@@ -609,9 +609,6 @@ public class NFS {
         if (Utils.exist("/data/adb/modules/GPUTurboBoost")) {
             sb.append("* GPU Turbo Boost Module\n");
         }
-        if (Utils.exist("/data/adb/modules/NUKED")) {
-            sb.append("* Nuked Module\n");
-        }
         if (Utils.exist("/data/adb/modules/legendary_kernel_tweaks")) {
             sb.append("* LKT Module\n");
         }
