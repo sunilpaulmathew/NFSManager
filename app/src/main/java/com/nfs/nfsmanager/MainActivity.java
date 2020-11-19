@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
             mSleeping = true;
         }
         if (NFS.isModuleRemoved() || NFS.isModuleDisabled()) {
-            Utils.indefiniteSnackbar(mBottomMenu, getString(R.string.module_status_message, NFS.isModuleRemoved() ?
+            Utils.indefiniteSnackbar(findViewById(android.R.id.content), getString(R.string.module_status_message, NFS.isModuleRemoved() ?
                     getString(R.string.removed) : getString(R.string.disabled)));
         }
 
