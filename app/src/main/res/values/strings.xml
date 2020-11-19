@@ -45,6 +45,7 @@
     <string name="faq">FAQ</string>
     <string name="faq_summary">Read NFS Injector FAQ</string>
     <string name="flash">Flash</string>
+    <string name="flash_log">Flash log is exported as %s!</string>
     <string name="flashing">Flashing %s</string>
     <string name="flashing_failed">Unfortunately, flashing %s is failed due to unknown reasons!</string>
     <string name="flash_nfs">Flash NFS</string>

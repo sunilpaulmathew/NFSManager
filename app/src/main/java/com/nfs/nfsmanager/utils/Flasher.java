@@ -13,9 +13,9 @@ public class Flasher {
     private static final String CLEANING_COMMAND = Utils.magiskBusyBox() + " rm -r '" + FLASH_FOLDER + "'";
     private static final String ZIPFILE_EXTRACTED = Utils.getInternalDataStorage() + "/flash/META-INF/com/google/android/update-binary";
 
-    public static String mZipName;
+    public static String mZipName, mFlashingOutput = null;
 
-    public static StringBuilder mFlashingResult = null, mFlashingOutput = null;
+    public static StringBuilder mFlashingResult = null;
 
     public static boolean mFlashing = false, mModuleInvalid = false;
 
@@ -50,7 +50,7 @@ public class Flasher {
         Utils.runAndGetError(Utils.magiskBusyBox() + " unzip " + path + " -d '" + FLASH_FOLDER + "'");
         if (Utils.exist(ZIPFILE_EXTRACTED)) {
             mFlashingResult.append(" Done *\n\n");
-            mFlashingResult.append(" Checking Module: ");
+            mFlashingResult.append("** Checking Module: ");
             if (Utils.read(FLASH_FOLDER + "/module.prop").contains("name=NFS INJECTOR @nfsinjector")) {
                 mModuleInvalid = false;
                 mFlashingResult.append(" Done *\n\n");
@@ -61,13 +61,8 @@ public class Flasher {
                 mFlashingResult.append(Utils.runAndGetError(Utils.magiskBusyBox() + " mke2fs -F tmp.ext4 500000")).append(" \n");
                 mFlashingResult.append(Utils.runAndGetError(Utils.magiskBusyBox() + " mount -o loop tmp.ext4 /tmp/")).append(" \n\n");
                 mFlashingResult.append("** Flashing ").append(mZipName).append(" ...\n\n");
-                if (mFlashingOutput == null) {
-                    mFlashingOutput = new StringBuilder();
-                } else {
-                    mFlashingOutput.setLength(0);
-                }
-                mFlashingOutput.append(Utils.runAndGetOutput(flashingCommand));
-                mFlashingResult.append(mFlashingOutput.toString());
+                mFlashingOutput = Utils.runAndGetOutput(flashingCommand);
+                mFlashingResult.append(mFlashingOutput);
             } else {
                 mModuleInvalid = true;
                 mFlashingOutput = null;
@@ -80,8 +75,6 @@ public class Flasher {
         Utils.runCommand(CLEANING_COMMAND);
         Utils.delete("/data/local/tmp/flash.zip");
         Utils.runCommand(mountRootFS("ro"));
-        Utils.create(mFlashingResult.toString(), Utils.getInternalDataStorage() + "/flasher_log-" +
-                mZipName.replace(".zip",""));
     }
 
 }

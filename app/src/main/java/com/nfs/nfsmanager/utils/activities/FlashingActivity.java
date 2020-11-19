@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.Flasher;
@@ -20,9 +21,10 @@ import com.nfs.nfsmanager.utils.Utils;
 
 public class FlashingActivity extends AppCompatActivity {
 
+    private AppCompatImageButton mSave;
     private LinearLayout mProgressLayout;
+    private MaterialCardView mReboot;
     private MaterialTextView mFlashingOutput;
-    private MaterialTextView mReboot;
     private MaterialTextView mTitle;
 
     @SuppressLint("SetTextI18n")
@@ -32,6 +34,7 @@ public class FlashingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flashing);
 
         AppCompatImageButton mBack = findViewById(R.id.back);
+        mSave = findViewById(R.id.save);
         mTitle = findViewById(R.id.title);
         mFlashingOutput = findViewById(R.id.output);
         mReboot = findViewById(R.id.reboot);
@@ -40,6 +43,12 @@ public class FlashingActivity extends AppCompatActivity {
         mProgressText.setText(getString(R.string.flashing, "..."));
         refreshStatus();
         mBack.setOnClickListener(v -> onBackPressed());
+        mSave.setOnClickListener(v -> {
+            Utils.create(Flasher.mFlashingResult.toString(), Utils.getInternalDataStorage() + "/flasher_log-" +
+                    Flasher.mZipName.replace(".zip",""));
+            Utils.longSnackbar(mSave, getString(R.string.flash_log, Utils.getInternalDataStorage() + "/flasher_log-" +
+                    Flasher.mZipName.replace(".zip","")));
+        });
         mReboot.setOnClickListener(v -> {
             Utils.reboot("", mProgressLayout, mProgressText, this);
             finish();
@@ -56,6 +65,7 @@ public class FlashingActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             if (!Flasher.mFlashing) {
                                 mProgressLayout.setVisibility(View.GONE);
+                                mSave.setVisibility(View.VISIBLE);
                             }
                             if (Flasher.mModuleInvalid) {
                                 mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing, "...") :
@@ -63,12 +73,11 @@ public class FlashingActivity extends AppCompatActivity {
                                 mFlashingOutput.setText(Flasher.mFlashing ? "" : getString(R.string.invalid_module));
                             } else {
                                 mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing, "...") :
-                                        Flasher.mFlashingOutput != null  && !Flasher.mFlashingOutput.toString().isEmpty() ?
+                                        Flasher.mFlashingOutput != null  && !Flasher.mFlashingOutput.isEmpty() ?
                                                 getString(R.string.flashing, "finished") : getString(R.string.flashing, "failed"));
-                                mFlashingOutput.setText(Flasher.mFlashing ? "" : Flasher.mFlashingOutput != null && !Flasher.mFlashingOutput.toString().isEmpty() ?
-                                        Flasher.mFlashingOutput.toString() : getString(R.string.flashing_failed));
-                                mReboot.setVisibility(Flasher.mFlashingOutput != null && !Flasher.mFlashingOutput
-                                        .toString().isEmpty() ? View.VISIBLE: View.GONE);
+                                mFlashingOutput.setText(Flasher.mFlashing ? "" : Flasher.mFlashingOutput != null && !Flasher.mFlashingOutput.isEmpty() ?
+                                        Flasher.mFlashingOutput : getString(R.string.flashing_failed));
+                                mReboot.setVisibility(Flasher.mFlashingOutput != null && !Flasher.mFlashingOutput.isEmpty() ? View.VISIBLE: View.GONE);
                             }
                         });
                     }

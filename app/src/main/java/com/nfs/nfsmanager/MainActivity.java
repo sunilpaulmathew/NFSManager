@@ -294,7 +294,6 @@ public class MainActivity extends AppCompatActivity {
                 super.onPreExecute();
                 Flasher.mZipName = file.getName();
                 Flasher.mFlashingResult = new StringBuilder();
-                Flasher.mFlashingOutput = new StringBuilder();
                 Flasher.mFlashing = true;
                 Intent flashing = new Intent(activity, FlashingActivity.class);
                 startActivity(flashing);

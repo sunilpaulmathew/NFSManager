@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -213,7 +214,21 @@ public class Utils {
     }
 
     public static void create(String text, String path) {
-        runCommand("echo '" + text + "' > " + path);
+        if (!path.startsWith("/storage/")) {
+            runCommand("echo '" + text + "' > " + path);
+        } else {
+            try {
+                File logFile = new File(path);
+                logFile.createNewFile();
+                FileOutputStream fOut = new FileOutputStream(logFile);
+                OutputStreamWriter myOutWriter =
+                        new OutputStreamWriter(fOut);
+                myOutWriter.append(text);
+                myOutWriter.close();
+                fOut.close();
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     public static void delete(String path) {
