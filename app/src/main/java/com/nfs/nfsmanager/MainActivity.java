@@ -302,16 +302,18 @@ public class MainActivity extends AppCompatActivity {
             protected Void doInBackground(Void... voids) {
                 Flasher.mFlashingResult.append("** Preparing to flash ").append(file.getName()).append("...\n\n");
                 Flasher.mFlashingResult.append("** Path: '").append(file.toString()).append("'\n\n");
-                Utils.delete("/data/local/tmp/flash.zip");
+                // Delete if an old zip file exists
+                Utils.delete(getCacheDir() + "/flash.zip");
                 Flasher.mFlashingResult.append("** Copying '").append(file.getName()).append("' into temporary folder: ");
-                Flasher.mFlashingResult.append(Utils.runAndGetError("cp '" + file.toString() + "' /data/local/tmp/flash.zip"));
-                Flasher.mFlashingResult.append(Utils.exist("/data/local/tmp/flash.zip") ? "Done *\n\n" : "\n\n");
-                Flasher.flashModule();
+                Flasher.mFlashingResult.append(Utils.runAndGetError("cp '" + file.toString() + "' " + getCacheDir() + "/flash.zip"));
+                Flasher.mFlashingResult.append(Utils.exist(getCacheDir() + "/flash.zip") ? "Done *\n\n" : "\n\n");
+                Flasher.flashModule(activity);
                 return null;
             }
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+                Utils.delete(getCacheDir() + "/flash.zip");
                 Flasher.mFlashing = false;
             }
         }.execute();

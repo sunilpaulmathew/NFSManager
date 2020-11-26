@@ -1,7 +1,8 @@
 package com.nfs.nfsmanager.utils;
 
+import android.content.Context;
+
 import java.io.File;
-import java.io.FileDescriptor;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on May 05, 2020
@@ -9,19 +10,11 @@ import java.io.FileDescriptor;
 
 public class Flasher {
 
-    private static final String FLASH_FOLDER = Utils.getInternalDataStorage() + "/flash";
-    private static final String CLEANING_COMMAND = Utils.magiskBusyBox() + " rm -r '" + FLASH_FOLDER + "'";
-    private static final String ZIPFILE_EXTRACTED = Utils.getInternalDataStorage() + "/flash/META-INF/com/google/android/update-binary";
-
     public static String mZipName, mFlashingOutput = null;
 
     public static StringBuilder mFlashingResult = null;
 
     public static boolean mFlashing = false, mModuleInvalid = false;
-
-    private static String mountRootFS(String command) {
-        return Utils.magiskBusyBox() + " mount -o remount," + command + " /";
-    }
 
     private static void prepareFolder(String path) {
         File file = new File(path);
@@ -31,38 +24,34 @@ public class Flasher {
         file.mkdirs();
     }
 
-    public static void flashModule() {
+    public static void flashModule(Context context) {
         /*
-         * Flashing recovery zip without rebooting to custom recovery
-         * Credits to osm0sis @ xda-developers.com
+         * Flashing recovery zip without rebooting to custom recovery (Credits to osm0sis @ xda-developers.com)
+         * Also include code from https://github.com/topjohnwu/Magisk/
+         * Ref: https://github.com/topjohnwu/Magisk/blob/a848f10bba4f840248ecf314f7c9d55511d05a0f/app/src/main/java/com/topjohnwu/magisk/core/tasks/FlashZip.kt#L47
          */
-        FileDescriptor fd = new FileDescriptor();
-        int RECOVERY_API = 3;
-        String path = "/data/local/tmp/flash.zip";
-        String flashingCommand = Utils.magiskBusyBox() + " sh '" + ZIPFILE_EXTRACTED + "' '" + RECOVERY_API + "' '" +
-                fd + "' '" + path + "'";
+        String FLASH_FOLDER = Utils.getInternalDataStorage() + "/flash";
+        String CLEANING_COMMAND = "rm -r '" + FLASH_FOLDER + "'";
+        String mScriptPath = Utils.getInternalDataStorage() + "/flash/META-INF/com/google/android/update-binary";
+        String mZipPath = context.getCacheDir() + "/flash.zip";
+        String flashingCommand = "BOOTMODE=true sh " + mScriptPath + " dummy 1 " + mZipPath + " && echo success";
         if (Utils.exist(FLASH_FOLDER)) {
             Utils.runCommand(CLEANING_COMMAND);
         } else {
             prepareFolder(FLASH_FOLDER);
         }
         mFlashingResult.append("** Extracting ").append(mZipName).append(" into working folder: ");
-        Utils.runAndGetError(Utils.magiskBusyBox() + " unzip " + path + " -d '" + FLASH_FOLDER + "'");
-        if (Utils.exist(ZIPFILE_EXTRACTED)) {
+        Utils.runAndGetError(Utils.magiskBusyBox() + " unzip " + mZipPath + " -d '" + FLASH_FOLDER + "'");
+        if (Utils.exist(mScriptPath)) {
             mFlashingResult.append(" Done *\n\n");
             mFlashingResult.append("** Checking Module: ");
             if (Utils.read(FLASH_FOLDER + "/module.prop").contains("name=NFS INJECTOR @nfsinjector")) {
                 mModuleInvalid = false;
                 mFlashingResult.append(" Done *\n\n");
-                mFlashingResult.append("** Preparing a recovery-like environment for flashing...\n");
                 Utils.runCommand("cd '" + FLASH_FOLDER + "'");
-                mFlashingResult.append(Utils.runAndGetError(mountRootFS("rw"))).append(" \n");
-                mFlashingResult.append(Utils.runAndGetError(Utils.magiskBusyBox() + " mkdir /tmp")).append(" \n");
-                mFlashingResult.append(Utils.runAndGetError(Utils.magiskBusyBox() + " mke2fs -F tmp.ext4 500000")).append(" \n");
-                mFlashingResult.append(Utils.runAndGetError(Utils.magiskBusyBox() + " mount -o loop tmp.ext4 /tmp/")).append(" \n\n");
                 mFlashingResult.append("** Flashing ").append(mZipName).append(" ...\n\n");
                 mFlashingOutput = Utils.runAndGetOutput(flashingCommand);
-                mFlashingResult.append(mFlashingOutput);
+                mFlashingResult.append(mFlashingOutput.replace("\nsuccess",""));
             } else {
                 mModuleInvalid = true;
                 mFlashingOutput = null;
@@ -73,8 +62,6 @@ public class Flasher {
             mFlashingResult.append("** Flashing Failed *");
         }
         Utils.runCommand(CLEANING_COMMAND);
-        Utils.delete("/data/local/tmp/flash.zip");
-        Utils.runCommand(mountRootFS("ro"));
     }
 
 }
