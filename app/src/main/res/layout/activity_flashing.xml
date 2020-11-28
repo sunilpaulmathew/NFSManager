@@ -49,6 +49,7 @@
         </FrameLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
@@ -95,23 +96,25 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="15dp"
-        android:alpha="0.75" >
+        android:alpha="0.5" >
 
-        <ProgressBar
-            android:layout_width="150dp"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:progressBackgroundTint="?android:attr/colorAccent"
-            android:layout_gravity="center" />
+            app:cardBackgroundColor="?android:attr/colorAccent"
+            android:layout_gravity="center"
+            app:cardCornerRadius="15dp"
+            android:padding="10dp" >
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/progress_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textStyle="bold|italic"
-            android:textColor="?android:attr/colorAccent"
-            android:textSize="15sp"
-            android:padding="10dp" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/progress_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textStyle="bold|italic"
+                android:textColor="@color/ColorBlack"
+                android:textSize="15sp"
+                android:padding="10dp" />
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </RelativeLayout>

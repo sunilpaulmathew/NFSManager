@@ -40,6 +40,7 @@ import com.nfs.nfsmanager.utils.fragments.DashBoardFragment;
 import com.nfs.nfsmanager.utils.fragments.NFSFragment;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /*
@@ -294,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onPreExecute();
                 Flasher.mZipName = file.getName();
                 Flasher.mFlashingResult = new StringBuilder();
+                Flasher.mFlashingOutput = new ArrayList<>();
                 Flasher.mFlashing = true;
                 Intent flashing = new Intent(activity, FlashingActivity.class);
                 startActivity(flashing);

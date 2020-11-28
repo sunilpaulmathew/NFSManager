@@ -2,12 +2,14 @@ package com.nfs.nfsmanager.utils.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.widget.NestedScrollView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
@@ -26,6 +28,7 @@ public class FlashingActivity extends AppCompatActivity {
     private MaterialCardView mReboot;
     private MaterialTextView mFlashingOutput;
     private MaterialTextView mTitle;
+    private NestedScrollView mScrollView;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -39,6 +42,7 @@ public class FlashingActivity extends AppCompatActivity {
         mFlashingOutput = findViewById(R.id.output);
         mReboot = findViewById(R.id.reboot);
         mProgressLayout = findViewById(R.id.flashing_progress);
+        mScrollView = findViewById(R.id.scroll);
         MaterialTextView mProgressText = findViewById(R.id.progress_text);
         mProgressText.setText(getString(R.string.flashing, "..."));
         refreshStatus();
@@ -63,29 +67,39 @@ public class FlashingActivity extends AppCompatActivity {
                     while (!isInterrupted()) {
                         Thread.sleep(100);
                         runOnUiThread(() -> {
-                            if (!Flasher.mFlashing) {
+                            if (Flasher.mFlashing) {
+                                mScrollView.fullScroll(NestedScrollView.FOCUS_DOWN);
+                            } else {
                                 mProgressLayout.setVisibility(View.GONE);
-                                mSave.setVisibility(View.VISIBLE);
+                                mSave.setVisibility(Flasher.mFlashing ? View.GONE: View.VISIBLE);
                             }
                             if (Flasher.mModuleInvalid) {
                                 mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing, "...") :
                                         getString(R.string.flashing, "aborted"));
                                 mFlashingOutput.setText(Flasher.mFlashing ? "" : getString(R.string.invalid_module));
                             } else {
-                                mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing, "...") :
-                                        Flasher.mFlashingOutput != null  && !Flasher.mFlashingOutput.isEmpty() && Flasher.mFlashingOutput.endsWith("\nsuccess") ?
+                                mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing,"...") : Flasher.getOutput().endsWith("\nsuccess") ?
                                                 getString(R.string.flashing, "finished") : getString(R.string.flashing, "failed"));
-                                mFlashingOutput.setText(Flasher.mFlashing ? "" : Flasher.mFlashingOutput != null && !Flasher.mFlashingOutput.isEmpty() ?
-                                        Flasher.mFlashingOutput.replace("\nsuccess","")
-                                        : getString(R.string.flashing_failed));
-                                mReboot.setVisibility(Flasher.mFlashingOutput != null && !Flasher.mFlashingOutput.isEmpty() &&
-                                        Flasher.mFlashingOutput.endsWith("\nsuccess") ? View.VISIBLE: View.GONE);
+                                mFlashingOutput.setText(!Flasher.getOutput().isEmpty() ? Flasher.getOutput()
+                                        .replace("\nsuccess","") : Flasher.mFlashing ? "" : Flasher.mFlashingResult);
+                                mReboot.setVisibility(Flasher.getOutput().endsWith("\nsuccess") ? View.VISIBLE: View.GONE);
                             }
                         });
                     }
                 } catch (InterruptedException ignored) {}
             }
         }.start();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Flasher.mFlashing) return;
+        super.onBackPressed();
     }
 
 }

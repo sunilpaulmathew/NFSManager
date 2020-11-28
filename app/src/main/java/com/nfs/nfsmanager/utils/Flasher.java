@@ -3,6 +3,9 @@ package com.nfs.nfsmanager.utils;
 import android.content.Context;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on May 05, 2020
@@ -10,9 +13,11 @@ import java.io.File;
 
 public class Flasher {
 
-    public static String mZipName, mFlashingOutput = null;
+    public static String mZipName;
 
     public static StringBuilder mFlashingResult = null;
+
+    public static List<String> mFlashingOutput = null;
 
     public static boolean mFlashing = false, mModuleInvalid = false;
 
@@ -22,6 +27,12 @@ public class Flasher {
             file.delete();
         }
         file.mkdirs();
+    }
+
+    public static String getOutput() {
+        List<String> mData = new ArrayList<>();
+        Collections.addAll(mData, mFlashingOutput.toString().substring(1, Flasher.mFlashingOutput.toString().length() - 1).replace(", ", "\n").split("\\r?\\n"));
+        return mData.toString().substring(1, mData.toString().length() -1 ).replace(", ","\n");
     }
 
     public static void flashModule(Context context) {
@@ -50,8 +61,9 @@ public class Flasher {
                 mFlashingResult.append(" Done *\n\n");
                 Utils.runCommand("cd '" + FLASH_FOLDER + "'");
                 mFlashingResult.append("** Flashing ").append(mZipName).append(" ...\n\n");
-                mFlashingOutput = Utils.runAndGetOutput(flashingCommand);
-                mFlashingResult.append(mFlashingOutput.replace("\nsuccess",""));
+                Utils.runAndGetLiveOutput(flashingCommand, mFlashingOutput);
+                mFlashingResult.append(getOutput().endsWith("\nsuccess") ? getOutput().replace("\nsuccess","") :
+                        "** Flashing Failed *");
             } else {
                 mModuleInvalid = true;
                 mFlashingOutput = null;
