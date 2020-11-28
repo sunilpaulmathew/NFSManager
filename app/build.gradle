@@ -18,8 +18,8 @@ android {
         applicationId "com.nfs.nfsmanager"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 9
-        versionName = "v1.8"
+        versionCode 10
+        versionName = "v1.9"
         vectorDrawables.useSupportLibrary = true
         archivesBaseName = "$applicationId-$versionName"
         testFunctionalTest = false
@@ -49,6 +49,6 @@ repositories {
 
 dependencies {
     implementation "com.github.topjohnwu.libsu:core:3.0.2"
-    implementation 'com.google.android.material:material:1.3.0-alpha03'
+    implementation 'com.google.android.material:material:1.3.0-alpha04'
     implementation 'androidx.preference:preference:1.1.1'
 }
