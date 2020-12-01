@@ -30,6 +30,7 @@
         </activity>
 
         <activity android:name=".MainActivity" />
+        <activity android:name=".utils.activities.ApplyModeActivity" />
         <activity android:name=".utils.activities.ChangeLogActivity" />
         <activity android:name=".utils.activities.FlashingActivity" />
         <activity android:name=".utils.activities.LogsActivity" />

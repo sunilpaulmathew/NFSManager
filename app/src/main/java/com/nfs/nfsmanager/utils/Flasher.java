@@ -3,8 +3,6 @@ package com.nfs.nfsmanager.utils;
 import android.content.Context;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /*
@@ -27,12 +25,6 @@ public class Flasher {
             file.delete();
         }
         file.mkdirs();
-    }
-
-    public static String getOutput() {
-        List<String> mData = new ArrayList<>();
-        Collections.addAll(mData, mFlashingOutput.toString().substring(1, Flasher.mFlashingOutput.toString().length() - 1).replace(", ", "\n").split("\\r?\\n"));
-        return mData.toString().substring(1, mData.toString().length() -1 ).replace(", ","\n");
     }
 
     public static void flashModule(Context context) {
@@ -62,8 +54,8 @@ public class Flasher {
                 Utils.runCommand("cd '" + FLASH_FOLDER + "'");
                 mFlashingResult.append("** Flashing ").append(mZipName).append(" ...\n\n");
                 Utils.runAndGetLiveOutput(flashingCommand, mFlashingOutput);
-                mFlashingResult.append(getOutput().endsWith("\nsuccess") ? getOutput().replace("\nsuccess","") :
-                        "** Flashing Failed *");
+                mFlashingResult.append(Utils.getOutput(mFlashingOutput).endsWith("\nsuccess") ? Utils.getOutput(mFlashingOutput)
+                        .replace("\nsuccess","") : "** Flashing Failed *");
             } else {
                 mModuleInvalid = true;
                 mFlashingOutput = null;

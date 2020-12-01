@@ -38,6 +38,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /*
@@ -107,6 +108,12 @@ public class Utils {
             return s.substring(0, s.length() - "\n".length());
         }
         return s;
+    }
+
+    public static String getOutput(List<String> output) {
+        List<String> mData = new ArrayList<>();
+        Collections.addAll(mData, output.toString().substring(1, output.toString().length() - 1).replace(", ", "\n").split("\\r?\\n"));
+        return mData.toString().substring(1, mData.toString().length() -1 ).replace(", ","\n");
     }
 
     /*

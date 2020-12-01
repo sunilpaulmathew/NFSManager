@@ -54,7 +54,11 @@ public class NFS {
     private static final String AVAILABLE_SCHED2 = "/sys/block/loop0/queue/scheduler";
     private static final String AVAILABLE_SCHED3 = "/sys/block/dm-0/queue/scheduler";
 
+    public static List<String> mOutput = null;
+
     private static int i;
+
+    public static boolean mApplying;
 
     public static void makeAppFolder() {
         File file = new File(Utils.getInternalDataStorage());
@@ -307,7 +311,6 @@ public class NFS {
 
     public static void setNFSMode(int value) {
         Utils.applyValue(String.valueOf(value), MODE);
-        Utils.runCommand("sh " + SCRIPT_PATH);
     }
 
     public static void setDozeMode(AppCompatTextView textView, View view, Context context) {

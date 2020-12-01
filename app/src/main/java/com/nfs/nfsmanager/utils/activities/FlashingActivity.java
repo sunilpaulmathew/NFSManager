@@ -78,11 +78,11 @@ public class FlashingActivity extends AppCompatActivity {
                                         getString(R.string.flashing, "aborted"));
                                 mFlashingOutput.setText(Flasher.mFlashing ? "" : getString(R.string.invalid_module));
                             } else {
-                                mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing,"...") : Flasher.getOutput().endsWith("\nsuccess") ?
+                                mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing,"...") : Utils.getOutput(Flasher.mFlashingOutput).endsWith("\nsuccess") ?
                                                 getString(R.string.flashing, "finished") : getString(R.string.flashing, "failed"));
-                                mFlashingOutput.setText(!Flasher.getOutput().isEmpty() ? Flasher.getOutput()
+                                mFlashingOutput.setText(!Utils.getOutput(Flasher.mFlashingOutput).isEmpty() ? Utils.getOutput(Flasher.mFlashingOutput)
                                         .replace("\nsuccess","") : Flasher.mFlashing ? "" : Flasher.mFlashingResult);
-                                mReboot.setVisibility(Flasher.getOutput().endsWith("\nsuccess") ? View.VISIBLE: View.GONE);
+                                mReboot.setVisibility(Utils.getOutput(Flasher.mFlashingOutput).endsWith("\nsuccess") ? View.VISIBLE: View.GONE);
                             }
                         });
                     }

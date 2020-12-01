@@ -2,6 +2,7 @@ package com.nfs.nfsmanager.utils.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -19,12 +20,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.Utils;
+import com.nfs.nfsmanager.utils.activities.ApplyModeActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,10 +36,7 @@ import java.util.ArrayList;
 
 public class DashBoardFragment extends Fragment {
 
-    private MaterialTextView mProgressMessage;
     private ArrayList <RecycleViewItem> mData = new ArrayList<>();
-    private LinearLayout mProgressLayout;
-    private MaterialCardView mCardView;
     private RecycleViewAdapter mRecycleViewAdapter;
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -51,10 +49,6 @@ public class DashBoardFragment extends Fragment {
         mData.add(new RecycleViewItem(getString(R.string.balanced), getResources().getDrawable(R.drawable.ic_balanced)));
         mData.add(new RecycleViewItem(getString(R.string.ultra), getResources().getDrawable(R.drawable.ic_ultra)));
         mData.add(new RecycleViewItem(getString(R.string.gaming), getResources().getDrawable(R.drawable.ic_game)));
-
-        mProgressMessage = mRootView.findViewById(R.id.progress_text);
-        mProgressLayout = mRootView.findViewById(R.id.progress_layout);
-        mCardView = mRootView.findViewById(R.id.card);
 
         RecyclerView mRecyclerView = mRootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), getSpanCount(requireActivity())));
@@ -83,21 +77,27 @@ public class DashBoardFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                mProgressMessage.setText(getString(R.string.mode_message, message));
-                mCardView.setVisibility(View.GONE);
-                mProgressLayout.setVisibility(View.VISIBLE);
                 requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+                NFS.mApplying = true;
+                NFS.mOutput = new ArrayList<>();
+                NFS.mOutput.add(getString(R.string.mode_message, message));
+                NFS.mOutput.add("================================================");
+                Intent applyMode = new Intent(requireActivity(), ApplyModeActivity.class);
+                startActivity(applyMode);
             }
             @Override
             protected Void doInBackground(Void... voids) {
                 NFS.setNFSMode(value);
+                Utils.runAndGetLiveOutput("sh /data/adb/modules/injector/service.sh", NFS.mOutput);
                 return null;
             }
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                mProgressLayout.setVisibility(View.GONE);
-                mCardView.setVisibility(View.VISIBLE);
+                NFS.mOutput.add("================================================");
+                NFS.mOutput.add(getString(R.string.mode_applied, message));
+                NFS.mApplying = false;
+                mRecycleViewAdapter.notifyDataSetChanged();
                 requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
             }
         }.execute();
@@ -110,7 +110,6 @@ public class DashBoardFragment extends Fragment {
                 })
                 .setPositiveButton(R.string.apply, (dialog, which) -> {
                     updateNFSMode(value, message);
-                    mRecycleViewAdapter.notifyDataSetChanged();
                 }).show();
     }
 
