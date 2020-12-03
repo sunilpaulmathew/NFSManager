@@ -44,7 +44,7 @@ public class NFSFragment extends Fragment {
     }
 
     private int getSpanCount(Activity activity) {
-        return Utils.isTablet(activity) ? Utils.getOrientation(activity) == Configuration.ORIENTATION_LANDSCAPE ? 2 : 1 : 1;
+        return Utils.getOrientation(activity) == Configuration.ORIENTATION_LANDSCAPE ? 2 : 1;
     }
 
     private static ArrayList <NFSFragment.RecycleViewItems> getData(Context context) {
