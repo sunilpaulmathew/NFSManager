@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -33,14 +32,13 @@ import com.nfs.nfsmanager.utils.Flasher;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
-import com.nfs.nfsmanager.utils.activities.FlashingActivity;
+import com.nfs.nfsmanager.utils.activities.FilePickerActivity;
 import com.nfs.nfsmanager.utils.activities.LogsActivity;
 import com.nfs.nfsmanager.utils.fragments.AboutFragment;
 import com.nfs.nfsmanager.utils.fragments.DashBoardFragment;
 import com.nfs.nfsmanager.utils.fragments.NFSFragment;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /*
@@ -192,6 +190,11 @@ public class MainActivity extends AppCompatActivity {
                 module_options.add(Menu.NONE, 4, Menu.NONE, getString(R.string.nfs_delete));
             }
         }
+        SubMenu appSettings = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.app_settings));
+        appSettings.add(Menu.NONE, 9, Menu.NONE, getString(R.string.update_check_auto)).setCheckable(true)
+        .setChecked(Utils.getBoolean("update_check_auto", true, this));
+        appSettings.add(Menu.NONE, 10, Menu.NONE, getString(R.string.use_file_picker)).setCheckable(true)
+                .setChecked(Utils.getBoolean("use_file_picker", true, this));
         menu.add(Menu.NONE, 5, Menu.NONE, getString(R.string.flash_nfs));
         SubMenu reboot = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.reboot));
         reboot.add(Menu.NONE, 6, Menu.NONE, getString(R.string.normal));
@@ -236,11 +239,16 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 5:
                     if (Utils.checkWriteStoragePermission(this)) {
-                        Intent manualflash = new Intent(Intent.ACTION_GET_CONTENT);
-                        manualflash.setType("application/*");
-                        startActivityForResult(manualflash, 0);
+                        if (Utils.getBoolean("use_file_picker", true, this)) {
+                            Intent filePicker = new Intent(this, FilePickerActivity.class);
+                            startActivity(filePicker);
+                        } else {
+                            Intent manualflash = new Intent(Intent.ACTION_GET_CONTENT);
+                            manualflash.setType("application/*");
+                            startActivityForResult(manualflash, 0);
+                        }
                     } else {
-                        ActivityCompat.requestPermissions(this, new String[]{
+                        ActivityCompat.requestPermissions(this, new String[] {
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
                         Utils.longSnackbar(mBottomMenu, getString(R.string.storage_access_denied));
                     }
@@ -253,6 +261,20 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 8:
                     Utils.reboot(" bootloader", mProgressLayout, mProgressMessage, this);
+                    break;
+                case 9:
+                    if (Utils.getBoolean("update_check_auto", true, this)) {
+                        Utils.saveBoolean("update_check_auto", false, this);
+                    } else {
+                        Utils.saveBoolean("update_check_auto", true, this);
+                    }
+                    break;
+                case 10:
+                    if (Utils.getBoolean("use_file_picker", true, this)) {
+                        Utils.saveBoolean("use_file_picker", false, this);
+                    } else {
+                        Utils.saveBoolean("use_file_picker", true, this);
+                    }
                     break;
             }
             return false;
@@ -286,41 +308,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private void flashModule(File file, Activity activity) {
-        new AsyncTask<Void, Void, Void>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                Flasher.mZipName = file.getName();
-                Flasher.mFlashingResult = new StringBuilder();
-                Flasher.mFlashingOutput = new ArrayList<>();
-                Flasher.mFlashing = true;
-                Intent flashing = new Intent(activity, FlashingActivity.class);
-                startActivity(flashing);
-            }
-            @Override
-            protected Void doInBackground(Void... voids) {
-                Flasher.mFlashingResult.append("** Preparing to flash ").append(file.getName()).append("...\n\n");
-                Flasher.mFlashingResult.append("** Path: '").append(file.toString()).append("'\n\n");
-                // Delete if an old zip file exists
-                Utils.delete(getCacheDir() + "/flash.zip");
-                Flasher.mFlashingResult.append("** Copying '").append(file.getName()).append("' into temporary folder: ");
-                Flasher.mFlashingResult.append(Utils.runAndGetError("cp '" + file.toString() + "' " + getCacheDir() + "/flash.zip"));
-                Flasher.mFlashingResult.append(Utils.exist(getCacheDir() + "/flash.zip") ? "Done *\n\n" : "\n\n");
-                Flasher.flashModule(activity);
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                Utils.delete(getCacheDir() + "/flash.zip");
-                Flasher.mFlashing = false;
-            }
-        }.execute();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -347,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
             manualFlash.setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
             });
             manualFlash.setPositiveButton(getString(R.string.flash), (dialogInterface, i) -> {
-                flashModule(new File(mPath), this);
+                Flasher.flashModule(new File(mPath), this);
             });
             manualFlash.show();
         }
@@ -400,7 +387,9 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         }
 
-        UpdateCheck.autoUpdateCheck(this);
+        if (Utils.getBoolean("update_check_auto", true, this)) {
+            UpdateCheck.autoUpdateCheck(this);
+        }
     }
 
     @Override

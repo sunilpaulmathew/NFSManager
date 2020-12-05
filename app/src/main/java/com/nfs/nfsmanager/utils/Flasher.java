@@ -1,8 +1,15 @@
 package com.nfs.nfsmanager.utils;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+
+import com.nfs.nfsmanager.utils.activities.FlashingActivity;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -27,7 +34,7 @@ public class Flasher {
         file.mkdirs();
     }
 
-    public static void flashModule(Context context) {
+    private static void flashModule(Context context) {
         /*
          * Flashing recovery zip without rebooting to custom recovery (Credits to osm0sis @ xda-developers.com)
          * Also include code from https://github.com/topjohnwu/Magisk/
@@ -66,6 +73,40 @@ public class Flasher {
             mFlashingResult.append("** Flashing Failed *");
         }
         Utils.runCommand(CLEANING_COMMAND);
+    }
+
+    public static void flashModule(File file, Activity activity) {
+        new AsyncTask<Void, Void, Void>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                mZipName = file.getName();
+                mFlashingResult = new StringBuilder();
+                mFlashingOutput = new ArrayList<>();
+                mFlashing = true;
+                Intent flashing = new Intent(activity, FlashingActivity.class);
+                activity.startActivity(flashing);
+            }
+            @Override
+            protected Void doInBackground(Void... voids) {
+                mFlashingResult.append("** Preparing to flash ").append(file.getName()).append("...\n\n");
+                mFlashingResult.append("** Path: '").append(file.toString()).append("'\n\n");
+                // Delete if an old zip file exists
+                Utils.delete(activity.getCacheDir() + "/flash.zip");
+                mFlashingResult.append("** Copying '").append(file.getName()).append("' into temporary folder: ");
+                mFlashingResult.append(Utils.runAndGetError("cp '" + file.toString() + "' " + activity.getCacheDir() + "/flash.zip"));
+                mFlashingResult.append(Utils.exist(activity.getCacheDir() + "/flash.zip") ? "Done *\n\n" : "\n\n");
+                flashModule(activity);
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Utils.delete(activity.getCacheDir() + "/flash.zip");
+                mFlashing = false;
+            }
+        }.execute();
     }
 
 }

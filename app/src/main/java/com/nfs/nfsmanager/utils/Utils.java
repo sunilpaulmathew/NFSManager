@@ -69,7 +69,7 @@ public class Utils {
     }
 
     @NonNull
-    static String runAndGetOutput(String command) {
+    public static String runAndGetOutput(String command) {
         StringBuilder sb = new StringBuilder();
         try {
             List<String> outputs = Shell.su(command).exec().getOut();
@@ -269,7 +269,7 @@ public class Utils {
     }
 
     public static void longSnackbar(View view, String message) {
-        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.dismiss, v -> snackbar.dismiss());
         snackbar.show();
     }
