@@ -29,6 +29,7 @@ import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
 import com.nfs.nfsmanager.utils.activities.ChangeLogActivity;
+import com.nfs.nfsmanager.utils.activities.CreditsActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class AboutFragment extends Fragment {
         mData.add(new RecycleViewItem(getString(R.string.change_logs), getString(R.string.change_logs_summary), getResources().getDrawable(R.drawable.ic_active), null));
         mData.add(new RecycleViewItem(getString(R.string.more_apps), getString(R.string.more_apps_summary), getResources().getDrawable(R.drawable.ic_playstore), "https://play.google.com/store/apps/dev?id=5836199813143882901"));
         mData.add(new RecycleViewItem(getString(R.string.update_check), getString(R.string.update_check_summary), getResources().getDrawable(R.drawable.ic_update), null));
+        mData.add(new RecycleViewItem(getString(R.string.credits), getString(R.string.credits_summary), getResources().getDrawable(R.drawable.ic_contributors), null));
 
         RecyclerView mRecyclerView = mRootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), getSpanCount(requireActivity())));
@@ -111,6 +113,9 @@ public class AboutFragment extends Fragment {
                         ActivityCompat.requestPermissions((Activity) holder.mRVLayout.getContext(), new String[]{
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
                     }
+                } else if (position == 9) {
+                    Intent credits = new Intent(holder.mRVLayout.getContext(), CreditsActivity.class);
+                    holder.mRVLayout.getContext().startActivity(credits);
                 } else if (this.data.get(position).getURL() != null) {
                     Utils.launchUrl(holder.mRVLayout, this.data.get(position).getURL(), holder.mRVLayout.getContext());
                 }

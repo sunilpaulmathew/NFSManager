@@ -21,7 +21,7 @@
     <string name="dns_watch">DNS Watch</string>
     <string name="dns_neustar">DNS Neustar Ultra</string>
     <string name="download_failed">¡Parece que la descarga ha fallado o se ha descargado un archivo dañado! Abortando</string>
-    <string name="downloading">Descargando NFS Manager</string>
+    <string name="downloading">Descargando %s</string>
     <string name="doze">Doze</string>
     <string name="doze_custom">Doze personalizado (NFS)</string>
     <string name="doze_default">Doze por defecto</string>

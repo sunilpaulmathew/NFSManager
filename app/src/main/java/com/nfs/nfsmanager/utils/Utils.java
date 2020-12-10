@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -31,6 +32,7 @@ import com.topjohnwu.superuser.ShellUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -184,8 +186,37 @@ public class Utils {
         }
     }
 
+    public static CharSequence fromHtml(String text) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(text);
+        }
+    }
+
     public static String read(String file) {
-        return runAndGetOutput("cat '" + file + "'");
+        if (!file.startsWith("/storage/")) {
+            return runAndGetOutput("cat '" + file + "'");
+        } else {
+            BufferedReader buf = null;
+            try {
+                buf = new BufferedReader(new FileReader(file));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = buf.readLine()) != null) {
+                    stringBuilder.append(line).append("\n");
+                }
+                return stringBuilder.toString().trim();
+            } catch (IOException ignored) {
+            } finally {
+                try {
+                    if (buf != null) buf.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
     }
 
     public static boolean exist(String file) {
@@ -193,7 +224,7 @@ public class Utils {
         return !output.isEmpty() && output.equals("true");
     }
 
-    static void download(String path, String url) {
+    public static void download(String path, String url) {
         if (isMagiskBinaryExist("wget")) {
             runCommand(magiskBusyBox() + " wget -O " + path + " " + url);
         } else if (isMagiskBinaryExist("curl")) {

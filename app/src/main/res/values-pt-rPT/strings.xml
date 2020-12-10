@@ -28,7 +28,7 @@
     <string name="dns_watch">DNS Watch</string>
     <string name="dns_neustar">DNS Neustar Ultra</string>
     <string name="download_failed">O download falhou ou o ficheiro está corrupto! A cancelar.</string>
-    <string name="downloading">A fazer download do NFS Manager</string>
+    <string name="downloading">A fazer download do %s</string>
     <string name="doze">Doze</string>
     <string name="doze_custom">Doze customizado por NFS</string>
     <string name="doze_default">Stock Doze</string>

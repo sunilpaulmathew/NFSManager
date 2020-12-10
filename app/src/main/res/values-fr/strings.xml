@@ -20,7 +20,7 @@
     <string name="dns_cloudfare">DNS Cloudflare</string>
     <string name="dns_google">DNS Google</string>
     <string name="download_failed">Il semble que le téléchargement ait échoué ou qu\'un fichier corrompu soit téléchargé! Abandon.</string>
-    <string name="downloading">Téléchargement de NFS Manager</string>
+    <string name="downloading">Téléchargement de %s</string>
     <string name="doze">Doze</string>
     <string name="doze_custom">Doze personnalisé</string>
     <string name="doze_default">Doze Stock</string>

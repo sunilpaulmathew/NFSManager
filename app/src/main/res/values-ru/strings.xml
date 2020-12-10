@@ -29,7 +29,7 @@
     <string name="dns_neustar">DNS Neustar Ultra</string>
     <string name="dns_watch">DNS Watch</string>
     <string name="download_failed">Похоже, загрузка не удалась или загруженный файл поврежден! Отмена.</string>
-    <string name="downloading">Скачивается NFS Manager</string>
+    <string name="downloading">Скачивается %s</string>
     <string name="doze">Doze</string>
     <string name="doze_custom">Пользовательский Doze</string>
     <string name="doze_default">Doze По умолчанию</string>

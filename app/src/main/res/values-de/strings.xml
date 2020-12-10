@@ -19,7 +19,7 @@
     <string name="dns_cloudfare">DNS Cloudflare</string>
     <string name="dns_google">DNS Google</string>
     <string name="download_failed">Der Download ist fehlgeschlagen oder die heruntergeladene Datei ist beschädigt! Abbruch.</string>
-    <string name="downloading">NFS-Manager wird heruntergeladen</string>
+    <string name="downloading">%s wird heruntergeladen</string>
     <string name="doze">Dösen</string>
     <string name="doze_custom">Benutzerdefiniert</string>
     <string name="doze_default">Standard</string>

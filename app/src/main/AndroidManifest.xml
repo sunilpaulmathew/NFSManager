@@ -32,9 +32,11 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".utils.activities.ApplyModeActivity" />
         <activity android:name=".utils.activities.ChangeLogActivity" />
+        <activity android:name=".utils.activities.CreditsActivity" />
         <activity android:name=".utils.activities.FilePickerActivity" />
         <activity android:name=".utils.activities.FlashingActivity" />
         <activity android:name=".utils.activities.LogsActivity" />
+        <activity android:name=".utils.activities.TranslatorActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

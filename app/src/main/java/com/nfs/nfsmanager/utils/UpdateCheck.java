@@ -118,12 +118,12 @@ public class UpdateCheck {
     private static void updaterTask(Context context) {
         new AsyncTask<Void, Void, Void>() {
             private ProgressDialog mProgressDialog;
-            @SuppressLint("SetTextI18n")
+            @SuppressLint({"SetTextI18n", "StringFormatInvalid"})
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
                 mProgressDialog = new ProgressDialog(context);
-                mProgressDialog.setMessage(context.getString(R.string.downloading) + "...");
+                mProgressDialog.setMessage(context.getString(R.string.downloading, context.getString(R.string.app_name) + "..."));
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
             }

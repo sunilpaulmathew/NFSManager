@@ -19,7 +19,7 @@
     <string name="dns_cloudfare">DNS Cloudflare</string>
     <string name="dns_google">DNS Google</string>
     <string name="download_failed">Sembra che il download sia fallito, o che sia stato scaricato un file danneggiato! Interruzione.</string>
-    <string name="downloading">Scaricamento di NFS Manager</string>
+    <string name="downloading">Scaricamento di %s</string>
     <string name="doze">Doze</string>
     <string name="doze_custom">Doze personalizzato da NFS</string>
     <string name="doze_default">Doze predefinito</string>
