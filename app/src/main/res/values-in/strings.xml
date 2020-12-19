@@ -49,7 +49,6 @@
     <string name="flash">Flash</string>
     <string name="flash_log">Log flash diekspor sebagai %s!</string>
     <string name="flashing">Flashing %s</string>
-    <string name="flashing_failed">Sayangnya, flashing %s gagal karena alasan yang tidak diketahui!</string>
     <string name="flash_nfs">NFS Flash</string>
     <string name="gaming">Gaming</string>
     <string name="get_it">Mengerti</string>
@@ -120,7 +119,6 @@
     <string name="sync">FSync</string>
     <string name="shield">Shield Network</string>
     <string name="string_import">Impor String Kustom</string>
-    <string name="string_import_hint">Masukkan-url-disini!</string>
     <string name="string_remove">Hapus String</string>
     <string name="string_remove_message">Hapus string saat ini terlebih dahulu!</string>
     <string name="sure_message">Flash %s?</string>
