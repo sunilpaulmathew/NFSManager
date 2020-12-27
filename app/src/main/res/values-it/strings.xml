@@ -34,7 +34,6 @@
     <string name="faq">FAQ</string>
     <string name="flash">Installa </string>
     <string name="flashing">Installazione di %s</string>
-    <string name="flashing_failed">Sfortunatamente, l\'installazione di %s è fallita per motivi sconosciuti!</string>
     <string name="flash_nfs">Installa NFS</string>
     <string name="gaming">Gaming</string>
     <string name="get_it">Ottieni</string>

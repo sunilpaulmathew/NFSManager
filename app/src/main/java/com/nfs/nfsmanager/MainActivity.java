@@ -28,10 +28,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
+import com.nfs.nfsmanager.utils.CPUTimes;
 import com.nfs.nfsmanager.utils.Flasher;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
+import com.nfs.nfsmanager.utils.activities.CPUTimesActivity;
+import com.nfs.nfsmanager.utils.activities.DeviceInfoActivity;
 import com.nfs.nfsmanager.utils.activities.FilePickerActivity;
 import com.nfs.nfsmanager.utils.activities.LogsActivity;
 import com.nfs.nfsmanager.utils.fragments.AboutFragment;
@@ -180,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
         if (NFS.isNFSRunning()) {
             menu.add(Menu.NONE, 1, Menu.NONE, getString(R.string.view_log));
         }
+        menu.add(Menu.NONE, 11, Menu.NONE, R.string.device_info);
+        if (CPUTimes.supported("/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state")) {
+            menu.add(Menu.NONE, 12, Menu.NONE, R.string.cpu_stats);
+        }
         if (NFS.isModuleParent()) {
             SubMenu module_options = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.module_settings));
             module_options.add(Menu.NONE, 2, Menu.NONE, getString(R.string.nfs_disable)).setCheckable(true)
@@ -276,6 +283,13 @@ public class MainActivity extends AppCompatActivity {
                         Utils.saveBoolean("use_file_picker", true, this);
                     }
                     break;
+                case 11:
+                    Intent device = new Intent(this, DeviceInfoActivity.class);
+                    startActivity(device);
+                    break;
+                case 12:
+                    Intent cputimes = new Intent(this, CPUTimesActivity.class);
+                    startActivity(cputimes);
             }
             return false;
         });

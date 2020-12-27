@@ -36,7 +36,6 @@
     <string name="faq">Preguntas más frecuentes (Telegram)</string>
     <string name="flash">Flashear</string>
     <string name="flashing">Flasheando %s</string>
-    <string name="flashing_failed">Desafortunadamente, el flasheo %s ha fallado debido a razones desconocidas.</string>
     <string name="flash_nfs">Flashear NFS</string>
     <string name="gaming">Gaming</string>
     <string name="get_it">Entendido</string>

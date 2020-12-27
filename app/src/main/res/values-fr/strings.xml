@@ -35,7 +35,6 @@
     <string name="faq">FAQ</string>
     <string name="flash">Flash</string>
     <string name="flashing">flashage%s</string>
-    <string name="flashing_failed">Malheureusement, le flashage de %s a échoué pour des raisons inconnues!</string>
     <string name="flash_nfs">Flash NFS</string>
     <string name="gaming">Gaming</string>
     <string name="get_it">Tu piges</string>

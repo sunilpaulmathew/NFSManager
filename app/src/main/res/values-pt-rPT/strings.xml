@@ -45,7 +45,6 @@
     <string name="faq_summary">Ler NFS Injector FAQ</string>
     <string name="flash">Instalar</string>
     <string name="flashing">A instalar %s</string>
-    <string name="flashing_failed">Infelizmente a instalação falhou %s por razões desconhecidas!</string>
     <string name="flash_nfs">Instalar NFS</string>
     <string name="gaming">Modo jogo</string>
     <string name="get_it">Aceite</string>

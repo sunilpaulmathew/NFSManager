@@ -8,8 +8,10 @@
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
+        app:tabGravity="center"
+        android:layout_gravity="center"
+        app:tabMode="scrollable"
+        android:textAlignment="center"
         android:background="@color/ColorBlack"
         app:tabTextColor="?android:attr/textColorPrimary"
         app:tabSelectedTextColor="?attr/colorAccent"

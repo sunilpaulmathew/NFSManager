@@ -289,7 +289,7 @@ public class Utils {
         return runAndGetOutput("sha1sum " + path);
     }
 
-    static int strToInt(String text) {
+    public static int strToInt(String text) {
         try {
             return Integer.parseInt(text);
         } catch (NumberFormatException ignored) {

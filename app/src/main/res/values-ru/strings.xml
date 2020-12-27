@@ -47,7 +47,6 @@
     <string name="flash">Прошить</string>
     <string name="flash_nfs">Прошить NFS</string>
     <string name="flashing">Прошивка %s</string>
-    <string name="flashing_failed">К сожалению, прошивка %s не удалась по неизвестным причинам!</string>
     <string name="gaming">Игра</string>
     <string name="get_it">Принять это</string>
     <string name="got_it">Получить это</string>
