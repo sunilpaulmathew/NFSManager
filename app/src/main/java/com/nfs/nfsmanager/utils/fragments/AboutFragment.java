@@ -59,7 +59,9 @@ public class AboutFragment extends Fragment {
         mData.add(new RecycleViewItem(getString(R.string.more_apps), getString(R.string.more_apps_summary), getResources().getDrawable(R.drawable.ic_playstore), "https://play.google.com/store/apps/dev?id=5836199813143882901"));
         mData.add(new RecycleViewItem(getString(R.string.licence), getString(R.string.licence_summary), getResources().getDrawable(R.drawable.ic_licence), null));
         mData.add(new RecycleViewItem(getString(R.string.credits), getString(R.string.credits_summary), getResources().getDrawable(R.drawable.ic_contributors), null));
-        mData.add(new RecycleViewItem(getString(R.string.update_check), getString(R.string.update_check_summary), getResources().getDrawable(R.drawable.ic_update), null));
+        if (UpdateCheck.isSignatureMatched(requireActivity())) {
+            mData.add(new RecycleViewItem(getString(R.string.update_check), getString(R.string.update_check_summary), getResources().getDrawable(R.drawable.ic_update), null));
+        }
 
         RecyclerView mRecyclerView = mRootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), getSpanCount(requireActivity())));

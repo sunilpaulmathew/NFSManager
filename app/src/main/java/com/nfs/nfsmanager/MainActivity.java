@@ -198,8 +198,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         SubMenu appSettings = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.app_settings));
-        appSettings.add(Menu.NONE, 9, Menu.NONE, getString(R.string.update_check_auto)).setCheckable(true)
-        .setChecked(Utils.getBoolean("update_check_auto", true, this));
+        if (UpdateCheck.isSignatureMatched(this)) {
+            appSettings.add(Menu.NONE, 9, Menu.NONE, getString(R.string.update_check_auto)).setCheckable(true)
+                    .setChecked(Utils.getBoolean("update_check_auto", true, this));
+        }
         appSettings.add(Menu.NONE, 10, Menu.NONE, getString(R.string.use_file_picker)).setCheckable(true)
                 .setChecked(Utils.getBoolean("use_file_picker", true, this));
         menu.add(Menu.NONE, 5, Menu.NONE, getString(R.string.flash_nfs));
@@ -401,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         }
 
-        if (Utils.getBoolean("update_check_auto", true, this)) {
+        if (Utils.getBoolean("update_check_auto", true, this) && UpdateCheck.isSignatureMatched(this)) {
             UpdateCheck.autoUpdateCheck(this);
         }
     }
