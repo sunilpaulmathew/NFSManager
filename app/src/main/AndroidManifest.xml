@@ -37,6 +37,7 @@
         <activity android:name=".utils.activities.DeviceInfoActivity" />
         <activity android:name=".utils.activities.FilePickerActivity" />
         <activity android:name=".utils.activities.FlashingActivity" />
+        <activity android:name=".utils.activities.LicenceActivity" />
         <activity android:name=".utils.activities.LogsActivity" />
         <activity android:name=".utils.activities.TranslatorActivity" />
 

@@ -72,6 +72,8 @@
     <string name="illegal_string_warning">You\'re entered some illegal characters! Your changes won\'t be saved.</string>
     <string name="invalid_module">You\'re selected an invalid module file! Aborting.</string>
     <string name="invalid_zip">Please select a file with \'.zip\' extension!</string>
+    <string name="licence">Licence</string>
+    <string name="licence_summary">View GPL v3</string>
     <string name="magisk_log">Magisk Log</string>
     <string name="mode_applied">%s mode applied successfully!</string>
     <string name="mode_change_question">Switch to %s mode?</string>

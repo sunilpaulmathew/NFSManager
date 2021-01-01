@@ -30,6 +30,7 @@ import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
 import com.nfs.nfsmanager.utils.activities.ChangeLogActivity;
 import com.nfs.nfsmanager.utils.activities.CreditsActivity;
+import com.nfs.nfsmanager.utils.activities.LicenceActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,8 +57,9 @@ public class AboutFragment extends Fragment {
         mData.add(new RecycleViewItem(getString(R.string.report_issue), getString(R.string.report_issue_summary), getResources().getDrawable(R.drawable.ic_bug), "https://github.com/sunilpaulmathew/NFSManager/issues/new"));
         mData.add(new RecycleViewItem(getString(R.string.change_logs), getString(R.string.change_logs_summary), getResources().getDrawable(R.drawable.ic_active), null));
         mData.add(new RecycleViewItem(getString(R.string.more_apps), getString(R.string.more_apps_summary), getResources().getDrawable(R.drawable.ic_playstore), "https://play.google.com/store/apps/dev?id=5836199813143882901"));
-        mData.add(new RecycleViewItem(getString(R.string.update_check), getString(R.string.update_check_summary), getResources().getDrawable(R.drawable.ic_update), null));
+        mData.add(new RecycleViewItem(getString(R.string.licence), getString(R.string.licence_summary), getResources().getDrawable(R.drawable.ic_licence), null));
         mData.add(new RecycleViewItem(getString(R.string.credits), getString(R.string.credits_summary), getResources().getDrawable(R.drawable.ic_contributors), null));
+        mData.add(new RecycleViewItem(getString(R.string.update_check), getString(R.string.update_check_summary), getResources().getDrawable(R.drawable.ic_update), null));
 
         RecyclerView mRecyclerView = mRootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), getSpanCount(requireActivity())));
@@ -107,15 +109,18 @@ public class AboutFragment extends Fragment {
                     Intent changeLogs = new Intent(holder.mRVLayout.getContext(), ChangeLogActivity.class);
                     holder.mRVLayout.getContext().startActivity(changeLogs);
                 } else if (position == 8) {
+                    Intent licence = new Intent(holder.mRVLayout.getContext(), LicenceActivity.class);
+                    holder.mRVLayout.getContext().startActivity(licence);
+                } else if (position == 9) {
+                    Intent credits = new Intent(holder.mRVLayout.getContext(), CreditsActivity.class);
+                    holder.mRVLayout.getContext().startActivity(credits);
+                } else if (position == 10) {
                     if (Utils.checkWriteStoragePermission(holder.mRVLayout.getContext())) {
                         UpdateCheck.manualUpdateCheck(holder.mRVLayout.getContext());
                     } else {
                         ActivityCompat.requestPermissions((Activity) holder.mRVLayout.getContext(), new String[]{
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
                     }
-                } else if (position == 9) {
-                    Intent credits = new Intent(holder.mRVLayout.getContext(), CreditsActivity.class);
-                    holder.mRVLayout.getContext().startActivity(credits);
                 } else if (this.data.get(position).getURL() != null) {
                     Utils.launchUrl(holder.mRVLayout, this.data.get(position).getURL(), holder.mRVLayout.getContext());
                 }
