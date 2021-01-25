@@ -30,7 +30,7 @@ import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
 import com.nfs.nfsmanager.utils.activities.ChangeLogActivity;
 import com.nfs.nfsmanager.utils.activities.CreditsActivity;
-import com.nfs.nfsmanager.utils.activities.LicenceActivity;
+import com.nfs.nfsmanager.utils.activities.WebViewActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,6 +57,7 @@ public class AboutFragment extends Fragment {
         mData.add(new RecycleViewItem(getString(R.string.report_issue), getString(R.string.report_issue_summary), getResources().getDrawable(R.drawable.ic_bug), "https://github.com/sunilpaulmathew/NFSManager/issues/new"));
         mData.add(new RecycleViewItem(getString(R.string.change_logs), getString(R.string.change_logs_summary), getResources().getDrawable(R.drawable.ic_active), null));
         mData.add(new RecycleViewItem(getString(R.string.more_apps), getString(R.string.more_apps_summary), getResources().getDrawable(R.drawable.ic_playstore), "https://play.google.com/store/apps/dev?id=5836199813143882901"));
+        mData.add(new RecycleViewItem(getString(R.string.privacy_policy), getString(R.string.privacy_policy_summary), getResources().getDrawable(R.drawable.ic_privacy), null));
         mData.add(new RecycleViewItem(getString(R.string.licence), getString(R.string.licence_summary), getResources().getDrawable(R.drawable.ic_licence), null));
         mData.add(new RecycleViewItem(getString(R.string.credits), getString(R.string.credits_summary), getResources().getDrawable(R.drawable.ic_contributors), null));
         if (UpdateCheck.isSignatureMatched(requireActivity())) {
@@ -111,12 +112,17 @@ public class AboutFragment extends Fragment {
                     Intent changeLogs = new Intent(holder.mRVLayout.getContext(), ChangeLogActivity.class);
                     holder.mRVLayout.getContext().startActivity(changeLogs);
                 } else if (position == 8) {
-                    Intent licence = new Intent(holder.mRVLayout.getContext(), LicenceActivity.class);
-                    holder.mRVLayout.getContext().startActivity(licence);
+                    NFS.mURL = "file:///android_asset/privacy-policy.html";
+                    Intent privacyPolicy = new Intent(holder.mRVLayout.getContext(), WebViewActivity.class);
+                    holder.mRVLayout.getContext().startActivity(privacyPolicy);
                 } else if (position == 9) {
+                    NFS.mURL = "https://www.gnu.org/licenses/gpl-3.0-standalone.html";
+                    Intent licence = new Intent(holder.mRVLayout.getContext(), WebViewActivity.class);
+                    holder.mRVLayout.getContext().startActivity(licence);
+                } else if (position == 10) {
                     Intent credits = new Intent(holder.mRVLayout.getContext(), CreditsActivity.class);
                     holder.mRVLayout.getContext().startActivity(credits);
-                } else if (position == 10) {
+                } else if (position == 11) {
                     if (Utils.checkWriteStoragePermission(holder.mRVLayout.getContext())) {
                         UpdateCheck.manualUpdateCheck(holder.mRVLayout.getContext());
                     } else {

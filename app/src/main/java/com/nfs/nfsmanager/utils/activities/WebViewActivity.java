@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +16,13 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
+import com.nfs.nfsmanager.utils.NFS;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on January 01, 2021
  */
 
-public class LicenceActivity extends AppCompatActivity {
+public class WebViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,24 +31,36 @@ public class LicenceActivity extends AppCompatActivity {
 
         AppCompatImageButton mBack = findViewById(R.id.back);
         MaterialTextView mCancel = findViewById(R.id.cancel_button);
-        mCancel.setOnClickListener(v -> onBackPressed());
+        mCancel.setOnClickListener(v -> finish());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new LicenceFragment()).commit();
+                new WebViewFragment()).commit();
 
-        mBack.setOnClickListener(v -> onBackPressed());
+        mBack.setOnClickListener(v -> finish());
     }
 
-    public static class LicenceFragment extends Fragment {
+    public static class WebViewFragment extends Fragment {
 
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater,
                                  @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            WebView webView = new WebView(getActivity());
-            webView.loadUrl("file:///android_asset/gpl.html");
+            WebView mWebView = new WebView(getActivity());
+            mWebView.loadUrl(NFS.mURL);
+            mWebView.setWebViewClient(new WebViewClient());
 
-            return webView;
+            requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    if (mWebView.canGoBack()) {
+                        mWebView.goBack();
+                    } else {
+                        requireActivity().finish();
+                    }
+                }
+            });
+
+            return mWebView;
         }
 
     }

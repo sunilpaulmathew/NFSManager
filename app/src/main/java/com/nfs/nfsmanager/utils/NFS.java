@@ -56,6 +56,8 @@ public class NFS {
 
     public static List<String> mOutput = null;
 
+    public static String mURL = null;
+
     private static int i;
 
     public static boolean mApplying;

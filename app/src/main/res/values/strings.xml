@@ -106,6 +106,8 @@
     <string name="performance_warning">Using \'performance\' governor is highly inadvisable when using NFS Injector!\nPlease use at your own risk and no support will be given by NFS team.</string>
     <string name="permissive">Permissive</string>
     <string name="press_back">Press back again to exit</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_summary">Read Privacy Policy</string>
     <string name="reboot">Reboot</string>
     <string name="reboot_dialog">A reboot is required to get the changes you made in effect. Do you want to reboot Now?</string>
     <string name="reboot_required">Reboot Required!</string>
