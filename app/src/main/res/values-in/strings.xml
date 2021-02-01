@@ -59,6 +59,8 @@
     <string name="illegal_string_warning">Anda memasukkan beberapa karakter ilegal! Perubahan Anda tidak akan disimpan.</string>
     <string name="invalid_module">Anda memilih berkas modul yang tidak valid! Membatalkan.</string>
     <string name="invalid_zip">Pilih berkas dengan \'.zip\' perpanjangan!</string>
+    <string name="licence">Lisensi</string>
+    <string name="licence_summary">Lihat GPL v3</string>
     <string name="magisk_log">Log Magisk</string>
     <string name="mode_applied">%s mode berhasil diterapkan!</string>
     <string name="mode_change_question">Beralih ke %s mode?</string>
@@ -91,6 +93,8 @@
     <string name="performance_warning">Menggunakan \'performance\' governor sangat tidak disarankan saat menggunakan NFS Injector!\nSilahkan gunakan dengan risiko anda sendiri dan tidak ada dukungan yang akan diberikan oleh NFS team.</string>
     <string name="permissive">Permissive</string>
     <string name="press_back">Tekan kembali untuk keluar</string>
+    <string name="privacy_policy">Kebijakan Privasi</string>
+    <string name="privacy_policy_summary">Baca Kebijakan Privasi</string>
     <string name="reboot">Memulai Kembali</string>
     <string name="reboot_dialog">Memulai Kembali diperlukan untuk menerapkan perubahan yang anda buat. Apakah anda ingin memulai kembali Sekarang?</string>
     <string name="reboot_required">Memulai Kembali dibutuhkan!</string>
