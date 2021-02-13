@@ -45,7 +45,7 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater,
                                  @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            WebView mWebView = new WebView(getActivity());
+            WebView mWebView = new WebView(requireActivity());
             mWebView.loadUrl(NFS.mURL);
             mWebView.setWebViewClient(new WebViewClient());
 

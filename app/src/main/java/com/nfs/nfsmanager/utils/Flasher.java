@@ -11,6 +11,7 @@ import com.nfs.nfsmanager.utils.activities.FlashingActivity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on May 05, 2020
@@ -40,9 +41,9 @@ public class Flasher {
          * Also include code from https://github.com/topjohnwu/Magisk/
          * Ref: https://github.com/topjohnwu/Magisk/blob/a848f10bba4f840248ecf314f7c9d55511d05a0f/app/src/main/java/com/topjohnwu/magisk/core/tasks/FlashZip.kt#L47
          */
-        String FLASH_FOLDER = Utils.getInternalDataStorage() + "/flash";
+        String FLASH_FOLDER = Utils.getInternalDataStorage(context) + "/flash";
         String CLEANING_COMMAND = "rm -r '" + FLASH_FOLDER + "'";
-        String mScriptPath = Utils.getInternalDataStorage() + "/flash/META-INF/com/google/android/update-binary";
+        String mScriptPath = Utils.getInternalDataStorage(context) + "/flash/META-INF/com/google/android/update-binary";
         String mZipPath = context.getCacheDir() + "/flash.zip";
         String flashingCommand = "BOOTMODE=true sh " + mScriptPath + " dummy 1 " + mZipPath + " && echo success";
         if (Utils.exist(FLASH_FOLDER)) {
@@ -55,7 +56,7 @@ public class Flasher {
         if (Utils.exist(mScriptPath)) {
             mFlashingResult.append(" Done *\n\n");
             mFlashingResult.append("** Checking Module: ");
-            if (Utils.read(FLASH_FOLDER + "/module.prop").contains("name=NFS INJECTOR @nfsinjector")) {
+            if (Objects.requireNonNull(Utils.read(FLASH_FOLDER + "/module.prop")).contains("name=NFS INJECTOR @nfsinjector")) {
                 mModuleInvalid = false;
                 mFlashingResult.append(" Done *\n\n");
                 Utils.runCommand("cd '" + FLASH_FOLDER + "'");

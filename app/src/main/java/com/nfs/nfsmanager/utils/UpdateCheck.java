@@ -35,10 +35,9 @@ import java.util.Objects;
 public class UpdateCheck {
 
     private static final String LATEST_VERSION_URL = "https://raw.githubusercontent.com/sunilpaulmathew/NFSManager/master/app/src/main/assets/release.json";
-    private static final String LATEST_APK = Utils.getInternalDataStorage() + "/com.nfs.nfsmanager.apk";
 
-    private static void prepareInternalStorage() {
-        File file = new File(Utils.getInternalDataStorage());
+    private static void prepareInternalStorage(Context context) {
+        File file = new File(Utils.getInternalDataStorage(context));
         if (file.exists() && file.isFile()) {
             file.delete();
         }
@@ -46,13 +45,13 @@ public class UpdateCheck {
     }
 
     private static void getVersionInfo(Context context) {
-        prepareInternalStorage();
+        prepareInternalStorage(context);
         Utils.download(releaseInfo(context), LATEST_VERSION_URL);
     }
 
     private static void getLatestApp(Context context) {
-        prepareInternalStorage();
-        Utils.download(LATEST_APK, getLatestApk(context));
+        prepareInternalStorage(context);
+        Utils.download(Utils.getInternalDataStorage(context) + "/com.nfs.nfsmanager.apk", getLatestApk(context));
     }
 
     private static String versionName(Context context) {
@@ -145,8 +144,10 @@ public class UpdateCheck {
                     mProgressDialog.dismiss();
                 } catch (IllegalArgumentException ignored) {
                 }
-                if (Utils.exist(LATEST_APK) && Utils.getChecksum(LATEST_APK).contains(Objects.requireNonNull(getChecksum(context)))) {
-                    installUpdate(LATEST_APK, context);
+                if (Utils.exist(Utils.getInternalDataStorage(context) + "/com.nfs.nfsmanager.apk") &&
+                        Utils.getChecksum(Utils.getInternalDataStorage(context) + "/com.nfs.nfsmanager.apk")
+                                .contains(Objects.requireNonNull(getChecksum(context)))) {
+                    installUpdate(Utils.getInternalDataStorage(context) + "/com.nfs.nfsmanager.apk", context);
                 } else {
                     new MaterialAlertDialogBuilder(context)
                             .setMessage(R.string.download_failed)

@@ -1,6 +1,7 @@
 package com.nfs.nfsmanager.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
@@ -23,10 +24,10 @@ public class Translator {
 
     public static String mSearchText;
 
-    public static String getStrings() {
+    public static String getStrings(Context context) {
         List<String> mData = new ArrayList<>();
-        if (Utils.exist(Utils.getInternalDataStorage() + "/strings.xml")) {
-            for (String line : Objects.requireNonNull(Utils.read(Utils.getInternalDataStorage() + "/strings.xml")).split("\\r?\\n")) {
+        if (Utils.exist(Utils.getInternalDataStorage(context) + "/strings.xml")) {
+            for (String line : Objects.requireNonNull(Utils.read(Utils.getInternalDataStorage(context) + "/strings.xml")).split("\\r?\\n")) {
                 if (line.contains("<string name=") && line.endsWith("</string>") && !line.contains("translatable=\"false")) {
                     mData.add(line);
                 }
@@ -58,8 +59,8 @@ public class Translator {
             }
             @Override
             protected Void doInBackground(Void... voids) {
-                if (!Utils.exist(Utils.getInternalDataStorage() + "/strings.xml") && !Utils.isNetworkUnavailable(activity)) {
-                    Utils.download(Utils.getInternalDataStorage() + "/strings.xml", url);
+                if (!Utils.exist(Utils.getInternalDataStorage(activity) + "/strings.xml") && !Utils.isNetworkUnavailable(activity)) {
+                    Utils.download(Utils.getInternalDataStorage(activity) + "/strings.xml", url);
                 }
                 return null;
             }

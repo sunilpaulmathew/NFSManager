@@ -62,8 +62,8 @@ public class NFS {
 
     public static boolean mApplying;
 
-    public static void makeAppFolder() {
-        File file = new File(Utils.getInternalDataStorage());
+    public static void makeAppFolder(Context context) {
+        File file = new File(Utils.getInternalDataStorage(context));
         if (file.exists() && file.isFile()) {
             file.delete();
         }

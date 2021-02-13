@@ -48,9 +48,9 @@ public class FlashingActivity extends AppCompatActivity {
         refreshStatus();
         mBack.setOnClickListener(v -> onBackPressed());
         mSave.setOnClickListener(v -> {
-            Utils.create(Flasher.mFlashingResult.toString(), Utils.getInternalDataStorage() + "/flasher_log-" +
+            Utils.create(Flasher.mFlashingResult.toString(), Utils.getInternalDataStorage(this) + "/flasher_log-" +
                     Flasher.mZipName.replace(".zip",""));
-            Utils.longSnackbar(mSave, getString(R.string.flash_log, Utils.getInternalDataStorage() + "/flasher_log-" +
+            Utils.longSnackbar(mSave, getString(R.string.flash_log, Utils.getInternalDataStorage(this) + "/flasher_log-" +
                     Flasher.mZipName.replace(".zip","")));
         });
         mReboot.setOnClickListener(v -> {

@@ -78,8 +78,8 @@ public class TranslatorActivity extends AppCompatActivity {
                         if (text.isEmpty()) {
                             return;
                         }
-                        Utils.create(Translator.getStrings().replace(">" + mData.get(position) + "</string>", ">"
-                                        + text + "</string>"), Utils.getInternalDataStorage() + "/strings.xml");
+                        Utils.create(Translator.getStrings(this).replace(">" + mData.get(position) + "</string>", ">"
+                                        + text + "</string>"), Utils.getInternalDataStorage(this) + "/strings.xml");
                         mData.set(position, text);
                         mRecycleViewAdapter.notifyDataSetChanged();
                     }, this).setOnDismissListener(dialogInterface -> {
@@ -94,7 +94,7 @@ public class TranslatorActivity extends AppCompatActivity {
         mSettings.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(this, mSettings);
             Menu menu = popupMenu.getMenu();
-            if (Utils.exist(Utils.getInternalDataStorage() + "/strings.xml")) {
+            if (Utils.exist(Utils.getInternalDataStorage(this) + "/strings.xml")) {
                 menu.add(Menu.NONE, 1, Menu.NONE, R.string.string_remove);
             }
             SubMenu import_string = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.string_import));
@@ -106,7 +106,7 @@ public class TranslatorActivity extends AppCompatActivity {
             import_string.add(Menu.NONE, 7, Menu.NONE, "Portuguese (rBr)");
             import_string.add(Menu.NONE, 8, Menu.NONE, "Russian");
             popupMenu.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() > 1 && Utils.exist(Utils.getInternalDataStorage() + "/strings.xml")) {
+                if (item.getItemId() > 1 && Utils.exist(Utils.getInternalDataStorage(this) + "/strings.xml")) {
                     Utils.longSnackbar(findViewById(android.R.id.content), getString(R.string.string_remove_message));
                     return false;
                 }
@@ -120,7 +120,7 @@ public class TranslatorActivity extends AppCompatActivity {
                                     super.onBackPressed();
                                 })
                                 .setPositiveButton(getString(R.string.delete), (dialog1, id1) -> {
-                                    new File(Utils.getInternalDataStorage() + "/strings.xml").delete();
+                                    new File(Utils.getInternalDataStorage(this) + "/strings.xml").delete();
                                     mSave.setVisibility(View.GONE);
                                     reloadUI();
                                 })
@@ -161,7 +161,7 @@ public class TranslatorActivity extends AppCompatActivity {
         });
 
         mSave.setOnClickListener(v -> {
-            Utils.create(Translator.getStrings(), Environment.getExternalStorageDirectory().toString() + "/" + java.util.Locale.getDefault().getLanguage());
+            Utils.create(Translator.getStrings(this), Environment.getExternalStorageDirectory().toString() + "/" + java.util.Locale.getDefault().getLanguage());
             Utils.indefiniteSnackbar(findViewById(android.R.id.content), getString(R.string.save_string_message,
                     Environment.getExternalStorageDirectory().toString() + "/strings" + java.util.Locale.getDefault().getLanguage() + ".xml"));
         });
@@ -194,8 +194,8 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private List<String> getData() {
         mData.clear();
-        if (Utils.exist(Utils.getInternalDataStorage() + "/strings.xml")) {
-            for (String line : Objects.requireNonNull(Utils.read(Utils.getInternalDataStorage() + "/strings.xml")).split("\\r?\\n")) {
+        if (Utils.exist(Utils.getInternalDataStorage(this) + "/strings.xml")) {
+            for (String line : Objects.requireNonNull(Utils.read(Utils.getInternalDataStorage(this) + "/strings.xml")).split("\\r?\\n")) {
                 if (line.contains("<string name=") && line.endsWith("</string>") && !line.contains("translatable=\"false")) {
                     String[] finalLine = line.split("\">");
                     if (Translator.mSearchText == null) {
@@ -275,7 +275,7 @@ public class TranslatorActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if (!Utils.exist(Utils.getInternalDataStorage() + "/strings.xml")) {
+        if (!Utils.exist(Utils.getInternalDataStorage(this) + "/strings.xml")) {
             Utils.indefiniteSnackbar(findViewById(android.R.id.content), getString(R.string.translator_failed_message));
             mSave.setVisibility(View.GONE);
         }

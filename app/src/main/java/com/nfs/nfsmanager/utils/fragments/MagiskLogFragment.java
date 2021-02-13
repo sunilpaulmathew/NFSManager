@@ -57,28 +57,28 @@ public class MagiskLogFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 mProgressLayout.setVisibility(View.VISIBLE);
-                mProgressMessage.setText(context.getString(R.string.exporting, Utils.getInternalDataStorage() + "/magisk.log") + "...");
+                mProgressMessage.setText(context.getString(R.string.exporting, Utils.getInternalDataStorage(context) + "/magisk.log") + "...");
             }
             @Override
             protected Void doInBackground(Void... voids) {
-                NFS.makeAppFolder();
+                NFS.makeAppFolder(context);
                 Utils.runCommand("sleep 2");
-                Utils.copy("/cache/magisk.log", Utils.getInternalDataStorage() + "/magisk.log");
+                Utils.copy("/cache/magisk.log", Utils.getInternalDataStorage(context) + "/magisk.log");
                 return null;
             }
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 mProgressLayout.setVisibility(View.GONE);
-                if (Utils.exist(Utils.getInternalDataStorage() + "/magisk.log")) {
+                if (Utils.exist(Utils.getInternalDataStorage(context) + "/magisk.log")) {
                     new MaterialAlertDialogBuilder(context)
-                            .setMessage(context.getString(R.string.export_completed, Utils.getInternalDataStorage()))
+                            .setMessage(context.getString(R.string.export_completed, Utils.getInternalDataStorage(context)))
                             .setCancelable(false)
                             .setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> {
                             })
                             .setPositiveButton(context.getString(R.string.share), (dialog, id) -> {
                                 Uri uriFile = FileProvider.getUriForFile(context,
-                                        BuildConfig.APPLICATION_ID + ".provider", new File(Utils.getInternalDataStorage() + "/magisk.log"));
+                                        BuildConfig.APPLICATION_ID + ".provider", new File(Utils.getInternalDataStorage(context) + "/magisk.log"));
                                 Intent shareScript = new Intent(Intent.ACTION_SEND);
                                 shareScript.setType("text/x-log");
                                 shareScript.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_by, context.getString(R.string.magisk_log)));

@@ -57,28 +57,28 @@ public class NFSLogFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 mProgressLayout.setVisibility(View.VISIBLE);
-                mProgressMessage.setText(context.getString(R.string.exporting, Utils.getInternalDataStorage() + "/nfs.log") + "...");
+                mProgressMessage.setText(context.getString(R.string.exporting, Utils.getInternalDataStorage(context) + "/nfs.log") + "...");
             }
             @Override
             protected Void doInBackground(Void... voids) {
-                NFS.makeAppFolder();
+                NFS.makeAppFolder(context);
                 Utils.runCommand("sleep 2");
-                Utils.copy("/data/NFS/nfs.log", Utils.getInternalDataStorage() + "/nfs.log");
+                Utils.copy("/data/NFS/nfs.log", Utils.getInternalDataStorage(context) + "/nfs.log");
                 return null;
             }
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 mProgressLayout.setVisibility(View.GONE);
-                if (Utils.exist(Utils.getInternalDataStorage() + "/nfs.log")) {
+                if (Utils.exist(Utils.getInternalDataStorage(context) + "/nfs.log")) {
                     new MaterialAlertDialogBuilder(context)
-                            .setMessage(context.getString(R.string.export_completed, Utils.getInternalDataStorage()))
+                            .setMessage(context.getString(R.string.export_completed, Utils.getInternalDataStorage(context)))
                             .setCancelable(false)
                             .setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> {
                             })
                             .setPositiveButton(context.getString(R.string.share), (dialog, id) -> {
                                 Uri uriFile = FileProvider.getUriForFile(context,
-                                        BuildConfig.APPLICATION_ID + ".provider", new File(Utils.getInternalDataStorage() + "/nfs.log"));
+                                        BuildConfig.APPLICATION_ID + ".provider", new File(Utils.getInternalDataStorage(context) + "/nfs.log"));
                                 Intent shareScript = new Intent(Intent.ACTION_SEND);
                                 shareScript.setType("text/x-log");
                                 shareScript.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_by, context.getString(R.string.nfs_log)));

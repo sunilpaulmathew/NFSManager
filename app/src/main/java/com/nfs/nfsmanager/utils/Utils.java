@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Objects;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on January 07, 2020
@@ -173,8 +174,12 @@ public class Utils {
         }
     }
 
-    public static String getInternalDataStorage() {
-        return Environment.getExternalStorageDirectory().toString() + "/NFSManager";
+    public static String getInternalDataStorage(Context context) {
+        if (Build.VERSION.SDK_INT >= 29) {
+            return Objects.requireNonNull(context.getExternalFilesDir("")).toString();
+        } else {
+            return Environment.getExternalStorageDirectory().toString() + "/NFSManager";
+        }
     }
 
     static boolean isAppInstalled(String appID, Context context) {
