@@ -52,8 +52,7 @@ import java.util.Objects;
 public class Utils {
 
     static {
-        Shell.Config.verboseLogging(BuildConfig.DEBUG);
-        Shell.Config.setTimeout(10);
+        Shell.enableVerboseLogging = BuildConfig.DEBUG;
     }
 
     /*
@@ -350,38 +349,6 @@ public class Utils {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         assert cm != null;
         return (cm.getActiveNetworkInfo() == null) || !cm.getActiveNetworkInfo().isConnectedOrConnecting();
-    }
-
-    public static String getPath(File file) {
-        String path = file.getAbsolutePath();
-        if (path.startsWith("/document/raw:")) {
-            path = path.replace("/document/raw:", "");
-        } else if (path.startsWith("/document/primary:")) {
-            path = (Environment.getExternalStorageDirectory() + ("/") + path.replace("/document/primary:", ""));
-        } else if (path.startsWith("/document/")) {
-            path = path.replace("/document/", "/storage/").replace(":", "/");
-        }
-        if (path.startsWith("/storage_root/storage/emulated/0")) {
-            path = path.replace("/storage_root/storage/emulated/0", "/storage/emulated/0");
-        } else if (path.startsWith("/storage_root")) {
-            path = path.replace("storage_root", "storage/emulated/0");
-        }
-        if (path.startsWith("/external")) {
-            path = path.replace("external", "storage/emulated/0");
-        } if (path.startsWith("/root/")) {
-            path = path.replace("/root", "");
-        }
-        if (path.contains("file%3A%2F%2F%2F")) {
-            path = path.replace("file%3A%2F%2F%2F", "").replace("%2F", "/");
-        }
-        if (path.contains("%2520")) {
-            path = path.replace("%2520", " ");
-        }
-        return path;
-    }
-
-    public static boolean isDocumentsUI(Uri uri) {
-        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
     /*

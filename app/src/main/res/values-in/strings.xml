@@ -89,7 +89,6 @@
     <string name="normal">Normal</string>
     <string name="no_root">Tidak Root</string>
     <string name="no_support">Perangkat anda tampaknya tidak menginstal NFS. Oleh karena itu, aplikasi ini tidak berfungsi pada perangkat anda kecuali anda menginstal modul NFS Injector.</string>
-    <string name="path_sdcard">KartuSD</string>
     <string name="performance_warning">Menggunakan \'performance\' governor sangat tidak disarankan saat menggunakan NFS Injector!\nSilahkan gunakan dengan risiko anda sendiri dan tidak ada dukungan yang akan diberikan oleh NFS team.</string>
     <string name="permissive">Permissive</string>
     <string name="press_back">Tekan kembali untuk keluar</string>
@@ -140,7 +139,6 @@
     <string name="update_check_summary">Periksa versi baru NFS Manager</string>
     <string name="update_unavailable">Selamat! Anda sudah terbaru!</string>
     <string name="use_file_picker">Gunakan Alat Pilih Berkas Bawaan</string>
-    <string name="use_file_picker_message">Mendapatkan beberapa masalah? Harap nonaktifkan \'Pengaturan aplikasi -> Gunakan Alat Pilih Berkas Bawaan\'!</string>
     <string name="warning">Peringatan</string>
     <string name="zygote">Preforking Zygote</string>
 </resources>

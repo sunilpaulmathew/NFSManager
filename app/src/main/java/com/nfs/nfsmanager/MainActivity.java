@@ -2,15 +2,11 @@ package com.nfs.nfsmanager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.OpenableColumns;
 import android.view.Menu;
 import android.view.SubMenu;
 import android.view.View;
@@ -35,14 +31,15 @@ import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
 import com.nfs.nfsmanager.utils.activities.CPUTimesActivity;
 import com.nfs.nfsmanager.utils.activities.DeviceInfoActivity;
-import com.nfs.nfsmanager.utils.activities.FilePickerActivity;
 import com.nfs.nfsmanager.utils.activities.LogsActivity;
 import com.nfs.nfsmanager.utils.fragments.AboutFragment;
 import com.nfs.nfsmanager.utils.fragments.DashBoardFragment;
 import com.nfs.nfsmanager.utils.fragments.NFSFragment;
 
 import java.io.File;
-import java.util.Objects;
+
+import in.sunilpaulmathew.rootfilepicker.activities.FilePickerActivity;
+import in.sunilpaulmathew.rootfilepicker.utils.FilePicker;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on January 07, 2020
@@ -54,10 +51,11 @@ public class MainActivity extends AppCompatActivity {
     private MaterialTextView mProgressMessage;
     private boolean mExit, mSleeping = false, mWarning = true;
     private FrameLayout mBottomMenu;
+    private Intent mIntent;
     private LinearLayout mProgressLayout;
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     private int doze, shield, dns, ads, ow, selinux, sync, tt, sf, zygot;
-    private String gov, mPath, sched, tcp;
+    private String gov, sched, tcp;
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
@@ -153,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener
+    @SuppressLint("NonConstantResourceId")
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener
             = menuItem -> {
         Fragment selectedFragment = null;
 
@@ -183,9 +182,9 @@ public class MainActivity extends AppCompatActivity {
         if (NFS.isNFSRunning()) {
             menu.add(Menu.NONE, 1, Menu.NONE, getString(R.string.view_log));
         }
-        menu.add(Menu.NONE, 11, Menu.NONE, R.string.device_info);
+        menu.add(Menu.NONE, 10, Menu.NONE, R.string.device_info);
         if (CPUTimes.supported("/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state")) {
-            menu.add(Menu.NONE, 12, Menu.NONE, R.string.cpu_stats);
+            menu.add(Menu.NONE, 11, Menu.NONE, R.string.cpu_stats);
         }
         if (NFS.isModuleParent()) {
             SubMenu module_options = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.module_settings));
@@ -197,13 +196,11 @@ public class MainActivity extends AppCompatActivity {
                 module_options.add(Menu.NONE, 4, Menu.NONE, getString(R.string.nfs_delete));
             }
         }
-        SubMenu appSettings = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.app_settings));
         if (UpdateCheck.isSignatureMatched(this)) {
+            SubMenu appSettings = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.app_settings));
             appSettings.add(Menu.NONE, 9, Menu.NONE, getString(R.string.update_check_auto)).setCheckable(true)
                     .setChecked(Utils.getBoolean("update_check_auto", true, this));
         }
-        appSettings.add(Menu.NONE, 10, Menu.NONE, getString(R.string.use_file_picker)).setCheckable(true)
-                .setChecked(Utils.getBoolean("use_file_picker", true, this));
         menu.add(Menu.NONE, 5, Menu.NONE, getString(R.string.flash_nfs));
         SubMenu reboot = menu.addSubMenu(Menu.NONE, 0, Menu.NONE, getString(R.string.reboot));
         reboot.add(Menu.NONE, 6, Menu.NONE, getString(R.string.normal));
@@ -214,8 +211,8 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     break;
                 case 1:
-                    Intent nfsLog = new Intent(this, LogsActivity.class);
-                    startActivity(nfsLog);
+                    mIntent = new Intent(this, LogsActivity.class);
+                    startActivity(mIntent);
                     break;
                 case 2:
                     if (NFS.isModuleDisabled()) {
@@ -248,14 +245,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 5:
                     if (Utils.checkWriteStoragePermission(this)) {
-                        if (Utils.getBoolean("use_file_picker", true, this)) {
-                            Intent filePicker = new Intent(this, FilePickerActivity.class);
-                            startActivity(filePicker);
-                        } else {
-                            Intent manualflash = new Intent(Intent.ACTION_GET_CONTENT);
-                            manualflash.setType("application/*");
-                            startActivityForResult(manualflash, 0);
-                        }
+                        FilePicker.setExtension("zip");
+                        FilePicker.setPath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
+                        mIntent = new Intent(this, FilePickerActivity.class);
+                        startActivityForResult(mIntent, 0);
                     } else {
                         ActivityCompat.requestPermissions(this, new String[] {
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
@@ -272,26 +265,15 @@ public class MainActivity extends AppCompatActivity {
                     Utils.reboot(" bootloader", mProgressLayout, mProgressMessage, this);
                     break;
                 case 9:
-                    if (Utils.getBoolean("update_check_auto", true, this)) {
-                        Utils.saveBoolean("update_check_auto", false, this);
-                    } else {
-                        Utils.saveBoolean("update_check_auto", true, this);
-                    }
+                    Utils.saveBoolean("update_check_auto", !Utils.getBoolean("update_check_auto", true, this), this);
                     break;
                 case 10:
-                    if (Utils.getBoolean("use_file_picker", true, this)) {
-                        Utils.saveBoolean("use_file_picker", false, this);
-                    } else {
-                        Utils.saveBoolean("use_file_picker", true, this);
-                    }
+                    mIntent = new Intent(this, DeviceInfoActivity.class);
+                    startActivity(mIntent);
                     break;
                 case 11:
-                    Intent device = new Intent(this, DeviceInfoActivity.class);
-                    startActivity(device);
-                    break;
-                case 12:
-                    Intent cputimes = new Intent(this, CPUTimesActivity.class);
-                    startActivity(cputimes);
+                    mIntent = new Intent(this, CPUTimesActivity.class);
+                    startActivity(mIntent);
             }
             return false;
         });
@@ -305,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
         checkBox.setText(getString(R.string.always_show));
         checkBox.setOnCheckedChangeListener((buttonView, isChecked)
                 -> mWarning = isChecked);
-        MaterialAlertDialogBuilder warning = new MaterialAlertDialogBuilder(Objects.requireNonNull(this));
+        MaterialAlertDialogBuilder warning = new MaterialAlertDialogBuilder(this);
         warning.setIcon(R.mipmap.ic_launcher);
         warning.setTitle(getString(R.string.nfs_conflicts));
         warning.setMessage(getString(R.string.nfs_conflicts_summary) +
@@ -319,40 +301,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restartApp() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        mIntent = new Intent(this, MainActivity.class);
+        mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(mIntent);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            Uri uri = data.getData();
-            assert uri != null;
-            File file = new File(Objects.requireNonNull(uri.getPath()));
-            if (Utils.isDocumentsUI(uri)) {
-                @SuppressLint("Recycle") Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-                if (cursor != null && cursor.moveToFirst()) {
-                    mPath = Environment.getExternalStorageDirectory().toString() + "/Download/" +
-                            cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } else {
-                mPath = Utils.getPath(file);
-            }
-            if (!mPath.endsWith("zip")) {
+        if (requestCode == 0 && data != null) {
+            File mSelectedFile = FilePicker.getSelectedFile();
+            if (!mSelectedFile.getName().endsWith("zip")) {
                 Utils.longSnackbar(mBottomMenu, getString(R.string.invalid_zip));
                 return;
             }
-            MaterialAlertDialogBuilder manualFlash = new MaterialAlertDialogBuilder(this);
-            manualFlash.setMessage(getString(R.string.sure_message, new File(mPath).getName()));
-            manualFlash.setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
-            });
-            manualFlash.setPositiveButton(getString(R.string.flash), (dialogInterface, i) -> {
-                Flasher.flashModule(new File(mPath), this);
-            });
-            manualFlash.show();
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage(getString(R.string.sure_message, mSelectedFile.getName()))
+                    .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
+                    })
+                    .setPositiveButton(getString(R.string.flash), (dialogInterface, i) -> {
+                        Flasher.flashModule(mSelectedFile, this);
+                    }).show();
         }
     }
 
