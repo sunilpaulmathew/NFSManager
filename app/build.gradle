@@ -18,8 +18,8 @@ android {
         applicationId "com.nfs.nfsmanager"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 13
-        versionName = "v2.2"
+        versionCode 14
+        versionName = "v2.3"
         vectorDrawables.useSupportLibrary = true
         archivesBaseName = "$applicationId-$versionName"
         testFunctionalTest = false
