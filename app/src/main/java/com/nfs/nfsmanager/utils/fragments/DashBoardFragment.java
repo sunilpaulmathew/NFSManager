@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
+import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.Utils;
 import com.nfs.nfsmanager.utils.activities.ApplyModeActivity;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 
 public class DashBoardFragment extends Fragment {
 
-    private ArrayList <RecycleViewItem> mData = new ArrayList<>();
+    private final ArrayList <RecycleViewItem> mData = new ArrayList<>();
     private RecycleViewAdapter mRecycleViewAdapter;
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -78,25 +79,25 @@ public class DashBoardFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-                NFS.mApplying = true;
-                NFS.mOutput = new ArrayList<>();
-                NFS.mOutput.add(getString(R.string.mode_message, message));
-                NFS.mOutput.add("================================================");
+                Common.isApplying(true);
+                Common.getOutput().clear();
+                Common.getOutput().add(getString(R.string.mode_message, message));
+                Common.getOutput().add("================================================");
                 Intent applyMode = new Intent(requireActivity(), ApplyModeActivity.class);
                 startActivity(applyMode);
             }
             @Override
             protected Void doInBackground(Void... voids) {
                 NFS.setNFSMode(value);
-                Utils.runAndGetLiveOutput("sh /data/adb/modules/injector/service.sh", NFS.mOutput);
+                Utils.runAndGetLiveOutput("sh /data/adb/modules/injector/service.sh", Common.getOutput());
                 return null;
             }
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                NFS.mOutput.add("================================================");
-                NFS.mOutput.add(getString(R.string.mode_applied, message));
-                NFS.mApplying = false;
+                Common.getOutput().add("================================================");
+                Common.getOutput().add(getString(R.string.mode_applied, message));
+                Common.isApplying(false);
                 mRecycleViewAdapter.notifyDataSetChanged();
                 requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
             }
@@ -108,9 +109,7 @@ public class DashBoardFragment extends Fragment {
                 .setMessage(getString(R.string.mode_change_question, message))
                 .setNegativeButton(R.string.cancel, (dialog, which) -> {
                 })
-                .setPositiveButton(R.string.apply, (dialog, which) -> {
-                    updateNFSMode(value, message);
-                }).show();
+                .setPositiveButton(R.string.apply, (dialog, which) -> updateNFSMode(value, message)).show();
     }
 
     private int getSpanCount(Activity activity) {
@@ -119,7 +118,7 @@ public class DashBoardFragment extends Fragment {
 
     private static class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
-        private ArrayList<RecycleViewItem> data;
+        private final ArrayList<RecycleViewItem> data;
 
         private static ClickListener clickListener;
 
@@ -173,9 +172,9 @@ public class DashBoardFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private AppCompatImageButton mIcon;
-            private MaterialTextView mTitle;
-            private LinearLayout mLinearLayout;
+            private final AppCompatImageButton mIcon;
+            private final MaterialTextView mTitle;
+            private final LinearLayout mLinearLayout;
 
             public ViewHolder(View view) {
                 super(view);
@@ -202,8 +201,8 @@ public class DashBoardFragment extends Fragment {
     }
 
     private static class RecycleViewItem implements Serializable {
-        private String mTitle;
-        private Drawable mIcon;
+        private final String mTitle;
+        private final Drawable mIcon;
 
         public RecycleViewItem(String title, Drawable icon) {
             this.mTitle = title;

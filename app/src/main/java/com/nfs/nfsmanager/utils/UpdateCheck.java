@@ -114,9 +114,7 @@ public class UpdateCheck {
                 .setCancelable(false)
                 .setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> {
                 })
-                .setPositiveButton(context.getString(R.string.get_it), (dialog, id) -> {
-                    updaterTask(context);
-                })
+                .setPositiveButton(context.getString(R.string.get_it), (dialog, id) -> updaterTask(context))
                 .show();
     }
 

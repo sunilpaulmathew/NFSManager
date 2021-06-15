@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
-import com.nfs.nfsmanager.utils.NFS;
+import com.nfs.nfsmanager.utils.Common;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on January 01, 2021
@@ -46,7 +46,7 @@ public class WebViewActivity extends AppCompatActivity {
         public View onCreateView(@NonNull LayoutInflater inflater,
                                  @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             WebView mWebView = new WebView(requireActivity());
-            mWebView.loadUrl(NFS.mURL);
+            mWebView.loadUrl(Common.getURL());
             mWebView.setWebViewClient(new WebViewClient());
 
             requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {

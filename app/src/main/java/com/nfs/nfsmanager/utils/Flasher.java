@@ -9,8 +9,6 @@ import android.os.AsyncTask;
 import com.nfs.nfsmanager.utils.activities.FlashingActivity;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /*
@@ -18,14 +16,6 @@ import java.util.Objects;
  */
 
 public class Flasher {
-
-    public static String mZipName;
-
-    public static StringBuilder mFlashingResult = null;
-
-    public static List<String> mFlashingOutput = null;
-
-    public static boolean mFlashing = false, mModuleInvalid = false;
 
     private static void prepareFolder(String path) {
         File file = new File(path);
@@ -51,27 +41,27 @@ public class Flasher {
         } else {
             prepareFolder(FLASH_FOLDER);
         }
-        mFlashingResult.append("** Extracting ").append(mZipName).append(" into working folder: ");
+        Common.getFlashingResult().append("** Extracting ").append(Common.getZipName()).append(" into working folder: ");
         Utils.runAndGetError(Utils.magiskBusyBox() + " unzip " + mZipPath + " -d '" + FLASH_FOLDER + "'");
         if (Utils.exist(mScriptPath)) {
-            mFlashingResult.append(" Done *\n\n");
-            mFlashingResult.append("** Checking Module: ");
+            Common.getFlashingResult().append(" Done *\n\n");
+            Common.getFlashingResult().append("** Checking Module: ");
             if (Objects.requireNonNull(Utils.read(FLASH_FOLDER + "/module.prop")).contains("name=NFS INJECTOR @nfsinjector")) {
-                mModuleInvalid = false;
-                mFlashingResult.append(" Done *\n\n");
+                Common.isModuleInvalid(false);
+                Common.getFlashingResult().append(" Done *\n\n");
                 Utils.runCommand("cd '" + FLASH_FOLDER + "'");
-                mFlashingResult.append("** Flashing ").append(mZipName).append(" ...\n\n");
-                Utils.runAndGetLiveOutput(flashingCommand, mFlashingOutput);
-                mFlashingResult.append(Utils.getOutput(mFlashingOutput).endsWith("\nsuccess") ? Utils.getOutput(mFlashingOutput)
+                Common.getFlashingResult().append("** Flashing ").append(Common.getZipName()).append(" ...\n\n");
+                Utils.runAndGetLiveOutput(flashingCommand, Common.getFlashingOutput());
+                Common.getFlashingResult().append(Utils.getOutput(Common.getFlashingOutput()).endsWith("\nsuccess") ? Utils.getOutput(Common.getFlashingOutput())
                         .replace("\nsuccess","") : "** Flashing Failed *");
             } else {
-                mModuleInvalid = true;
-                mFlashingOutput = null;
-                mFlashingResult.append(" Invalid *\n\n");
+                Common.isModuleInvalid(true);
+                Common.getFlashingOutput().clear();
+                Common.getFlashingResult().append(" Invalid *\n\n");
             }
         } else {
-            mFlashingResult.append(" Failed *\n\n");
-            mFlashingResult.append("** Flashing Failed *");
+            Common.getFlashingResult().append(" Failed *\n\n");
+            Common.getFlashingResult().append("** Flashing Failed *");
         }
         Utils.runCommand(CLEANING_COMMAND);
     }
@@ -82,22 +72,22 @@ public class Flasher {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                mZipName = file.getName();
-                mFlashingResult = new StringBuilder();
-                mFlashingOutput = new ArrayList<>();
-                mFlashing = true;
+                Common.setZipName(file.getName());
+                Common.getFlashingResult().setLength(0);
+                Common.getFlashingOutput().clear();
+                Common.isFlashing(true);
                 Intent flashing = new Intent(activity, FlashingActivity.class);
                 activity.startActivity(flashing);
             }
             @Override
             protected Void doInBackground(Void... voids) {
-                mFlashingResult.append("** Preparing to flash ").append(file.getName()).append("...\n\n");
-                mFlashingResult.append("** Path: '").append(file.toString()).append("'\n\n");
+                Common.getFlashingResult().append("** Preparing to flash ").append(file.getName()).append("...\n\n");
+                Common.getFlashingResult().append("** Path: '").append(file.toString()).append("'\n\n");
                 // Delete if an old zip file exists
                 Utils.delete(activity.getCacheDir() + "/flash.zip");
-                mFlashingResult.append("** Copying '").append(file.getName()).append("' into temporary folder: ");
-                mFlashingResult.append(Utils.runAndGetError("cp '" + file.toString() + "' " + activity.getCacheDir() + "/flash.zip"));
-                mFlashingResult.append(Utils.exist(activity.getCacheDir() + "/flash.zip") ? "Done *\n\n" : "\n\n");
+                Common.getFlashingResult().append("** Copying '").append(file.getName()).append("' into temporary folder: ");
+                Common.getFlashingResult().append(Utils.runAndGetError("cp '" + file.toString() + "' " + activity.getCacheDir() + "/flash.zip"));
+                Common.getFlashingResult().append(Utils.exist(activity.getCacheDir() + "/flash.zip") ? "Done *\n\n" : "\n\n");
                 flashModule(activity);
                 return null;
             }
@@ -105,7 +95,7 @@ public class Flasher {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 Utils.delete(activity.getCacheDir() + "/flash.zip");
-                mFlashing = false;
+                Common.isFlashing(false);
             }
         }.execute();
     }

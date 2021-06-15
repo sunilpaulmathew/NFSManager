@@ -11,6 +11,7 @@ import androidx.appcompat.widget.PopupMenu;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.CPUTimes;
+import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.Utils;
 import com.nfs.nfsmanager.utils.fragments.CPUTimesFragment;
 
@@ -29,8 +30,7 @@ public class CPUTimesActivity extends AppCompatActivity {
         AppCompatImageButton mCoreSelect = findViewById(R.id.core_pick);
         MaterialTextView mCoreTitle = findViewById(R.id.core_title);
 
-        CPUTimes.mRecycleViewAdapter = new CPUTimesFragment.RecycleViewAdapter(CPUTimes.getData(
-                "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state"));
+        Common.initializeRecycleViewAdapter(CPUTimes.getData("/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state"));
         mCoreTitle.setText(getString(R.string.cpu_core, "0"));
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new CPUTimesFragment()).commit();
@@ -48,9 +48,8 @@ public class CPUTimesActivity extends AppCompatActivity {
                 for (int i = 0; i < 10; i++) {
                     if (item.getItemId() == i) {
                         mCoreTitle.setText(getString(R.string.cpu_core, String.valueOf(i)));
-                        CPUTimes.mRecycleViewAdapter = new CPUTimesFragment.RecycleViewAdapter(CPUTimes.getData(
-                                "/sys/devices/system/cpu/cpu" + i + "/cpufreq/stats/time_in_state"));
-                        CPUTimes.mRecyclerView.setAdapter(CPUTimes.mRecycleViewAdapter);
+                        Common.initializeRecycleViewAdapter(CPUTimes.getData("/sys/devices/system/cpu/cpu" + i + "/cpufreq/stats/time_in_state"));
+                        Common.getRecyclerView().setAdapter(Common.getRecycleViewAdapter());
                     }
                 }
                 return false;

@@ -47,7 +47,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private AppCompatEditText mSearchWord;
     private LinearLayout mProgressLayout;
-    private List<String> mData = new ArrayList<>();
+    private final List<String> mData = new ArrayList<>();
     private MaterialCardView mSave;
     private MaterialTextView mProgressMessage;
     private RecyclerView mRecyclerView;
@@ -71,25 +71,21 @@ public class TranslatorActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mRecycleViewAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        mRecycleViewAdapter.setOnItemClickListener((position, v) -> {
-            dialogEditText(mData.get(position),
-                    (dialogInterface1, i1) -> {
-                    }, text -> {
-                        if (text.isEmpty()) {
-                            return;
-                        }
-                        Utils.create(Translator.getStrings(this).replace(">" + mData.get(position) + "</string>", ">"
-                                        + text + "</string>"), Utils.getInternalDataStorage(this) + "/strings.xml");
-                        mData.set(position, text);
-                        mRecycleViewAdapter.notifyDataSetChanged();
-                    }, this).setOnDismissListener(dialogInterface -> {
-            }).show();
-        });
+        mRecycleViewAdapter.setOnItemClickListener((position, v) -> dialogEditText(mData.get(position),
+                (dialogInterface1, i1) -> {
+                }, text -> {
+                    if (text.isEmpty()) {
+                        return;
+                    }
+                    Utils.create(Translator.getStrings(this).replace(">" + mData.get(position) + "</string>", ">"
+                                    + text + "</string>"), Utils.getInternalDataStorage(this) + "/strings.xml");
+                    mData.set(position, text);
+                    mRecycleViewAdapter.notifyDataSetChanged();
+                }, this).setOnDismissListener(dialogInterface -> {
+        }).show());
 
 
-        mBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        mBack.setOnClickListener(v -> onBackPressed());
 
         mSettings.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(this, mSettings);
@@ -116,9 +112,7 @@ public class TranslatorActivity extends AppCompatActivity {
                     case 1:
                         new MaterialAlertDialogBuilder(this)
                                 .setMessage(getString(R.string.sure_question))
-                                .setNegativeButton(getString(R.string.cancel), (dialog1, id1) -> {
-                                    super.onBackPressed();
-                                })
+                                .setNegativeButton(getString(R.string.cancel), (dialog1, id1) -> super.onBackPressed())
                                 .setPositiveButton(getString(R.string.delete), (dialog1, id1) -> {
                                     new File(Utils.getInternalDataStorage(this) + "/strings.xml").delete();
                                     mSave.setVisibility(View.GONE);
@@ -166,9 +160,7 @@ public class TranslatorActivity extends AppCompatActivity {
                     Environment.getExternalStorageDirectory().toString() + "/strings" + java.util.Locale.getDefault().getLanguage() + ".xml"));
         });
 
-        mSearch.setOnClickListener(v -> {
-            mSearchWord.setVisibility(View.VISIBLE);
-        });
+        mSearch.setOnClickListener(v -> mSearchWord.setVisibility(View.VISIBLE));
 
         mSearchWord.setTextColor(Color.RED);
         mSearchWord.addTextChangedListener(new TextWatcher() {
@@ -297,7 +289,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
     private static class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
-        private List<String> data;
+        private final List<String> data;
 
         private static ClickListener clickListener;
 
@@ -328,7 +320,7 @@ public class TranslatorActivity extends AppCompatActivity {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private MaterialTextView mTextView;
+            private final MaterialTextView mTextView;
 
             public ViewHolder(View view) {
                 super(view);

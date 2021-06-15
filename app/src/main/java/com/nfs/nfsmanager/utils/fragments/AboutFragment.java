@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
+import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 
 public class AboutFragment extends Fragment {
 
-    private ArrayList <RecycleViewItem> mData = new ArrayList<>();
+    private final ArrayList <RecycleViewItem> mData = new ArrayList<>();
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Nullable
@@ -80,7 +81,7 @@ public class AboutFragment extends Fragment {
 
     private static class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
-        private ArrayList<RecycleViewItem> data;
+        private final ArrayList<RecycleViewItem> data;
 
         public RecycleViewAdapter(ArrayList<RecycleViewItem> data) {
             this.data = data;
@@ -112,11 +113,11 @@ public class AboutFragment extends Fragment {
                     Intent changeLogs = new Intent(holder.mRVLayout.getContext(), ChangeLogActivity.class);
                     holder.mRVLayout.getContext().startActivity(changeLogs);
                 } else if (position == 8) {
-                    NFS.mURL = "file:///android_asset/privacy-policy.html";
+                    Common.setURL("file:///android_asset/privacy-policy.html");
                     Intent privacyPolicy = new Intent(holder.mRVLayout.getContext(), WebViewActivity.class);
                     holder.mRVLayout.getContext().startActivity(privacyPolicy);
                 } else if (position == 9) {
-                    NFS.mURL = "https://www.gnu.org/licenses/gpl-3.0-standalone.html";
+                    Common.setURL("https://www.gnu.org/licenses/gpl-3.0-standalone.html");
                     Intent licence = new Intent(holder.mRVLayout.getContext(), WebViewActivity.class);
                     holder.mRVLayout.getContext().startActivity(licence);
                 } else if (position == 10) {
@@ -141,10 +142,10 @@ public class AboutFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            private AppCompatImageButton mIcon;
-            private AppCompatTextView mTitle;
-            private AppCompatTextView mDescription;
-            private LinearLayout mRVLayout;
+            private final AppCompatImageButton mIcon;
+            private final AppCompatTextView mTitle;
+            private final AppCompatTextView mDescription;
+            private final LinearLayout mRVLayout;
 
             public ViewHolder(View view) {
                 super(view);
@@ -157,10 +158,10 @@ public class AboutFragment extends Fragment {
     }
 
     private static class RecycleViewItem implements Serializable {
-        private String mTitle;
-        private String mDescription;
-        private Drawable mIcon;
-        private String mURL;
+        private final String mTitle;
+        private final String mDescription;
+        private final Drawable mIcon;
+        private final String mURL;
 
         public RecycleViewItem(String title, String description, Drawable icon, String url) {
             this.mTitle = title;

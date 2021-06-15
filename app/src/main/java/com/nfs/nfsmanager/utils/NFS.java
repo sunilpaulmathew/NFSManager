@@ -54,13 +54,7 @@ public class NFS {
     private static final String AVAILABLE_SCHED2 = "/sys/block/loop0/queue/scheduler";
     private static final String AVAILABLE_SCHED3 = "/sys/block/dm-0/queue/scheduler";
 
-    public static List<String> mOutput = null;
-
-    public static String mURL = null;
-
     private static int i;
-
-    public static boolean mApplying;
 
     public static void makeAppFolder(Context context) {
         File file = new File(Utils.getInternalDataStorage(context));
@@ -72,7 +66,7 @@ public class NFS {
 
     public static String getReleaseStatus() {
         try {
-            for (String line : Utils.read(MODULE_PARANT + "/module.prop").split("\\r?\\n")) {
+            for (String line : Objects.requireNonNull(Utils.read(MODULE_PARANT + "/module.prop")).split("\\r?\\n")) {
                 if (line.startsWith("status=")) {
                     return line.replace("status=", "");
                 }
@@ -300,7 +294,7 @@ public class NFS {
     }
 
     public static String getGOV() {
-        return Utils.read(GOV).toLowerCase();
+        return Objects.requireNonNull(Utils.read(GOV)).toLowerCase();
     }
 
     public static String getSched() {
@@ -594,7 +588,7 @@ public class NFS {
 
     public static String getModVersion() {
         try {
-            for (String line : Utils.read(MODULE_PARANT + "/module.prop").split("\\r?\\n")) {
+            for (String line : Objects.requireNonNull(Utils.read(MODULE_PARANT + "/module.prop")).split("\\r?\\n")) {
                 if (line.startsWith("version")) {
                     return line.replace("version=", "");
                 }

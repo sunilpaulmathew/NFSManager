@@ -31,7 +31,7 @@ import androidx.core.widget.NestedScrollView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
-import com.nfs.nfsmanager.utils.NFS;
+import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.Utils;
 
 import java.util.ConcurrentModificationException;
@@ -71,9 +71,9 @@ public class ApplyModeActivity extends AppCompatActivity {
                         Thread.sleep(100);
                         runOnUiThread(() -> {
                             try {
-                                mOutput.setText(Utils.getOutput(NFS.mOutput));
+                                mOutput.setText(Utils.getOutput(Common.getOutput()));
                             } catch (ConcurrentModificationException ignored) {}
-                            if (NFS.mApplying) {
+                            if (Common.isApplying()) {
                                 mScrollView.fullScroll(NestedScrollView.FOCUS_DOWN);
                             } else {
                                 mCancel.setVisibility(View.VISIBLE);
@@ -87,7 +87,7 @@ public class ApplyModeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (NFS.mApplying) return;
+        if (Common.isApplying()) return;
         super.onBackPressed();
     }
 

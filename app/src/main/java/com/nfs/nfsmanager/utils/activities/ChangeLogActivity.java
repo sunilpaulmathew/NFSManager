@@ -41,12 +41,8 @@ public class ChangeLogActivity extends AppCompatActivity {
         } catch (JSONException ignored) {
         }
         mChangeLog.setText(change_log);
-        mCancel.setOnClickListener(v -> {
-            onBackPressed();
-        });
-        mBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        mCancel.setOnClickListener(v -> onBackPressed());
+        mBack.setOnClickListener(v -> onBackPressed());
     }
 
 }

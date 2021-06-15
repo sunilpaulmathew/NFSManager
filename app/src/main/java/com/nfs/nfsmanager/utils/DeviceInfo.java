@@ -16,22 +16,9 @@ import java.util.concurrent.TimeUnit;
 public class DeviceInfo {
 
     private static final String BATTERY = "/sys/class/power_supply/battery";
-    private static final String CHARGING_STATUS = BATTERY + "/status";
     private static final String LEVEL = BATTERY + "/capacity";
     private static final String VOLTAGE = BATTERY + "/voltage_now";
     private static final String CHARGE_RATE = BATTERY + "/current_now";
-
-    private static String getString(String prefix) {
-        try {
-            for (String line : Objects.requireNonNull(Utils.read("/proc/cpuinfo")).split("\\r?\\n")) {
-                if (line.startsWith(prefix)) {
-                    return line.split(":")[1].trim();
-                }
-            }
-        } catch (Exception ignored) {
-        }
-        return "";
-    }
 
     public static String getModel() {
         return Build.MODEL;

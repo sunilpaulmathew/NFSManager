@@ -1,9 +1,5 @@
 package com.nfs.nfsmanager.utils;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.nfs.nfsmanager.utils.fragments.CPUTimesFragment;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,10 +11,7 @@ import java.util.Objects;
 
 public class CPUTimes {
 
-    private static List<String> mData = new ArrayList<>();
-
-    public static RecyclerView mRecyclerView;
-    public static CPUTimesFragment.RecycleViewAdapter mRecycleViewAdapter;
+    private static final List<String> mData = new ArrayList<>();
 
     public static List<String> getData(String path) {
         mData.clear();

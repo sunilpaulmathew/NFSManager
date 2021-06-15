@@ -93,9 +93,7 @@ public class MainActivity extends AppCompatActivity {
                             .setMessage(mSleeping ? getString(R.string.sleeping_message) : getString (
                                     R.string.illegal_apps_summary, NFS.illegalAppsList(this)))
                             .setCancelable(false)
-                            .setPositiveButton(getString(R.string.cancel), (dialog1, id1) -> {
-                                super.onBackPressed();
-                            })
+                            .setPositiveButton(getString(R.string.cancel), (dialog1, id1) -> super.onBackPressed())
                             .show();
                 }
             });
@@ -104,9 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSettings.setOnClickListener(v -> settingsMenu());
 
-        mOffLineAd.setOnClickListener(v -> {
-            Utils.launchUrl(mBottomMenu, "https://t.me/nfsreleases/424", this);
-        });
+        mOffLineAd.setOnClickListener(v -> Utils.launchUrl(mBottomMenu, "https://t.me/nfsreleases/424", this));
 
         mModuleImage.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
         mModuleTitle.setText(getString(R.string.module_version, NFS.getModVersion() +
@@ -320,9 +316,7 @@ public class MainActivity extends AppCompatActivity {
                     .setMessage(getString(R.string.sure_message, mSelectedFile.getName()))
                     .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
                     })
-                    .setPositiveButton(getString(R.string.flash), (dialogInterface, i) -> {
-                        Flasher.flashModule(mSelectedFile, this);
-                    }).show();
+                    .setPositiveButton(getString(R.string.flash), (dialogInterface, i) -> Flasher.flashModule(mSelectedFile, this)).show();
         }
     }
 
@@ -391,12 +385,8 @@ public class MainActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setIcon(R.mipmap.ic_launcher)
                         .setTitle(getString(R.string.reboot_required))
-                        .setNegativeButton(getString(R.string.cancel), (dialog1, id1) -> {
-                            super.onBackPressed();
-                        })
-                        .setPositiveButton(getString(R.string.reboot), (dialog1, id1) -> {
-                            Utils.reboot("", mProgressLayout, mProgressMessage, this);
-                        })
+                        .setNegativeButton(getString(R.string.cancel), (dialog1, id1) -> super.onBackPressed())
+                        .setPositiveButton(getString(R.string.reboot), (dialog1, id1) -> Utils.reboot("", mProgressLayout, mProgressMessage, this))
                         .show();
             } else {
                 if (mExit) {

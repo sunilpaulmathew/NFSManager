@@ -33,7 +33,7 @@ public class DeviceInfoFragment extends Fragment {
 
     private MaterialTextView mProgress, mCharging, mVoltage, mTotal, mAwake, mDeepSleep;
     private CircularProgressIndicator mProgressBarBattery;
-    private long mMemTotal = DeviceInfo.getItemMb("MemTotal"), mSwapTotal = DeviceInfo.getItemMb("SwapTotal"),
+    private final long mMemTotal = DeviceInfo.getItemMb("MemTotal"), mSwapTotal = DeviceInfo.getItemMb("SwapTotal"),
             mSwapFree = DeviceInfo.getItemMb("SwapFree"), mMemUsed = (DeviceInfo.getItemMb("Cached") +
             DeviceInfo.getItemMb("MemFree"));
 
@@ -127,7 +127,7 @@ public class DeviceInfoFragment extends Fragment {
 
     private static class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
-        private List<String> data;
+        private final List<String> data;
 
         public RecycleViewAdapter(List<String> data) {
             this.data = data;
@@ -151,7 +151,7 @@ public class DeviceInfoFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            private MaterialTextView mCoreStatus;
+            private final MaterialTextView mCoreStatus;
 
             public ViewHolder(View view) {
                 super(view);

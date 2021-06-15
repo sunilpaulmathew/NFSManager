@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.CPUTimes;
+import com.nfs.nfsmanager.utils.Common;
 
 import java.util.List;
 
@@ -30,16 +31,16 @@ public class CPUTimesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mRootView = inflater.inflate(R.layout.fragment_cputime, container, false);
 
-        CPUTimes.mRecyclerView = mRootView.findViewById(R.id.recycler_view);
-        CPUTimes.mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        CPUTimes.mRecyclerView.setAdapter(CPUTimes.mRecycleViewAdapter);
+        Common.initializeRecyclerView(mRootView, R.id.recycler_view);
+        Common.getRecyclerView().setLayoutManager(new LinearLayoutManager(requireActivity()));
+        Common.getRecyclerView().setAdapter(Common.getRecycleViewAdapter());
 
         return mRootView;
     }
 
     public static class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
-        private List<String> data;
+        private final List<String> data;
 
         public RecycleViewAdapter(List<String> data) {
             this.data = data;
@@ -78,8 +79,8 @@ public class CPUTimesFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            private MaterialTextView mFreq, mPercent, mTime;
-            private ProgressBar mProgress;
+            private final MaterialTextView mFreq, mPercent, mTime;
+            private final ProgressBar mProgress;
 
             public ViewHolder(View view) {
                 super(view);

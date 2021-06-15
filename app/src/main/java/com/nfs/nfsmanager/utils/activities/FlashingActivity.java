@@ -14,7 +14,7 @@ import androidx.core.widget.NestedScrollView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
-import com.nfs.nfsmanager.utils.Flasher;
+import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.Utils;
 
 /*
@@ -48,10 +48,10 @@ public class FlashingActivity extends AppCompatActivity {
         refreshStatus();
         mBack.setOnClickListener(v -> onBackPressed());
         mSave.setOnClickListener(v -> {
-            Utils.create(Flasher.mFlashingResult.toString(), Utils.getInternalDataStorage(this) + "/flasher_log-" +
-                    Flasher.mZipName.replace(".zip",""));
+            Utils.create(Common.getFlashingResult().toString(), Utils.getInternalDataStorage(this) + "/flasher_log-" +
+                    Common.getZipName().replace(".zip",""));
             Utils.longSnackbar(mSave, getString(R.string.flash_log, Utils.getInternalDataStorage(this) + "/flasher_log-" +
-                    Flasher.mZipName.replace(".zip","")));
+                    Common.getZipName().replace(".zip","")));
         });
         mReboot.setOnClickListener(v -> {
             Utils.reboot("", mProgressLayout, mProgressText, this);
@@ -67,22 +67,22 @@ public class FlashingActivity extends AppCompatActivity {
                     while (!isInterrupted()) {
                         Thread.sleep(100);
                         runOnUiThread(() -> {
-                            if (Flasher.mFlashing) {
+                            if (Common.isFlashing()) {
                                 mScrollView.fullScroll(NestedScrollView.FOCUS_DOWN);
                             } else {
                                 mProgressLayout.setVisibility(View.GONE);
-                                mSave.setVisibility(Flasher.mFlashing ? View.GONE: View.VISIBLE);
+                                mSave.setVisibility(Common.isFlashing() ? View.GONE: View.VISIBLE);
                             }
-                            if (Flasher.mModuleInvalid) {
-                                mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing, "...") :
+                            if (Common.isModuleInvalid()) {
+                                mTitle.setText(Common.isFlashing() ? getString(R.string.flashing, "...") :
                                         getString(R.string.flashing, "aborted"));
-                                mFlashingOutput.setText(Flasher.mFlashing ? "" : getString(R.string.invalid_module));
+                                mFlashingOutput.setText(Common.isFlashing() ? "" : getString(R.string.invalid_module));
                             } else {
-                                mTitle.setText(Flasher.mFlashing ? getString(R.string.flashing,"...") : Utils.getOutput(Flasher.mFlashingOutput).endsWith("\nsuccess") ?
+                                mTitle.setText(Common.isFlashing() ? getString(R.string.flashing,"...") : Utils.getOutput(Common.getFlashingOutput()).endsWith("\nsuccess") ?
                                                 getString(R.string.flashing, "finished") : getString(R.string.flashing, "failed"));
-                                mFlashingOutput.setText(!Utils.getOutput(Flasher.mFlashingOutput).isEmpty() ? Utils.getOutput(Flasher.mFlashingOutput)
-                                        .replace("\nsuccess","") : Flasher.mFlashing ? "" : Flasher.mFlashingResult);
-                                mReboot.setVisibility(Utils.getOutput(Flasher.mFlashingOutput).endsWith("\nsuccess") ? View.VISIBLE: View.GONE);
+                                mFlashingOutput.setText(!Utils.getOutput(Common.getFlashingOutput()).isEmpty() ? Utils.getOutput(Common.getFlashingOutput())
+                                        .replace("\nsuccess","") : Common.isFlashing() ? "" : Common.getFlashingResult());
+                                mReboot.setVisibility(Utils.getOutput(Common.getFlashingOutput()).endsWith("\nsuccess") ? View.VISIBLE: View.GONE);
                             }
                         });
                     }
@@ -98,7 +98,7 @@ public class FlashingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (Flasher.mFlashing) return;
+        if (Common.isFlashing()) return;
         super.onBackPressed();
     }
 

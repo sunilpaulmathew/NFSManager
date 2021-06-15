@@ -95,7 +95,7 @@ public class NFSFragment extends Fragment {
 
     public static class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
-        private ArrayList<RecycleViewItems> data;
+        private final ArrayList<RecycleViewItems> data;
 
         public RecycleViewAdapter(ArrayList<RecycleViewItems> data) {
             this.data = data;
@@ -123,7 +123,7 @@ public class NFSFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private MaterialTextView mTitle, mValue;
+            private final MaterialTextView mTitle, mValue;
 
             public ViewHolder(View view) {
                 super(view);
@@ -164,8 +164,8 @@ public class NFSFragment extends Fragment {
 
     public static class RecycleViewItems implements Serializable {
 
-        private String mTitle;
-        private String mDescription;
+        private final String mTitle;
+        private final String mDescription;
 
         public RecycleViewItems(String title, String description) {
             this.mTitle = title;

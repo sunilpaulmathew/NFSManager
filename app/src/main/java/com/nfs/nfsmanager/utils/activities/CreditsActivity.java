@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 public class CreditsActivity extends AppCompatActivity {
 
-    private ArrayList<RecycleViewItem> mData = new ArrayList<>();
+    private final ArrayList<RecycleViewItem> mData = new ArrayList<>();
     private LinearLayout mProgressLayout;
     private MaterialTextView mProgressMessage;
 
@@ -62,9 +62,7 @@ public class CreditsActivity extends AppCompatActivity {
         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
         mProgressLayout = findViewById(R.id.progress_layout);
         mProgressMessage = findViewById(R.id.progress_text);
-        mBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        mBack.setOnClickListener(v -> onBackPressed());
 
         mTranslator.setOnClickListener(v -> {
             if (Utils.checkWriteStoragePermission(this)) {
@@ -90,7 +88,7 @@ public class CreditsActivity extends AppCompatActivity {
 
     private static class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
 
-        private ArrayList<RecycleViewItem> data;
+        private final ArrayList<RecycleViewItem> data;
 
         public RecycleViewAdapter(ArrayList<RecycleViewItem> data) {
             this.data = data;
@@ -124,10 +122,10 @@ public class CreditsActivity extends AppCompatActivity {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            private AppCompatImageView mIcon;
-            private AppCompatTextView mTitle;
-            private AppCompatTextView mDescription;
-            private LinearLayout mRVLayout;
+            private final AppCompatImageView mIcon;
+            private final AppCompatTextView mTitle;
+            private final AppCompatTextView mDescription;
+            private final LinearLayout mRVLayout;
 
             public ViewHolder(View view) {
                 super(view);
@@ -140,10 +138,11 @@ public class CreditsActivity extends AppCompatActivity {
     }
 
     private static class RecycleViewItem implements Serializable {
-        private String mTitle;
-        private String mDescription;
-        private Drawable mIcon;
-        private String mURL;
+
+        private final Drawable mIcon;
+        private final String mTitle;
+        private final String mDescription;
+        private final String mURL;
 
         public RecycleViewItem(String title, String description, Drawable icon, String url) {
             this.mTitle = title;
