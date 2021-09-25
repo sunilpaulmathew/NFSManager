@@ -84,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
         mProgressLayout = findViewById(R.id.progress_layout);
         LinearLayout mUnsupportedLayout = findViewById(R.id.unsupported_layout);
 
+        // Initialize Banner Ad
+        WortiseSdk.initialize(this, "b44ffeb9-63bf-41b8-a5d8-dc4bd1897eb4");
+
+        mBannerAd = new BannerAd(this);
+        mBannerAd.setAdSize(AdSize.HEIGHT_90);
+        mBannerAd.setAdUnitId("388389a0-508b-4782-b11f-94989bf2394c");
+
         if (!Utils.rootAccess() || !NFS.magiskSupported() || !NFS.illegalAppsList(this).isEmpty() || NFS.isNFSSleeping()) {
             mBottomMenu.setVisibility(View.GONE);
             mUnsupportedLayout.setVisibility(View.VISIBLE);
@@ -107,13 +114,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mSettings.setOnClickListener(v -> settingsMenu());
-
-        // Initialize Banner Ad
-        WortiseSdk.initialize(this, "b44ffeb9-63bf-41b8-a5d8-dc4bd1897eb4");
-
-        mBannerAd = new BannerAd(this);
-        mBannerAd.setAdSize(AdSize.HEIGHT_90);
-        mBannerAd.setAdUnitId("388389a0-508b-4782-b11f-94989bf2394c");
 
         mOffLineAd.setOnClickListener(v -> Utils.launchUrl(mBottomMenu, "https://t.me/nfsreleases/424", this));
 
