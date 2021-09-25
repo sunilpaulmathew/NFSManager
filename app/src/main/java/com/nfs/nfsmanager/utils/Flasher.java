@@ -1,10 +1,8 @@
 package com.nfs.nfsmanager.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 
 import com.nfs.nfsmanager.utils.activities.FlashingActivity;
 
@@ -67,11 +65,10 @@ public class Flasher {
     }
 
     public static void flashModule(File file, Activity activity) {
-        new AsyncTask<Void, Void, Void>() {
-            @SuppressLint("SetTextI18n")
+        new AsyncTasks() {
+
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void onPreExecute() {
                 Common.setZipName(file.getName());
                 Common.getFlashingResult().setLength(0);
                 Common.getFlashingOutput().clear();
@@ -79,8 +76,9 @@ public class Flasher {
                 Intent flashing = new Intent(activity, FlashingActivity.class);
                 activity.startActivity(flashing);
             }
+
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void doInBackground() {
                 Common.getFlashingResult().append("** Preparing to flash ").append(file.getName()).append("...\n\n");
                 Common.getFlashingResult().append("** Path: '").append(file.toString()).append("'\n\n");
                 // Delete if an old zip file exists
@@ -89,11 +87,10 @@ public class Flasher {
                 Common.getFlashingResult().append(Utils.runAndGetError("cp '" + file.toString() + "' " + activity.getCacheDir() + "/flash.zip"));
                 Common.getFlashingResult().append(Utils.exist(activity.getCacheDir() + "/flash.zip") ? "Done *\n\n" : "\n\n");
                 flashModule(activity);
-                return null;
             }
+
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            public void onPostExecute() {
                 Utils.delete(activity.getCacheDir() + "/flash.zip");
                 Common.isFlashing(false);
             }

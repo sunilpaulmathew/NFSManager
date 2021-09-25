@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
+import com.nfs.nfsmanager.utils.AsyncTasks;
 import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.Utils;
@@ -74,10 +74,10 @@ public class DashBoardFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     private void updateNFSMode(int position, int value, String message) {
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTasks() {
+
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void onPreExecute() {
                 requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
                 Common.isApplying(true);
                 Common.getOutput().clear();
@@ -86,15 +86,15 @@ public class DashBoardFragment extends Fragment {
                 Intent applyMode = new Intent(requireActivity(), ApplyModeActivity.class);
                 startActivity(applyMode);
             }
+
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void doInBackground() {
                 NFS.setNFSMode(value);
                 Utils.runAndGetLiveOutput("sh /data/adb/modules/injector/service.sh", Common.getOutput());
-                return null;
             }
+
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            public void onPostExecute() {
                 Common.getOutput().add("================================================");
                 Common.getOutput().add(getString(R.string.mode_applied, message));
                 Common.isApplying(false);

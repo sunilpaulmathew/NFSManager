@@ -10,7 +10,6 @@ import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -396,22 +395,22 @@ public class Utils {
     }
 
     public static void reboot(String string, LinearLayout linearLayout, MaterialTextView textView, Context context) {
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTasks() {
+
             @SuppressLint("SetTextI18n")
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void onPreExecute() {
                 linearLayout.setVisibility(View.VISIBLE);
                 textView.setText(context.getString(R.string.rebooting) + "...");
             }
+
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void doInBackground() {
                 Utils.runCommand(rebootCommand() + string);
-                return null;
             }
+
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            public void onPostExecute() {
                 linearLayout.setVisibility(View.GONE);
             }
         }.execute();

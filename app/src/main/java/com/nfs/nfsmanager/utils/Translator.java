@@ -3,7 +3,6 @@ package com.nfs.nfsmanager.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -50,23 +49,23 @@ public class Translator {
     }
 
     public static void importTransaltions(String url, LinearLayout linearLayout, MaterialTextView materialTextView, Activity activity) {
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTasks() {
+
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void onPreExecute() {
                 linearLayout.setVisibility(View.VISIBLE);
                 materialTextView.setText(activity.getString(R.string.downloading, "..."));
             }
+
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void doInBackground() {
                 if (!Utils.exist(Utils.getInternalDataStorage(activity) + "/strings.xml") && !Utils.isNetworkUnavailable(activity)) {
                     Utils.download(Utils.getInternalDataStorage(activity) + "/strings.xml", url);
                 }
-                return null;
             }
+
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            public void onPostExecute() {
                 Intent translator = new Intent(activity, TranslatorActivity.class);
                 activity.startActivity(translator);
                 activity.finish();

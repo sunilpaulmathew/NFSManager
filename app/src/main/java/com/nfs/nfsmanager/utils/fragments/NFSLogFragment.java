@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
+import com.nfs.nfsmanager.utils.AsyncTasks;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.Utils;
 
@@ -51,24 +51,23 @@ public class NFSLogFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     public void exportNFSLog(Context context) {
-        new AsyncTask<Void, Void, Void>() {
-            @SuppressLint("SetTextI18n")
+        new AsyncTasks() {
+
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void onPreExecute() {
                 mProgressLayout.setVisibility(View.VISIBLE);
                 mProgressMessage.setText(context.getString(R.string.exporting, Utils.getInternalDataStorage(context) + "/nfs.log") + "...");
             }
+
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void doInBackground() {
                 NFS.makeAppFolder(context);
                 Utils.runCommand("sleep 2");
                 Utils.copy("/data/NFS/nfs.log", Utils.getInternalDataStorage(context) + "/nfs.log");
-                return null;
             }
+
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            public void onPostExecute() {
                 mProgressLayout.setVisibility(View.GONE);
                 if (Utils.exist(Utils.getInternalDataStorage(context) + "/nfs.log")) {
                     new MaterialAlertDialogBuilder(context)

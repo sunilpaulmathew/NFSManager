@@ -10,7 +10,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -119,25 +118,24 @@ public class UpdateCheck {
     }
 
     private static void updaterTask(Context context) {
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTasks() {
             private ProgressDialog mProgressDialog;
-            @SuppressLint({"SetTextI18n", "StringFormatInvalid"})
+
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void onPreExecute() {
                 mProgressDialog = new ProgressDialog(context);
                 mProgressDialog.setMessage(context.getString(R.string.downloading, context.getString(R.string.app_name) + "..."));
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
             }
+
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void doInBackground() {
                 getLatestApp(context);
-                return null;
             }
+
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            public void onPostExecute() {
                 try {
                     mProgressDialog.dismiss();
                 } catch (IllegalArgumentException ignored) {
