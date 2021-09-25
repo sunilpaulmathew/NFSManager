@@ -1,6 +1,5 @@
 package com.nfs.nfsmanager.utils;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,8 +10,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
 
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.BuildConfig;
@@ -21,9 +20,15 @@ import com.nfs.nfsmanager.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -33,177 +38,13 @@ import java.util.Objects;
 
 public class UpdateCheck {
 
-    private static final String LATEST_VERSION_URL = "https://raw.githubusercontent.com/sunilpaulmathew/NFSManager/master/app/src/main/assets/release.json";
+    private static boolean mManualUpdate = false;
+    private static int mVersionCode;
+    private static JSONObject mJSONObject = null;
+    private static String mDownloadURL = null, mReleaseNotes = null, mSHA1 = null, mVersionName = null;
 
-    private static void prepareInternalStorage(Context context) {
-        File file = new File(Utils.getInternalDataStorage(context));
-        if (file.exists() && file.isFile()) {
-            file.delete();
-        }
-        file.mkdirs();
-    }
-
-    private static void getVersionInfo(Context context) {
-        prepareInternalStorage(context);
-        Utils.download(releaseInfo(context), LATEST_VERSION_URL);
-    }
-
-    private static void getLatestApp(Context context) {
-        prepareInternalStorage(context);
-        Utils.download(Utils.getInternalDataStorage(context) + "/com.nfs.nfsmanager.apk", getLatestApk(context));
-    }
-
-    private static String versionName(Context context) {
-        try {
-            JSONObject obj = new JSONObject(getReleaseInfo(context));
-            return (obj.getString("versionName"));
-        } catch (JSONException e) {
-            return BuildConfig.VERSION_NAME;
-        }
-    }
-
-    private static int versionCode(Context context) {
-        try {
-            JSONObject obj = new JSONObject(getReleaseInfo(context));
-            return (obj.getInt("versionCode"));
-        } catch (JSONException e) {
-            return BuildConfig.VERSION_CODE;
-        }
-    }
-
-    private static String getLatestApk(Context context) {
-        try {
-            JSONObject obj = new JSONObject(getReleaseInfo(context));
-            return (obj.getString("downloadUrl"));
-        } catch (JSONException e) {
-            return "";
-        }
-    }
-
-    private static String getChangelogs(Context context) {
-        try {
-            JSONObject obj = new JSONObject(getReleaseInfo(context));
-            return (obj.getString("releaseNotes"));
-        } catch (JSONException e) {
-            return "";
-        }
-    }
-
-    private static String getChecksum(Context context) {
-        try {
-            JSONObject obj = new JSONObject(getReleaseInfo(context));
-            return (obj.getString("sha1"));
-        } catch (JSONException e) {
-            return null;
-        }
-    }
-
-    private static boolean hasVersionInfo(Context context) {
-        return Utils.exist(releaseInfo(context));
-    }
-
-    private static long lastModified(Context context) {
-        return new File(releaseInfo(context)).lastModified();
-    }
-
-    private static void updateAvailableDialog(Context context) {
-        new MaterialAlertDialogBuilder(context)
-                .setTitle(context.getString(R.string.update_available, UpdateCheck.versionName(context)))
-                .setMessage(UpdateCheck.getChangelogs(context))
-                .setCancelable(false)
-                .setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> {
-                })
-                .setPositiveButton(context.getString(R.string.get_it), (dialog, id) -> updaterTask(context))
-                .show();
-    }
-
-    private static void updaterTask(Context context) {
-        new AsyncTasks() {
-            private ProgressDialog mProgressDialog;
-
-            @Override
-            public void onPreExecute() {
-                mProgressDialog = new ProgressDialog(context);
-                mProgressDialog.setMessage(context.getString(R.string.downloading, context.getString(R.string.app_name) + "..."));
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.show();
-            }
-
-            @Override
-            public void doInBackground() {
-                getLatestApp(context);
-            }
-
-            @Override
-            public void onPostExecute() {
-                try {
-                    mProgressDialog.dismiss();
-                } catch (IllegalArgumentException ignored) {
-                }
-                if (Utils.exist(Utils.getInternalDataStorage(context) + "/com.nfs.nfsmanager.apk") &&
-                        Utils.getChecksum(Utils.getInternalDataStorage(context) + "/com.nfs.nfsmanager.apk")
-                                .contains(Objects.requireNonNull(getChecksum(context)))) {
-                    installUpdate(Utils.getInternalDataStorage(context) + "/com.nfs.nfsmanager.apk", context);
-                } else {
-                    new MaterialAlertDialogBuilder(context)
-                            .setMessage(R.string.download_failed)
-                            .setPositiveButton(R.string.cancel, (dialog, which) -> {
-                            }).show();
-                }
-            }
-        }.execute();
-    }
-
-    public static void autoUpdateCheck(Context context) {
-        if (!Utils.checkWriteStoragePermission(context)) {
-            ActivityCompat.requestPermissions((Activity) context, new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-            return;
-        }
-        if (Utils.isNetworkUnavailable(context)) {
-            return;
-        }
-        if (!Utils.isMagiskBinaryExist("curl") && !Utils.isMagiskBinaryExist("wget")
-                && !Utils.exist("/system/bin/curl") && !Utils.exist("/system/bin/wget")) {
-            return;
-        }
-        if (!UpdateCheck.hasVersionInfo(context) || (UpdateCheck.lastModified(context) + 3720000L < System.currentTimeMillis())) {
-            UpdateCheck.getVersionInfo(context);
-        }
-        if (UpdateCheck.hasVersionInfo(context) && BuildConfig.VERSION_CODE < UpdateCheck.versionCode(context)) {
-            UpdateCheck.updateAvailableDialog(context);
-        }
-    }
-
-    private static String releaseInfo(Context context) {
-        return context.getFilesDir().getPath() + "/release";
-    }
-
-    private static String getReleaseInfo(Context context) {
-        return Utils.read(releaseInfo(context));
-    }
-
-    public static void manualUpdateCheck(Context context) {
-        UpdateCheck.getVersionInfo(context);
-        if (UpdateCheck.hasVersionInfo(context) && BuildConfig.VERSION_CODE < UpdateCheck.versionCode(context)) {
-            UpdateCheck.updateAvailableDialog(context);
-        } else {
-            new MaterialAlertDialogBuilder(context)
-                    .setMessage(R.string.update_unavailable)
-                    .setPositiveButton(context.getString(R.string.cancel), (dialog, id) -> {
-                    })
-                    .show();
-        }
-    }
-
-    public static void installUpdate(String path, Context context) {
-        Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Uri uriFile;
-        uriFile = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",
-                new File(path));
-        intent.setDataAndType(uriFile, "application/vnd.android.package-archive");
-        context.startActivity(Intent.createChooser(intent, ""));
+    private static boolean isManualUpdate() {
+        return mManualUpdate;
     }
 
     /*
@@ -233,6 +74,170 @@ public class UpdateCheck {
             } catch (IOException ignored) {}
         }
         return outputStream.toByteArray();
+    }
+
+    private static boolean isUpdateAvailable() {
+        return BuildConfig.VERSION_CODE < versionCode();
+    }
+
+    private static int versionCode() {
+        if (mJSONObject == null) return 0;
+        return mVersionCode;
+    }
+
+    private static MaterialAlertDialogBuilder updateAvailableDialog(Context context) {
+        return new MaterialAlertDialogBuilder(context)
+                .setTitle(context.getString(R.string.update_available, UpdateCheck.versionName()))
+                .setMessage(UpdateCheck.getChangelogs())
+                .setCancelable(false)
+                .setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> {
+                })
+                .setPositiveButton(context.getString(R.string.get_it), (dialog, id) -> updaterTask(context));
+    }
+
+    private static String getChangelogs() {
+        if (mJSONObject == null) return null;
+        return mReleaseNotes;
+    }
+
+    private static String getChecksum() {
+        if (mJSONObject == null) return null;
+        return mSHA1;
+    }
+
+    private static String getDownloadUrl() {
+        if (mJSONObject == null) return null;
+        return mDownloadURL;
+    }
+
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
+    }
+
+    private static String versionName() {
+        if (mJSONObject == null) return null;
+        return mVersionName;
+    }
+
+    private static void getLatestApp(Context context) {
+        Utils.download(new File(context.getExternalFilesDir(""), "com.nfs.nfsmanager.apk").getAbsolutePath(), getDownloadUrl());
+    }
+
+    public static void initialize(int updateCheckInterval, Activity activity) {
+        new AsyncTasks() {
+
+            private long ucTimeStamp;
+            private int interval;
+            @Override
+            public void onPreExecute() {
+                ucTimeStamp = PreferenceManager.getDefaultSharedPreferences(activity).getLong("ucTimeStamp", 0);
+                interval = updateCheckInterval * 60 * 60 * 1000;
+            }
+
+            @Override
+            public void doInBackground() {
+                if (System.currentTimeMillis() > ucTimeStamp + interval) {
+                    try (InputStream is = new URL("https://raw.githubusercontent.com/sunilpaulmathew/NFSManager/master/app/src/main/assets/release.json").openStream()) {
+                        BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                        String jsonText = readAll(rd);
+                        mJSONObject = new JSONObject(jsonText);
+                        mReleaseNotes = mJSONObject.getString("releaseNotes");
+                        mDownloadURL = mJSONObject.getString("downloadUrl");
+                        mSHA1 = mJSONObject.getString("sha1");
+                        mVersionCode = mJSONObject.getInt("versionCode");
+                        mVersionName = mJSONObject.getString("versionName");
+                    } catch (JSONException | IOException ignored) {
+                    }
+                }
+            }
+
+            @Override
+            public void onPostExecute() {
+                if (isManualUpdate()) {
+                    if (mJSONObject == null) {
+                        Utils.longSnackbar(activity.findViewById(android.R.id.content), activity.getString(R.string.no_internet));
+                        return;
+                    }
+                    if (isUpdateAvailable()) {
+                        updateAvailableDialog(activity).show();
+                    } else {
+                        new MaterialAlertDialogBuilder(activity)
+                                .setMessage(R.string.update_unavailable)
+                                .setPositiveButton(activity.getString(R.string.cancel), (dialog, id) -> {
+                                })
+                                .show();
+                    }
+                } else {
+                    if (mJSONObject == null) {
+                        return;
+                    }
+                    if (isUpdateAvailable()) {
+                        updateAvailableDialog(activity).show();
+                    }
+                }
+                PreferenceManager.getDefaultSharedPreferences(activity).edit().putLong("ucTimeStamp", System
+                        .currentTimeMillis()).apply();
+            }
+        }.execute();
+    }
+
+    private static void installUpdate(Context context) {
+        Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Uri uriFile;
+        uriFile = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",
+                new File(context.getExternalFilesDir(""), "com.nfs.nfsmanager.apk"));
+        intent.setDataAndType(uriFile, "application/vnd.android.package-archive");
+        context.startActivity(Intent.createChooser(intent, ""));
+    }
+
+    public static void isManualUpdate(boolean b) {
+        mManualUpdate = b;
+    }
+
+    private static void updaterTask(Context context) {
+        new AsyncTasks() {
+            private ProgressDialog mProgressDialog;
+
+            @Override
+            public void onPreExecute() {
+                mProgressDialog = new ProgressDialog(context);
+                mProgressDialog.setMessage(context.getString(R.string.downloading, context.getString(R.string.app_name) + "..."));
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.show();
+                if (Utils.exist(new File(context.getExternalFilesDir(""), "com.nfs.nfsmanager.apk").getAbsolutePath())) {
+                    Utils.delete(new File(context.getExternalFilesDir(""), "com.nfs.nfsmanager.apk").getAbsolutePath());
+                }
+            }
+
+            @Override
+            public void doInBackground() {
+                getLatestApp(context);
+            }
+
+            @Override
+            public void onPostExecute() {
+                try {
+                    mProgressDialog.dismiss();
+                } catch (IllegalArgumentException ignored) {
+                }
+                if (Utils.exist(new File(context.getExternalFilesDir(""), "com.nfs.nfsmanager.apk").getAbsolutePath()) &&
+                        Utils.getChecksum(new File(context.getExternalFilesDir(""), "com.nfs.nfsmanager.apk").getAbsolutePath())
+                                .contains(Objects.requireNonNull(getChecksum()))) {
+                    installUpdate(context);
+                } else {
+                    new MaterialAlertDialogBuilder(context)
+                            .setMessage(R.string.download_failed)
+                            .setPositiveButton(R.string.cancel, (dialog, which) -> {
+                            }).show();
+                }
+            }
+        }.execute();
     }
 
 }

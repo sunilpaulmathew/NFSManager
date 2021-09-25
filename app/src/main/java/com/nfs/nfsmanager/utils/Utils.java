@@ -228,32 +228,19 @@ public class Utils {
     }
 
     public static void download(String path, String url) {
-        if (isMagiskBinaryExist("wget")) {
-            runCommand(magiskBusyBox() + " wget -O " + path + " " + url);
-        } else if (isMagiskBinaryExist("curl")) {
-            runCommand(magiskBusyBox() + " curl -L -o " + path + " " + url);
-        } else if (Utils.exist("/system/bin/curl") || Utils.exist("/system/bin/wget")) {
-            runCommand((Utils.exist("/system/bin/curl") ?
-                    "curl -L -o " : "wget -O ") + path + " " + url);
-        } else {
-            /*
-             * Based on the following stackoverflow discussion
-             * Ref: https://stackoverflow.com/questions/15758856/android-how-to-download-file-from-webserver
-             */
-            try (InputStream input = new URL(url).openStream();
-                 OutputStream output = new FileOutputStream(path)) {
-                byte[] data = new byte[4096];
-                int count;
-                while ((count = input.read(data)) != -1) {
-                    output.write(data, 0, count);
-                }
-            } catch (Exception ignored) {
+        /*
+         * Based on the following stackoverflow discussion
+         * Ref: https://stackoverflow.com/questions/15758856/android-how-to-download-file-from-webserver
+         */
+        try (InputStream input = new URL(url).openStream();
+             OutputStream output = new FileOutputStream(path)) {
+            byte[] data = new byte[4096];
+            int count;
+            while ((count = input.read(data)) != -1) {
+                output.write(data, 0, count);
             }
+        } catch (Exception ignored) {
         }
-    }
-
-    public static boolean isMagiskBinaryExist(String command) {
-        return magiskBusyBox() != null && !runAndGetError("/data/adb/magisk/busybox " + command).contains("applet not found");
     }
 
     public static String magiskBusyBox() {

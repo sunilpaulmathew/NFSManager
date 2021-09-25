@@ -1,6 +1,5 @@
 package com.nfs.nfsmanager.utils.fragments;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -124,12 +122,8 @@ public class AboutFragment extends Fragment {
                     Intent credits = new Intent(holder.mRVLayout.getContext(), CreditsActivity.class);
                     holder.mRVLayout.getContext().startActivity(credits);
                 } else if (position == 11) {
-                    if (Utils.checkWriteStoragePermission(holder.mRVLayout.getContext())) {
-                        UpdateCheck.manualUpdateCheck(holder.mRVLayout.getContext());
-                    } else {
-                        ActivityCompat.requestPermissions((Activity) holder.mRVLayout.getContext(), new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                    }
+                    UpdateCheck.isManualUpdate(true);
+                    UpdateCheck.initialize(0, (Activity) holder.mRVLayout.getContext());
                 } else if (this.data.get(position).getURL() != null) {
                     Utils.launchUrl(holder.mRVLayout, this.data.get(position).getURL(), holder.mRVLayout.getContext());
                 }
