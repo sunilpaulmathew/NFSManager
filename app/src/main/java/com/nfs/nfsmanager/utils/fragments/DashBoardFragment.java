@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class DashBoardFragment extends Fragment {
 
     private final ArrayList <RecycleViewItem> mData = new ArrayList<>();
-    private RecycleViewAdapter mRecycleViewAdapter;
+    private RecyclerView mRecyclerView;
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Nullable
@@ -51,21 +51,21 @@ public class DashBoardFragment extends Fragment {
         mData.add(new RecycleViewItem(getString(R.string.ultra), getResources().getDrawable(R.drawable.ic_ultra)));
         mData.add(new RecycleViewItem(getString(R.string.gaming), getResources().getDrawable(R.drawable.ic_game)));
 
-        RecyclerView mRecyclerView = mRootView.findViewById(R.id.recycler_view);
+        mRecyclerView = mRootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), getSpanCount(requireActivity())));
-        mRecycleViewAdapter = new RecycleViewAdapter(mData);
+        RecycleViewAdapter mRecycleViewAdapter = new RecycleViewAdapter(mData);
         mRecyclerView.setAdapter(mRecycleViewAdapter);
         mRecyclerView.setVisibility(View.VISIBLE);
 
         mRecycleViewAdapter.setOnItemClickListener((position, v) -> {
             if (position == 0) {
-                showUpdateModeDialog(position,0, getString(R.string.battery));
+                showUpdateModeDialog(0, getString(R.string.battery));
             } else if (position == 1) {
-                showUpdateModeDialog(position,1, getString(R.string.balanced));
+                showUpdateModeDialog(1, getString(R.string.balanced));
             } else if (position == 2) {
-                showUpdateModeDialog(position,2, getString(R.string.ultra));
+                showUpdateModeDialog(2, getString(R.string.ultra));
             } else if (position == 3) {
-                showUpdateModeDialog(position,3, getString(R.string.gaming));
+                showUpdateModeDialog(3, getString(R.string.gaming));
             }
         });
 
@@ -73,7 +73,7 @@ public class DashBoardFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void updateNFSMode(int position, int value, String message) {
+    private void updateNFSMode(int value, String message) {
         new AsyncTasks() {
 
             @Override
@@ -98,18 +98,18 @@ public class DashBoardFragment extends Fragment {
                 Common.getOutput().add("================================================");
                 Common.getOutput().add(getString(R.string.mode_applied, message));
                 Common.isApplying(false);
-                mRecycleViewAdapter.notifyItemChanged(position);
                 requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+                mRecyclerView.setAdapter(new RecycleViewAdapter(mData));
             }
         }.execute();
     }
 
-    private void showUpdateModeDialog(int position, int value, String message) {
+    private void showUpdateModeDialog(int value, String message) {
         new MaterialAlertDialogBuilder(requireActivity())
                 .setMessage(getString(R.string.mode_change_question, message))
                 .setNegativeButton(R.string.cancel, (dialog, which) -> {
                 })
-                .setPositiveButton(R.string.apply, (dialog, which) -> updateNFSMode(position, value, message)).show();
+                .setPositiveButton(R.string.apply, (dialog, which) -> updateNFSMode(value, message)).show();
     }
 
     private int getSpanCount(Activity activity) {
