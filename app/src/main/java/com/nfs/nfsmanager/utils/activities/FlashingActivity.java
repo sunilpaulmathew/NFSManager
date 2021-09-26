@@ -46,7 +46,7 @@ public class FlashingActivity extends AppCompatActivity {
         MaterialTextView mProgressText = findViewById(R.id.progress_text);
         mProgressText.setText(getString(R.string.flashing, "..."));
         refreshStatus();
-        mBack.setOnClickListener(v -> onBackPressed());
+        mBack.setOnClickListener(v -> finish());
         mSave.setOnClickListener(v -> {
             Utils.create(Common.getFlashingResult().toString(), Utils.getInternalDataStorage(this) + "/flasher_log-" +
                     Common.getZipName().replace(".zip",""));
@@ -98,8 +98,9 @@ public class FlashingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (Common.isFlashing()) return;
-        super.onBackPressed();
+        if (!Common.isFlashing()) {
+            finish();
+        }
     }
 
 }

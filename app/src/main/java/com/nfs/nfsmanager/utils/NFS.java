@@ -24,7 +24,6 @@ import java.util.Objects;
 public class NFS {
 
     private static final String MODULE_PARANT = "/data/adb/modules/injector";
-    private static final String SCRIPT_PATH = MODULE_PARANT + "/service.sh";
     private static final String NFS_PARANT = "/data/NFS";
     private static final String MODE = NFS_PARANT + "/mode.txt";
     private static final String DOZE = NFS_PARANT + "/doze.txt";

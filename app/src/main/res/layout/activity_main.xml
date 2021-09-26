@@ -41,27 +41,32 @@
                     android:scaleType="fitCenter"
                     android:background="@null" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/module_version"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="45dp"
-                    android:gravity="start"
-                    android:textColor="?android:attr/colorAccent"
-                    android:layout_gravity="start"
-                    android:textSize="20sp" />
-            </FrameLayout>
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="vertical" >
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/status_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
-                android:layout_marginEnd="30dp"
-                android:gravity="start"
-                android:layout_gravity="start"
-                android:textSize="15sp"
-                android:visibility="gone" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/module_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:textColor="?android:attr/colorAccent"
+                        android:layout_gravity="start"
+                        android:textSize="20sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/status_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:layout_gravity="start"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout

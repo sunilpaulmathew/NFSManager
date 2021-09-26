@@ -1,6 +1,5 @@
 package com.nfs.nfsmanager;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -282,16 +280,10 @@ public class MainActivity extends AppCompatActivity {
                             .show();
                     break;
                 case 5:
-                    if (Utils.checkWriteStoragePermission(this)) {
-                        FilePicker.setExtension("zip");
-                        FilePicker.setPath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
-                        mIntent = new Intent(this, FilePickerActivity.class);
-                        startActivityForResult(mIntent, 0);
-                    } else {
-                        ActivityCompat.requestPermissions(this, new String[] {
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                        Utils.longSnackbar(mBottomMenu, getString(R.string.storage_access_denied));
-                    }
+                    FilePicker.setExtension("zip");
+                    FilePicker.setPath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
+                    mIntent = new Intent(this, FilePickerActivity.class);
+                    startActivityForResult(mIntent, 0);
                     break;
                 case 6:
                     Utils.reboot("", mProgressLayout, mProgressMessage, this);

@@ -59,13 +59,13 @@ public class DashBoardFragment extends Fragment {
 
         mRecycleViewAdapter.setOnItemClickListener((position, v) -> {
             if (position == 0) {
-                showUpdateModeDialog(0, getString(R.string.battery));
+                showUpdateModeDialog(position,0, getString(R.string.battery));
             } else if (position == 1) {
-                showUpdateModeDialog(1, getString(R.string.balanced));
+                showUpdateModeDialog(position,1, getString(R.string.balanced));
             } else if (position == 2) {
-                showUpdateModeDialog(2, getString(R.string.ultra));
+                showUpdateModeDialog(position,2, getString(R.string.ultra));
             } else if (position == 3) {
-                showUpdateModeDialog(3, getString(R.string.gaming));
+                showUpdateModeDialog(position,3, getString(R.string.gaming));
             }
         });
 
@@ -73,7 +73,7 @@ public class DashBoardFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void updateNFSMode(int value, String message) {
+    private void updateNFSMode(int position, int value, String message) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected void onPreExecute() {
@@ -98,18 +98,18 @@ public class DashBoardFragment extends Fragment {
                 Common.getOutput().add("================================================");
                 Common.getOutput().add(getString(R.string.mode_applied, message));
                 Common.isApplying(false);
-                mRecycleViewAdapter.notifyDataSetChanged();
+                mRecycleViewAdapter.notifyItemChanged(position);
                 requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
             }
         }.execute();
     }
 
-    private void showUpdateModeDialog(int value, String message) {
+    private void showUpdateModeDialog(int position, int value, String message) {
         new MaterialAlertDialogBuilder(requireActivity())
                 .setMessage(getString(R.string.mode_change_question, message))
                 .setNegativeButton(R.string.cancel, (dialog, which) -> {
                 })
-                .setPositiveButton(R.string.apply, (dialog, which) -> updateNFSMode(value, message)).show();
+                .setPositiveButton(R.string.apply, (dialog, which) -> updateNFSMode(position, value, message)).show();
     }
 
     private int getSpanCount(Activity activity) {

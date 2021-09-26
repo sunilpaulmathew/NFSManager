@@ -65,29 +65,6 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/reboot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:cardBackgroundColor="?android:attr/colorAccent"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="25dp"
-        android:layout_marginEnd="25dp"
-        app:cardCornerRadius="15dp"
-        android:visibility="gone" >
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/ColorBlack"
-            android:textStyle="bold"
-            android:gravity="center_horizontal"
-            android:text="@string/reboot"
-            android:textSize="17sp"
-            android:padding="15dp" />
-    </com.google.android.material.card.MaterialCardView>
-
     <LinearLayout
         android:id="@+id/flashing_progress"
         android:layout_width="match_parent"
@@ -117,4 +94,27 @@
                 android:padding="10dp" />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/reboot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:cardBackgroundColor="?android:attr/colorAccent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="25dp"
+        app:cardCornerRadius="15dp"
+        android:visibility="gone" >
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ColorBlack"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:text="@string/reboot"
+            android:textSize="17sp"
+            android:padding="15dp" />
+    </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>
