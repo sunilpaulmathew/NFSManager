@@ -40,8 +40,8 @@
     <string name="downloading">A fazer download %s</string>
     <string name="doze">Doze</string>
     <string name="doze_custom">Doze customizado por NFS</string>
-    <string name="doze_default">Doze padão</string>
-    <string name="doze_disable">Destivar Doze</string>
+    <string name="doze_default">Doze Padrão</string>
+    <string name="doze_disable">Desativar Doze</string>
     <string name="doze_force">Forçar Doze</string>
     <string name="enable">Ligado</string>
     <string name="enforcing">Forçado</string>
