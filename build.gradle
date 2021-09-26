@@ -11,6 +11,9 @@ buildscript {
 allprojects {
     repositories {
         google()
+        maven {
+            url 'https://maven.wortise.com/artifactory/public'
+        }
         mavenCentral()
     }
 }

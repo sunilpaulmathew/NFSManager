@@ -103,17 +103,23 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical" >
 
+        <FrameLayout
+            android:id="@+id/ad_frame"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:visibility="gone"
+            android:gravity="center" />
+
         <LinearLayout
             android:id="@+id/offline_ad"
             android:layout_width="match_parent"
-            android:background="@color/ColorWhite"
             android:layout_height="90dp"
             android:orientation="vertical"
+            android:layout_marginHorizontal="5dp"
+            android:background="@color/ColorWhite"
             android:visibility="gone"
             android:gravity="center"
-            android:padding="5dp"
-            android:layout_marginHorizontal="5dp"
-            android:layout_gravity="bottom" >
+            android:padding="5dp" >
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
