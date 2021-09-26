@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showWarning() {
-        View checkBoxView = View.inflate(this, R.layout.rv_checkbox, null);
+        View checkBoxView = View.inflate(this, R.layout.checkbox_layout, null);
         MaterialCheckBox checkBox = checkBoxView.findViewById(R.id.checkbox);
         checkBox.setChecked(true);
         checkBox.setText(getString(R.string.always_show));

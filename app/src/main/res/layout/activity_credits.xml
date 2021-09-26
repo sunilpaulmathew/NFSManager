@@ -74,6 +74,14 @@
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Copyright: © 2021-2022, sunilpaulmathew"
+            android:textStyle="bold|italic"
+            android:layout_margin="10dp"
+            android:clickable="false" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"

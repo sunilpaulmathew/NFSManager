@@ -53,7 +53,7 @@ public class CreditsActivity extends AppCompatActivity {
         mData.add(new RecycleViewItem("French Translation", "K1ks", getResources().getDrawable(R.drawable.ic_france), null));
         mData.add(new RecycleViewItem("Spanish Translation", "Peter A. Cuevas", getResources().getDrawable(R.drawable.ic_spain),null));
         mData.add(new RecycleViewItem("Portuguese (rPt) Translation", "BrauliX", getResources().getDrawable(R.drawable.ic_portugal), "https://github.com/BrauliX"));
-        mData.add(new RecycleViewItem("Portuguese (rBr) Translation", "*Unknown*", getResources().getDrawable(R.drawable.ic_brazil),null));
+        mData.add(new RecycleViewItem("Portuguese (rBr) Translation", "BrauliX", getResources().getDrawable(R.drawable.ic_brazil),"https://github.com/BrauliX"));
         mData.add(new RecycleViewItem("Russian Translation", "Ramazan Magomedov", getResources().getDrawable(R.drawable.ic_russia),"https://github.com/RamazanMagomedov"));
         mData.add(new RecycleViewItem("Indonesian Translation", "Hafitz Setya", getResources().getDrawable(R.drawable.ic_indonesia),"https://github.com/breakdowns"));
 
