@@ -39,45 +39,10 @@
                 android:textSize="20sp" />
         </FrameLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/translator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="?android:attr/colorBackground"
-            android:layout_margin="5dp"
-            app:cardCornerRadius="15dp" >
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp" >
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="center_vertical"
-                    android:tint="?android:attr/textColorPrimary"
-                    android:src="@drawable/ic_info"
-                    android:background="@null"
-                    android:clickable="false" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:text="@string/translator_message"
-                    android:layout_marginStart="35dp"
-                    android:textStyle="bold|italic"
-                    android:clickable="false"
-                    android:textSize="15sp" />
-            </FrameLayout>
-        </com.google.android.material.card.MaterialCardView>
-
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Copyright: © 2021-2022, sunilpaulmathew"
+            android:text="Copyright: © 2022-2023, sunilpaulmathew"
             android:textStyle="bold|italic"
             android:layout_margin="10dp"
             android:clickable="false" />

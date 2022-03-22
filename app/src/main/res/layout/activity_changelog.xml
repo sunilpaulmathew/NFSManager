@@ -29,7 +29,7 @@
             android:padding="5dp"
             android:textStyle="bold"
             android:gravity="center_vertical"
-            android:text="@string/about"
+            android:text="@string/change_logs"
             android:textColor="?android:attr/colorAccent"
             android:textIsSelectable="true"
             android:textSize="20sp" />

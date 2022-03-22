@@ -1,7 +1,5 @@
 package com.nfs.nfsmanager.utils.activities;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -17,15 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
-import com.nfs.nfsmanager.utils.Translator;
 import com.nfs.nfsmanager.utils.Utils;
 
 import java.io.Serializable;
@@ -38,10 +32,7 @@ import java.util.ArrayList;
 public class CreditsActivity extends AppCompatActivity {
 
     private final ArrayList<RecycleViewItem> mData = new ArrayList<>();
-    private LinearLayout mProgressLayout;
-    private MaterialTextView mProgressMessage;
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,22 +50,9 @@ public class CreditsActivity extends AppCompatActivity {
         mData.add(new RecycleViewItem("Indonesian Translation", "Hafitz Setya", ContextCompat.getDrawable(this, R.drawable.ic_indonesia),"https://github.com/breakdowns"));
 
         AppCompatImageButton mBack = findViewById(R.id.back);
-        MaterialCardView mTranslator = findViewById(R.id.translator);
         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
-        mProgressLayout = findViewById(R.id.progress_layout);
-        mProgressMessage = findViewById(R.id.progress_text);
+
         mBack.setOnClickListener(v -> onBackPressed());
-
-        mTranslator.setOnClickListener(v -> {
-            if (Utils.checkWriteStoragePermission(this)) {
-                Translator.importTransaltions("https://github.com/sunilpaulmathew/NFSManager/raw/master/app/src/main/res/values/strings.xml",
-                        mProgressLayout, mProgressMessage, this);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-            }
-
-        });
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, getSpanCount(this)));
         RecycleViewAdapter mRecycleViewAdapter = new RecycleViewAdapter(mData);

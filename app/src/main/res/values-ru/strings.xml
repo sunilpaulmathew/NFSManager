@@ -101,7 +101,6 @@
     <string name="sleeping_message">NFS сейчас спит! Пожалуйста, откройте это приложение через минуту!</string>
     <string name="source_code">Исходный код</string>
     <string name="source_code_summary">Посетить страницу GitHub</string>
-    <string name="storage_access_denied">Отказано в доступе к памяти!</string>
     <string name="super_sampling">Супер-семплинг</string>
     <string name="support">Поддержка</string>
     <string name="support_summary">Посетить группу поддержки</string>

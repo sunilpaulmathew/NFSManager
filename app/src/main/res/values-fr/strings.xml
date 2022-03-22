@@ -75,7 +75,6 @@
     <string name="share_with">Partager avec</string>
     <string name="sleeping">NFS dort!</string>
     <string name="sleeping_message">NFS dort actuellement! Veuillez rouvrir cette application après une minute!</string>
-    <string name="storage_access_denied">Autorisation refusée pour écrire dans le stockage!</string>
     <string name="super_sampling">Super Sampling</string>
     <string name="sure_question">Êtes-vous sûr?</string>
     <string name="sync">FSync</string>

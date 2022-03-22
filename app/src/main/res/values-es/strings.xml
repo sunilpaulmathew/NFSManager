@@ -76,7 +76,6 @@
     <string name="share_with">Compartir con</string>
     <string name="sleeping">¡NFS está durmiendo!</string>
     <string name="sleeping_message">¡NFS está actualmente durmiendo! ¡Vuelva a abrir esta aplicación después de unos segundos!</string>
-    <string name="storage_access_denied">¡Permiso denegado para escribir en el almacenamiento!</string>
     <string name="super_sampling">SuperMuestreo</string>
     <string name="sure_question">¿Estás seguro?</string>
     <string name="sync">FSync</string>

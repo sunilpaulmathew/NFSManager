@@ -74,7 +74,6 @@
     <string name="share_with">Condividi con </string>
     <string name="sleeping">NFS sta dormendo!</string>
     <string name="sleeping_message">NFS sta dormendo! Per favore riapri quest\'app tra un minuto!</string>
-    <string name="storage_access_denied">Autorizzazione negata per la scrittura in archivio!</string>
     <string name="super_sampling">Super Campionamento </string>
     <string name="sure_question">Sei sicuro? </string>
     <string name="sync">FSync</string>

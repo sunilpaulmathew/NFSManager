@@ -74,7 +74,6 @@
     <string name="share_with">Teilen mit</string>
     <string name="sleeping">NFS nicht gestartet!</string>
     <string name="sleeping_message">NFS wurde noch nicht gestartet! Bitte öffnen Sie diese App nach einigen Sekunden erneut!</string>
-    <string name="storage_access_denied">Schreibrechte für den Speicher verweigert!</string>
     <string name="super_sampling">Supersampling</string>
     <string name="sure_question">Bist du sicher?</string>
     <string name="sync">FSync</string>

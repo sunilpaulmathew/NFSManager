@@ -48,8 +48,6 @@
             android:exported="false" />
         <activity android:name=".utils.activities.LogsActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.TranslatorActivity"
-            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
