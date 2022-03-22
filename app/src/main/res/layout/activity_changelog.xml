@@ -79,22 +79,10 @@
                     android:background="?android:attr/colorBackground" >
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/change_logs"
-                        android:textStyle="bold"
-                        android:gravity="center_horizontal"
-                        android:textColor="?android:attr/colorAccent"
-                        android:textIsSelectable="true"
-                        android:textSize="18sp" />
-
-                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/change_log"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:padding="16dp"
+                        android:padding="10dp"
                         android:gravity="start"
                         android:textColor="?android:attr/textColorPrimary"
                         android:textIsSelectable="true"
