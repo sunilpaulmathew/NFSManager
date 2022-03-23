@@ -37,6 +37,10 @@
     <string name="dns_google">DNS Google</string>
     <string name="dns_watch">DNS Watch</string>
     <string name="dns_neustar">DNS Neustar Ultra</string>
+    <string name="donate">Donate</string>
+    <string name="donations">Donations</string>
+    <string name="donations_message">If you like to appreciate the developer (sunilpaulmathew) for maintaining this app up-to-date and fully compatible with each new Android/NFS Injector versions, please consider supporting him with a small donation.\n\nPlease Note: This donation won\'t make you eligible for NFS Injector Pro version!</string>
+    <string name="donations_summary">Donate to app developer</string>
     <string name="download_failed">It seems like the download is failed, or a corrupted file is downloaded! Aborting.</string>
     <string name="downloading">Downloading %s</string>
     <string name="doze">Doze</string>

@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.Common;
@@ -67,6 +68,7 @@ public class AboutFragment extends Fragment {
         mData.add(new RecycleViewItem(getString(R.string.privacy_policy), getString(R.string.privacy_policy_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_privacy), null));
         mData.add(new RecycleViewItem(getString(R.string.licence), getString(R.string.licence_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_licence), null));
         mData.add(new RecycleViewItem(getString(R.string.credits), getString(R.string.credits_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_contributors), null));
+        mData.add(new RecycleViewItem(getString(R.string.donations), getString(R.string.donations_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_donate), null));
         if (UpdateCheck.isSignatureMatched(requireActivity())) {
             mData.add(new RecycleViewItem(getString(R.string.update_check), getString(R.string.update_check_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_update), null));
         }
@@ -123,6 +125,16 @@ public class AboutFragment extends Fragment {
                     Intent credits = new Intent(holder.mRVLayout.getContext(), CreditsActivity.class);
                     holder.mRVLayout.getContext().startActivity(credits);
                 } else if (position == 11) {
+                    new MaterialAlertDialogBuilder(v.getContext())
+                            .setIcon(R.mipmap.ic_launcher)
+                            .setTitle(v.getContext().getString(R.string.app_name))
+                            .setMessage(v.getContext().getText(R.string.donations_message))
+                            .setNegativeButton(R.string.cancel, (dialogInterface, ii) -> {
+                            })
+                            .setPositiveButton(R.string.donate, (dialogInterface, ii) ->
+                                    Utils.launchUrl(holder.mRVLayout, "https://www.paypal.me/menacherry", holder.mRVLayout.getContext()))
+                            .show();
+                } else if (position == 12) {
                     UpdateCheck.isManualUpdate(true);
                     UpdateCheck.initialize(0, (Activity) holder.mRVLayout.getContext());
                 } else if (this.data.get(position).getURL() != null) {
