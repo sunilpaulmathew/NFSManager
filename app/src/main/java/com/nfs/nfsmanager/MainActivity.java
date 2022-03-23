@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private Intent mIntent;
     private LinearLayout mProgressLayout;
     private final Handler mHandler = new Handler();
-    private int doze, shield, dns, ads, ow, selinux, sync, tt, sf, zygot;
+    private int doze, shield, dns, ads, ow, selinux, sync, tt, sf, zygot, lmk;
     private String gov, sched, tcp;
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         mOffLineAd.setOnClickListener(v -> Utils.launchUrl(mBottomMenu, "https://t.me/nfsreleases/424", this));
 
-        mModuleImage.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+        mModuleImage.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
         mModuleTitle.setText(getString(R.string.module_version, NFS.getModVersion() +
                 (NFS.getReleaseStatus().equals("") ? "" : " (" + NFS.getReleaseStatus() + ")")));
 
@@ -386,6 +387,7 @@ public class MainActivity extends AppCompatActivity {
         tt = NFS.getTT();
         sf = NFS.getSF();
         zygot = NFS.getZygote();
+        lmk = NFS.getLMK();
         gov = NFS.getGOV();
         sched = NFS.getSched();
         tcp = NFS.getTCP();
@@ -412,8 +414,9 @@ public class MainActivity extends AppCompatActivity {
             if (doze != NFS.getDozeMode() || shield != NFS.getShield()
                     || dns != NFS.getDNSMode() || ads != NFS.getAds() || ow != NFS.getOW()
                     || selinux != NFS.getSELinuxMode() || sync != NFS.getSync() || tt != NFS.getTT()
-                    || sf != NFS.getSF() || zygot != NFS.getZygote() || !gov.equals(NFS.getGOV())
-                    || !sched.equals(NFS.getSched()) || !tcp.equals(NFS.getTCP())) {
+                    || sf != NFS.getSF() || zygot != NFS.getZygote() || lmk != NFS.getLMK()
+                    || !gov.equals(NFS.getGOV()) || !sched.equals(NFS.getSched())
+                    || !tcp.equals(NFS.getTCP())) {
                 new MaterialAlertDialogBuilder(this)
                         .setMessage(getString(R.string.reboot_dialog))
                         .setCancelable(false)

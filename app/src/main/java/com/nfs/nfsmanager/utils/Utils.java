@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
@@ -63,18 +64,18 @@ public class Utils {
     }
 
     public static void runCommand(String command) {
-        Shell.su(command).exec();
+        Shell.cmd(command).exec();
     }
 
     public static void runAndGetLiveOutput(String command, List<String> output) {
-        Shell.su(command).to(output).exec();
+        Shell.cmd(command).to(output).exec();
     }
 
     @NonNull
     public static String runAndGetOutput(String command) {
         StringBuilder sb = new StringBuilder();
         try {
-            List<String> outputs = Shell.su(command).exec().getOut();
+            List<String> outputs = Shell.cmd(command).exec().getOut();
             if (ShellUtils.isValidOutput(outputs)) {
                 for (String output : outputs) {
                     sb.append(output).append("\n");
@@ -92,7 +93,7 @@ public class Utils {
         List<String> outputs = new ArrayList<>();
         List<String> stderr = new ArrayList<>();
         try {
-            Shell.su(command).to(outputs, stderr).exec();
+            Shell.cmd(command).to(outputs, stderr).exec();
             outputs.addAll(stderr);
             if (ShellUtils.isValidOutput(outputs)) {
                 for (String output : outputs) {
@@ -129,16 +130,16 @@ public class Utils {
      */
 
     public static int getThemeAccentColor(Context context) {
-        return context.getResources().getColor(R.color.ColorBlue);
+        return ContextCompat.getColor(context, R.color.ColorBlue);
     }
 
     public static int getCardBackground(Context context) {
-        return context.getResources().getColor(R.color.ColorTeal);
+        return ContextCompat.getColor(context, R.color.ColorTeal);
     }
 
     public static Drawable getColoredIcon(int icon, Context context) {
-        @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = context.getResources().getDrawable(icon);
-        drawable.setTint(getThemeAccentColor(context));
+        @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = ContextCompat.getDrawable(context, icon);
+        Objects.requireNonNull(drawable).setTint(getThemeAccentColor(context));
         return drawable;
     }
 

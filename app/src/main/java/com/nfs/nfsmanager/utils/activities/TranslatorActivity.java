@@ -1,5 +1,6 @@
 package com.nfs.nfsmanager.utils.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -52,6 +53,7 @@ public class TranslatorActivity extends AppCompatActivity {
     private MaterialTextView mProgressMessage;
     private RecyclerView mRecyclerView;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

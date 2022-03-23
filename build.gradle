@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.2'
+        classpath 'com.android.tools.build:gradle:7.1.2'
     }
 }
 
@@ -13,6 +13,9 @@ allprojects {
         google()
         maven {
             url 'https://maven.wortise.com/artifactory/public'
+        }
+        maven {
+            url "https://jitpack.io"
         }
         mavenCentral()
     }

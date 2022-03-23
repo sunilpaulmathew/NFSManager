@@ -80,11 +80,11 @@ public class Flasher {
             @Override
             public void doInBackground() {
                 Common.getFlashingResult().append("** Preparing to flash ").append(file.getName()).append("...\n\n");
-                Common.getFlashingResult().append("** Path: '").append(file.toString()).append("'\n\n");
+                Common.getFlashingResult().append("** Path: '").append(file).append("'\n\n");
                 // Delete if an old zip file exists
                 Utils.delete(activity.getCacheDir() + "/flash.zip");
                 Common.getFlashingResult().append("** Copying '").append(file.getName()).append("' into temporary folder: ");
-                Common.getFlashingResult().append(Utils.runAndGetError("cp '" + file.toString() + "' " + activity.getCacheDir() + "/flash.zip"));
+                Common.getFlashingResult().append(Utils.runAndGetError("cp '" + file + "' " + activity.getCacheDir() + "/flash.zip"));
                 Common.getFlashingResult().append(Utils.exist(activity.getCacheDir() + "/flash.zip") ? "Done *\n\n" : "\n\n");
                 flashModule(activity);
             }

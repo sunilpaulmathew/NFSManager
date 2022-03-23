@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Common {
 
-    private static boolean mApplying, mFlashing = false, mModuleInvalid = false;;
+    private static boolean mApplying, mFlashing = false, mModuleInvalid = false;
     private static CPUTimesFragment.RecycleViewAdapter mRecycleViewAdapter;
     private static final List<String> mFlashingOutput = new ArrayList<>(), mOutput = new ArrayList<>();
     private static RecyclerView mRecyclerView;

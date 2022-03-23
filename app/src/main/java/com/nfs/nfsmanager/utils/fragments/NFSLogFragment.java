@@ -53,6 +53,7 @@ public class NFSLogFragment extends Fragment {
     public void exportNFSLog(Context context) {
         new AsyncTasks() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onPreExecute() {
                 mProgressLayout.setVisibility(View.VISIBLE);

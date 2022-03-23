@@ -40,10 +40,10 @@
     <string name="download_failed">It seems like the download is failed, or a corrupted file is downloaded! Aborting.</string>
     <string name="downloading">Downloading %s</string>
     <string name="doze">Doze</string>
-    <string name="doze_custom">Custom Doze</string>
+    <string name="doze_custom">Nap</string>
     <string name="doze_default">Stock Doze</string>
     <string name="doze_disable">Disable Doze</string>
-    <string name="doze_force">Force Doze</string>
+    <string name="doze_force">Balcked Out</string>
     <string name="enable">Enable</string>
     <string name="enforcing">Enforcing</string>
     <string name="execute_default">Execute - Default</string>
@@ -67,6 +67,7 @@
     <string name="heading_ram">RAM</string>
     <string name="heading_memory">Memory</string>
     <string name="health">Health: %s</string>
+    <string name="high">High</string>
     <string name="illegal_apps">Illegal Applications Detected</string>
     <string name="illegal_apps_summary">Due to security concern\'s NFS won\'t work with the following illegal applications!\n\n%s</string>
     <string name="illegal_string_warning">You\'re entered some illegal characters! Your changes won\'t be saved.</string>
@@ -74,6 +75,7 @@
     <string name="invalid_zip">Please select a file with \'.zip\' extension!</string>
     <string name="licence">Licence</string>
     <string name="licence_summary">View GPL v3</string>
+    <string name="low">Low</string>
     <string name="magisk_log">Magisk Log</string>
     <string name="mode_applied">%s mode applied successfully!</string>
     <string name="mode_change_question">Switch to %s mode?</string>
@@ -107,6 +109,7 @@
     <string name="press_back">Press back again to exit</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_summary">Read Privacy Policy</string>
+    <string name="ram_level">RAM Level</string>
     <string name="reboot">Reboot</string>
     <string name="reboot_dialog">A reboot is required to get the changes you made in effect. Do you want to reboot Now?</string>
     <string name="reboot_required">Reboot Required!</string>

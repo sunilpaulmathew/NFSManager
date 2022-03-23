@@ -18,6 +18,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,16 +47,16 @@ public class CreditsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits);
 
-        mData.add(new RecycleViewItem("Kernel Adiutor", "Willi Ye", getResources().getDrawable(R.drawable.ic_grarak), "https://github.com/Grarak"));
-        mData.add(new RecycleViewItem("libsu", "John Wu", getResources().getDrawable(R.drawable.ic_topjohnwu),"https://github.com/topjohnwu"));
-        mData.add(new RecycleViewItem("German Translation", "simonk206", getResources().getDrawable(R.drawable.ic_germany), null));
-        mData.add(new RecycleViewItem("Italian Translation", "andrea", getResources().getDrawable(R.drawable.ic_italy),null));
-        mData.add(new RecycleViewItem("French Translation", "K1ks", getResources().getDrawable(R.drawable.ic_france), null));
-        mData.add(new RecycleViewItem("Spanish Translation", "Peter A. Cuevas", getResources().getDrawable(R.drawable.ic_spain),null));
-        mData.add(new RecycleViewItem("Portuguese (rPt) Translation", "BrauliX", getResources().getDrawable(R.drawable.ic_portugal), "https://github.com/BrauliX"));
-        mData.add(new RecycleViewItem("Portuguese (rBr) Translation", "BrauliX", getResources().getDrawable(R.drawable.ic_brazil),"https://github.com/BrauliX"));
-        mData.add(new RecycleViewItem("Russian Translation", "Ramazan Magomedov", getResources().getDrawable(R.drawable.ic_russia),"https://github.com/RamazanMagomedov"));
-        mData.add(new RecycleViewItem("Indonesian Translation", "Hafitz Setya", getResources().getDrawable(R.drawable.ic_indonesia),"https://github.com/breakdowns"));
+        mData.add(new RecycleViewItem("Kernel Adiutor", "Willi Ye", ContextCompat.getDrawable(this, R.drawable.ic_grarak), "https://github.com/Grarak"));
+        mData.add(new RecycleViewItem("libsu", "John Wu", ContextCompat.getDrawable(this, R.drawable.ic_topjohnwu),"https://github.com/topjohnwu"));
+        mData.add(new RecycleViewItem("German Translation", "simonk206", ContextCompat.getDrawable(this, R.drawable.ic_germany), null));
+        mData.add(new RecycleViewItem("Italian Translation", "andrea", ContextCompat.getDrawable(this, R.drawable.ic_italy),null));
+        mData.add(new RecycleViewItem("French Translation", "K1ks", ContextCompat.getDrawable(this, R.drawable.ic_france), null));
+        mData.add(new RecycleViewItem("Spanish Translation", "Peter A. Cuevas", ContextCompat.getDrawable(this, R.drawable.ic_spain),null));
+        mData.add(new RecycleViewItem("Portuguese (rPt) Translation", "BrauliX", ContextCompat.getDrawable(this, R.drawable.ic_portugal), "https://github.com/BrauliX"));
+        mData.add(new RecycleViewItem("Portuguese (rBr) Translation", "BrauliX", ContextCompat.getDrawable(this, R.drawable.ic_brazil),"https://github.com/BrauliX"));
+        mData.add(new RecycleViewItem("Russian Translation", "Ramazan Magomedov", ContextCompat.getDrawable(this, R.drawable.ic_russia),"https://github.com/RamazanMagomedov"));
+        mData.add(new RecycleViewItem("Indonesian Translation", "Hafitz Setya", ContextCompat.getDrawable(this, R.drawable.ic_indonesia),"https://github.com/breakdowns"));
 
         AppCompatImageButton mBack = findViewById(R.id.back);
         MaterialCardView mTranslator = findViewById(R.id.translator);

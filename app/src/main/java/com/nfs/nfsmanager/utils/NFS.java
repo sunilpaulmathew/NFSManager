@@ -39,6 +39,7 @@ public class NFS {
     private static final String TT = NFS_PARANT + "/tt.txt";
     private static final String SF = NFS_PARANT + "/sf.txt";
     private static final String ZYGOTE = NFS_PARANT + "/zygote.txt";
+    private static final String LMK = NFS_PARANT + "/lmk.txt";
     private static final String NFS_LOG = NFS_PARANT + "/nfs.log";
 
     private static final String MAGISK_LOG = "/cache/magisk.log";
@@ -200,11 +201,28 @@ public class NFS {
         }
     }
 
+    private static List<String> lowHigh(Context context) {
+        List<String> list = new ArrayList<>();
+        list.add(context.getString(R.string.low));
+        list.add(context.getString(R.string.high));
+        return list;
+    }
+
     private static List<String> onOff(Context context) {
         List<String> list = new ArrayList<>();
         list.add(context.getString(R.string.off));
         list.add(context.getString(R.string.on));
         return list;
+    }
+
+    public static String getLMK(Context context) {
+        if (getLMK() == 0) {
+            return context.getString(R.string.low);
+        } else if (getLMK() == 1) {
+            return context.getString(R.string.high);
+        } else {
+            return context.getString(R.string.unknown);
+        }
     }
 
     public static String getOnOff(String string, Context context) {
@@ -481,6 +499,25 @@ public class NFS {
         popupMenu.show();
     }
 
+    public static void setLMKMenu(AppCompatTextView textView, View view, Context context) {
+        String[] mItem = lowHigh(context).toArray(new String[0]);
+        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+        Menu menu = popupMenu.getMenu();
+        for (i = 0; i < mItem.length; i++) {
+            menu.add(Menu.NONE, i, Menu.NONE, mItem[i]);
+        }
+        popupMenu.setOnMenuItemClickListener(item -> {
+            for (i = 0; i < mItem.length; i++) {
+                if (item.getItemId() == i) {
+                    Utils.applyValue(String.valueOf(i), LMK);
+                    textView.setText(mItem[i]);
+                }
+            }
+            return false;
+        });
+        popupMenu.show();
+    }
+
     public static int getAds() {
         return Utils.strToInt(Utils.read(ADS));
     }
@@ -521,6 +558,10 @@ public class NFS {
         return Utils.strToInt(Utils.read(TT));
     }
 
+    public static int getLMK() {
+        return Utils.strToInt(Utils.read(LMK));
+    }
+
     public static int getSF() {
         return Utils.strToInt(Utils.read(SF));
     }
@@ -535,6 +576,10 @@ public class NFS {
 
     public static boolean hasDozeMode() {
         return Utils.exist(DOZE);
+    }
+
+    public static boolean hasLMK() {
+        return Utils.exist(LMK);
     }
 
     public static boolean hasShield() {

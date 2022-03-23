@@ -1,6 +1,5 @@
 package com.nfs.nfsmanager.utils.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,36 +40,37 @@ import java.util.ArrayList;
 
 public class AboutFragment extends Fragment {
 
-    private final ArrayList <RecycleViewItem> mData = new ArrayList<>();
-
-    @SuppressLint("UseCompatLoadingForDrawables")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mRootView = inflater.inflate(R.layout.fragment_about, container, false);
 
-        mData.add(new RecycleViewItem(getString(R.string.app_name), BuildConfig.VERSION_NAME, getResources().getDrawable(R.mipmap.ic_launcher_round), null));
-        mData.add(new RecycleViewItem(getString(R.string.nfs_injector), NFS.getReleaseStatus(), getResources().getDrawable(R.drawable.ic_info), null));
-        mData.add(new RecycleViewItem(getString(R.string.support), getString(R.string.support_summary), getResources().getDrawable(R.drawable.ic_support), "https://t.me/nfsinjector"));
-        mData.add(new RecycleViewItem(getString(R.string.faq), getString(R.string.faq_summary), getResources().getDrawable(R.drawable.ic_help), "https://telegra.ph/NFS-Injector-Frequently-Asked-Questions-02-14"));
-        mData.add(new RecycleViewItem(getString(R.string.source_code), getString(R.string.source_code_summary), getResources().getDrawable(R.drawable.ic_github), "https://github.com/sunilpaulmathew/NFSManager"));
-        mData.add(new RecycleViewItem(getString(R.string.report_issue), getString(R.string.report_issue_summary), getResources().getDrawable(R.drawable.ic_bug), "https://github.com/sunilpaulmathew/NFSManager/issues/new"));
-        mData.add(new RecycleViewItem(getString(R.string.change_logs), getString(R.string.change_logs_summary), getResources().getDrawable(R.drawable.ic_active), null));
-        mData.add(new RecycleViewItem(getString(R.string.more_apps), getString(R.string.more_apps_summary), getResources().getDrawable(R.drawable.ic_playstore), "https://play.google.com/store/apps/dev?id=5836199813143882901"));
-        mData.add(new RecycleViewItem(getString(R.string.privacy_policy), getString(R.string.privacy_policy_summary), getResources().getDrawable(R.drawable.ic_privacy), null));
-        mData.add(new RecycleViewItem(getString(R.string.licence), getString(R.string.licence_summary), getResources().getDrawable(R.drawable.ic_licence), null));
-        mData.add(new RecycleViewItem(getString(R.string.credits), getString(R.string.credits_summary), getResources().getDrawable(R.drawable.ic_contributors), null));
-        if (UpdateCheck.isSignatureMatched(requireActivity())) {
-            mData.add(new RecycleViewItem(getString(R.string.update_check), getString(R.string.update_check_summary), getResources().getDrawable(R.drawable.ic_update), null));
-        }
-
         RecyclerView mRecyclerView = mRootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), getSpanCount(requireActivity())));
-        RecycleViewAdapter mRecycleViewAdapter = new RecycleViewAdapter(mData);
+        RecycleViewAdapter mRecycleViewAdapter = new RecycleViewAdapter(getData());
         mRecyclerView.setAdapter(mRecycleViewAdapter);
         mRecyclerView.setVisibility(View.VISIBLE);
 
         return mRootView;
+    }
+
+    private ArrayList<RecycleViewItem> getData() {
+        ArrayList<RecycleViewItem> mData = new ArrayList<>();
+        mData.add(new RecycleViewItem(getString(R.string.app_name), BuildConfig.VERSION_NAME, ContextCompat.getDrawable(requireActivity(), R.mipmap.ic_launcher_round), null));
+        mData.add(new RecycleViewItem(getString(R.string.nfs_injector), NFS.getReleaseStatus(), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_info), null));
+        mData.add(new RecycleViewItem(getString(R.string.support), getString(R.string.support_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_support), "https://t.me/nfsinjector"));
+        mData.add(new RecycleViewItem(getString(R.string.faq), getString(R.string.faq_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_help), "https://telegra.ph/NFS-Injector-Frequently-Asked-Questions-02-14"));
+        mData.add(new RecycleViewItem(getString(R.string.source_code), getString(R.string.source_code_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_github), "https://github.com/sunilpaulmathew/NFSManager"));
+        mData.add(new RecycleViewItem(getString(R.string.report_issue), getString(R.string.report_issue_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_bug), "https://github.com/sunilpaulmathew/NFSManager/issues/new"));
+        mData.add(new RecycleViewItem(getString(R.string.change_logs), getString(R.string.change_logs_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_active), null));
+        mData.add(new RecycleViewItem(getString(R.string.more_apps), getString(R.string.more_apps_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_playstore), "https://play.google.com/store/apps/dev?id=5836199813143882901"));
+        mData.add(new RecycleViewItem(getString(R.string.privacy_policy), getString(R.string.privacy_policy_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_privacy), null));
+        mData.add(new RecycleViewItem(getString(R.string.licence), getString(R.string.licence_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_licence), null));
+        mData.add(new RecycleViewItem(getString(R.string.credits), getString(R.string.credits_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_contributors), null));
+        if (UpdateCheck.isSignatureMatched(requireActivity())) {
+            mData.add(new RecycleViewItem(getString(R.string.update_check), getString(R.string.update_check_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_update), null));
+        }
+        return mData;
     }
 
     private int getSpanCount(Activity activity) {

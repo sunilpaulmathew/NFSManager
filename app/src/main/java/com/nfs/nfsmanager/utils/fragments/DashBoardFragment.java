@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +38,6 @@ import java.util.ArrayList;
 
 public class DashBoardFragment extends Fragment {
 
-    private final ArrayList <RecycleViewItem> mData = new ArrayList<>();
     private RecyclerView mRecyclerView;
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -46,14 +46,9 @@ public class DashBoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mRootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        mData.add(new RecycleViewItem(getString(R.string.battery), getResources().getDrawable(R.drawable.ic_battery)));
-        mData.add(new RecycleViewItem(getString(R.string.balanced), getResources().getDrawable(R.drawable.ic_balanced)));
-        mData.add(new RecycleViewItem(getString(R.string.ultra), getResources().getDrawable(R.drawable.ic_ultra)));
-        mData.add(new RecycleViewItem(getString(R.string.gaming), getResources().getDrawable(R.drawable.ic_game)));
-
         mRecyclerView = mRootView.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), getSpanCount(requireActivity())));
-        RecycleViewAdapter mRecycleViewAdapter = new RecycleViewAdapter(mData);
+        RecycleViewAdapter mRecycleViewAdapter = new RecycleViewAdapter(getData());
         mRecyclerView.setAdapter(mRecycleViewAdapter);
         mRecyclerView.setVisibility(View.VISIBLE);
 
@@ -70,6 +65,15 @@ public class DashBoardFragment extends Fragment {
         });
 
         return mRootView;
+    }
+
+    private ArrayList<RecycleViewItem> getData() {
+        ArrayList<RecycleViewItem> mData = new ArrayList<>();
+        mData.add(new RecycleViewItem(getString(R.string.battery), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_battery)));
+        mData.add(new RecycleViewItem(getString(R.string.balanced), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_balanced)));
+        mData.add(new RecycleViewItem(getString(R.string.ultra), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_ultra)));
+        mData.add(new RecycleViewItem(getString(R.string.gaming), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_game)));
+        return mData;
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -99,7 +103,7 @@ public class DashBoardFragment extends Fragment {
                 Common.getOutput().add(getString(R.string.mode_applied, message));
                 Common.isApplying(false);
                 requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
-                mRecyclerView.setAdapter(new RecycleViewAdapter(mData));
+                mRecyclerView.setAdapter(new RecycleViewAdapter(getData()));
             }
         }.execute();
     }

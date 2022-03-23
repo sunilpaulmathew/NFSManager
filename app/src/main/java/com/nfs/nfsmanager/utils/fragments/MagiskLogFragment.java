@@ -53,6 +53,7 @@ public class MagiskLogFragment extends Fragment {
     public void exportMagiskLog(Context context) {
         new AsyncTasks() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onPreExecute() {
                 mProgressLayout.setVisibility(View.VISIBLE);

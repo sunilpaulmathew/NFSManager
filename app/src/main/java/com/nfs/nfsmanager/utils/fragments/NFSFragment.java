@@ -74,6 +74,9 @@ public class NFSFragment extends Fragment {
             if (NFS.hasDozeMode()) {
                 mData.add(new RecycleViewItems(context.getString(R.string.doze), NFS.getDozeMode(context)));
             }
+            if (NFS.hasLMK()) {
+                mData.add(new RecycleViewItems(context.getString(R.string.ram_level), NFS.getLMK(context)));
+            }
             if (NFS.hasShield()) {
                 mData.add(new RecycleViewItems(context.getString(R.string.shield), NFS.getShield(context)));
             }
@@ -143,6 +146,8 @@ public class NFSFragment extends Fragment {
                     NFS.setTCP(this.mValue, mValue);
                 } else if (mItem.equals(view.getContext().getString(R.string.doze))) {
                     NFS.setDozeMode(this.mValue, mValue, view.getContext());
+                } else if (mItem.equals(view.getContext().getString(R.string.ram_level))) {
+                    NFS.setLMKMenu(this.mValue, mValue, view.getContext());
                 } else if (mItem.equals(view.getContext().getString(R.string.shield))) {
                     NFS.setShield(this.mValue, mValue, view.getContext());
                 } else if (mItem.equals(view.getContext().getString(R.string.add_disabler))) {

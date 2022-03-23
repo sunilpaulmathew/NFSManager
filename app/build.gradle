@@ -11,13 +11,13 @@ android {
         }
     }
 
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "com.nfs.nfsmanager"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 15
         versionName = "v2.4"
         vectorDrawables.useSupportLibrary = true
@@ -37,20 +37,13 @@ android {
     lintOptions {
         abortOnError false
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
-
-repositories {
-    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.work:work-runtime:2.7.1'
     implementation 'com.github.sunilpaulmathew:RootFilePicker:v0.6'
-    implementation "com.github.topjohnwu.libsu:core:3.1.2"
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation "com.github.topjohnwu.libsu:core:4.0.3"
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.wortise:android-sdk:1.2.1'
 }
