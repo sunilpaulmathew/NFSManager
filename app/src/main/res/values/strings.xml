@@ -147,6 +147,7 @@
     <string name="update_check_auto">Auto-Update Check</string>
     <string name="update_check_summary">Check for new versions of NFS Manager</string>
     <string name="update_unavailable">Congrats! You\'re up-to-date!</string>
+    <string name="version">Version: %s</string>
     <string name="voltage">Voltage: %s mV</string>
     <string name="warning">Warning</string>
     <string name="zygote">Zygote Preforking</string>

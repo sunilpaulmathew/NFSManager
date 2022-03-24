@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
+import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.adapters.CreditsAdapter;
 import com.nfs.nfsmanager.utils.SerializableItems;
@@ -43,7 +45,10 @@ public class CreditsActivity extends AppCompatActivity {
         mData.add(new SerializableItems("Indonesian Translation", "Hafitz Setya", ContextCompat.getDrawable(this, R.drawable.ic_indonesia),"https://github.com/breakdowns"));
 
         AppCompatImageButton mBack = findViewById(R.id.back);
+        MaterialTextView mVersion = findViewById(R.id.version);
         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+
+        mVersion.setText(getString(R.string.version, BuildConfig.VERSION_NAME));
 
         mBack.setOnClickListener(v -> onBackPressed());
 
