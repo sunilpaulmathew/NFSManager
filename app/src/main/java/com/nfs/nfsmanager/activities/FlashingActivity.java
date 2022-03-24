@@ -2,6 +2,7 @@ package com.nfs.nfsmanager.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,6 +17,8 @@ import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.Utils;
+
+import java.io.File;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on November 13, 2020
@@ -48,9 +51,10 @@ public class FlashingActivity extends AppCompatActivity {
         refreshStatus();
         mBack.setOnClickListener(v -> finish());
         mSave.setOnClickListener(v -> {
-            Utils.create(Common.getFlashingResult().toString(), Utils.getInternalDataStorage(this) + "/flasher_log-" +
+            Utils.mkdir(new File(Environment.getExternalStorageDirectory(),"NFSManager").getAbsolutePath());
+            Utils.create(Common.getFlashingResult().toString(), new File(Environment.getExternalStorageDirectory(),"NFSManager") + "/flasher_log-" +
                     Common.getZipName().replace(".zip",""));
-            Utils.longSnackbar(mSave, getString(R.string.flash_log, Utils.getInternalDataStorage(this) + "/flasher_log-" +
+            Utils.longSnackbar(mSave, getString(R.string.flash_log, new File(Environment.getExternalStorageDirectory(),"NFSManager") + "/flasher_log-" +
                     Common.getZipName().replace(".zip","")));
         });
         mReboot.setOnClickListener(v -> {

@@ -7,20 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
@@ -32,23 +27,19 @@ import com.topjohnwu.superuser.ShellUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
-import java.util.Objects;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on January 07, 2020
  */
-
 public class Utils {
 
     static {
@@ -126,25 +117,6 @@ public class Utils {
 
     /*
      * The following code is partly taken from https://github.com/Grarak/KernelAdiutor
-     * Ref: https://github.com/Grarak/KernelAdiutor/blob/master/app/src/main/java/com/grarak/kerneladiutor/utils/ViewUtils.java
-     */
-
-    public static int getThemeAccentColor(Context context) {
-        return ContextCompat.getColor(context, R.color.ColorBlue);
-    }
-
-    public static int getCardBackground(Context context) {
-        return ContextCompat.getColor(context, R.color.ColorTeal);
-    }
-
-    public static Drawable getColoredIcon(int icon, Context context) {
-        @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = ContextCompat.getDrawable(context, icon);
-        Objects.requireNonNull(drawable).setTint(getThemeAccentColor(context));
-        return drawable;
-    }
-
-    /*
-     * The following code is partly taken from https://github.com/Grarak/KernelAdiutor
      * Ref: https://github.com/Grarak/KernelAdiutor/blob/master/app/src/main/java/com/grarak/kerneladiutor/utils/Prefs.java
      */
     public static boolean getBoolean(String name, boolean defaults, Context context) {
@@ -165,16 +137,8 @@ public class Utils {
         return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
     }
 
-    public static void initializeAppTheme() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-    }
-
-    public static String getInternalDataStorage(Context context) {
-        if (Build.VERSION.SDK_INT >= 29) {
-            return Objects.requireNonNull(context.getExternalFilesDir("")).toString();
-        } else {
-            return Environment.getExternalStorageDirectory().toString() + "/NFSManager";
-        }
+    public static File getInternalDataStorage(Context context) {
+        return context.getExternalFilesDir("");
     }
 
     static boolean isAppInstalled(String appID, Context context) {
@@ -186,37 +150,8 @@ public class Utils {
         }
     }
 
-    public static CharSequence fromHtml(String text) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            return Html.fromHtml(text);
-        }
-    }
-
     public static String read(String file) {
-        if (!file.startsWith("/storage/")) {
-            return runAndGetOutput("cat '" + file + "'");
-        } else {
-            BufferedReader buf = null;
-            try {
-                buf = new BufferedReader(new FileReader(file));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                while ((line = buf.readLine()) != null) {
-                    stringBuilder.append(line).append("\n");
-                }
-                return stringBuilder.toString().trim();
-            } catch (IOException ignored) {
-            } finally {
-                try {
-                    if (buf != null) buf.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
+        return runAndGetOutput("cat '" + file + "'");
     }
 
     public static boolean exist(String file) {
@@ -249,27 +184,17 @@ public class Utils {
     }
 
     public static void create(String text, String path) {
-        if (!path.startsWith("/storage/")) {
-            runCommand("echo '" + text + "' > " + path);
-        } else {
-            try {
-                File logFile = new File(path);
-                logFile.createNewFile();
-                FileOutputStream fOut = new FileOutputStream(logFile);
-                OutputStreamWriter myOutWriter =
-                        new OutputStreamWriter(fOut);
-                myOutWriter.append(text);
-                myOutWriter.close();
-                fOut.close();
-            } catch (Exception ignored) {
-            }
-        }
+        runCommand("echo '" + text + "' > " + path);
     }
 
     public static void delete(String path) {
         if (exist(path)) {
             runCommand(magiskBusyBox() + " rm -r " + path);
         }
+    }
+
+    public static void mkdir(String path) {
+        runCommand(magiskBusyBox() + " mkdir " + path);
     }
 
     static String getChecksum(String path) {
@@ -332,16 +257,6 @@ public class Utils {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         assert cm != null;
         return (cm.getActiveNetworkInfo() == null) || !cm.getActiveNetworkInfo().isConnectedOrConnecting();
-    }
-
-    /*
-     * Taken and used almost as such from the following stackoverflow discussion
-     * Ref: https://stackoverflow.com/questions/7203668/how-permission-can-be-checked-at-runtime-without-throwing-securityexception
-     */
-    public static boolean checkWriteStoragePermission(Context context) {
-        String permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        int res = context.checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
     }
 
     public static String readAssetFile(Context context, String file) {

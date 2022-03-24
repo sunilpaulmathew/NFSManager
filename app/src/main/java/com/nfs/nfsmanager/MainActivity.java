@@ -3,6 +3,7 @@ package com.nfs.nfsmanager;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.PopupMenu;
@@ -24,17 +26,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
-import com.nfs.nfsmanager.utils.CPUTimes;
-import com.nfs.nfsmanager.utils.Flasher;
-import com.nfs.nfsmanager.utils.NFS;
-import com.nfs.nfsmanager.utils.UpdateCheck;
-import com.nfs.nfsmanager.utils.Utils;
 import com.nfs.nfsmanager.activities.CPUTimesActivity;
 import com.nfs.nfsmanager.activities.DeviceInfoActivity;
 import com.nfs.nfsmanager.activities.LogsActivity;
 import com.nfs.nfsmanager.fragments.AboutFragment;
 import com.nfs.nfsmanager.fragments.DashBoardFragment;
 import com.nfs.nfsmanager.fragments.NFSFragment;
+import com.nfs.nfsmanager.utils.CPUTimes;
+import com.nfs.nfsmanager.utils.Flasher;
+import com.nfs.nfsmanager.utils.NFS;
+import com.nfs.nfsmanager.utils.UpdateCheck;
+import com.nfs.nfsmanager.utils.Utils;
 import com.wortise.ads.AdError;
 import com.wortise.ads.AdSize;
 import com.wortise.ads.WortiseSdk;
@@ -42,6 +44,7 @@ import com.wortise.ads.banner.BannerAd;
 import com.wortise.ads.consent.ConsentManager;
 
 import java.io.File;
+import java.util.Objects;
 
 import in.sunilpaulmathew.rootfilepicker.activities.FilePickerActivity;
 import in.sunilpaulmathew.rootfilepicker.utils.FilePicker;
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize App Theme
-        Utils.initializeAppTheme();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -95,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
         if (!Utils.rootAccess() || !NFS.magiskSupported() || !NFS.illegalAppsList(this).isEmpty() || NFS.isNFSSleeping()) {
             mBottomMenu.setVisibility(View.GONE);
             mUnsupportedLayout.setVisibility(View.VISIBLE);
-            mUnsupportedImage.setImageDrawable(Utils.getColoredIcon(R.drawable.ic_help, this));
+            Drawable helpDrawable = ContextCompat.getDrawable(this, R.drawable.ic_help);
+            Objects.requireNonNull(helpDrawable).setTint(ContextCompat.getColor(this, R.color.ColorBlue));
+            mUnsupportedImage.setImageDrawable(helpDrawable);
             mUnsupportedText.setText(!Utils.rootAccess() ? getString(R.string.no_root) : !NFS.magiskSupported() ?
                     getString(R.string.no_magisk) : !NFS.illegalAppsList(this).isEmpty() ?
                     getString(R.string.illegal_apps) : getString(R.string.sleeping));
@@ -104,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
                     Utils.launchUrl(mBottomMenu, "https://www.google.com/search?site=&source=hp&q=android+rooting+magisk", this);
                 } else {
                     new MaterialAlertDialogBuilder(this)
+                            .setIcon(R.mipmap.ic_launcher)
+                            .setTitle(R.string.app_name)
                             .setMessage(mSleeping ? getString(R.string.sleeping_message) : getString (
                                     R.string.illegal_apps_summary, NFS.illegalAppsList(this)))
                             .setCancelable(false)

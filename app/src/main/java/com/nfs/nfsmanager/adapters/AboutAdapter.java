@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -49,7 +50,7 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull AboutAdapter.ViewHolder holder, int position) {
         holder.mTitle.setText(this.data.get(position).getTitle());
         if (Utils.isDarkTheme(holder.mTitle.getContext())) {
-            holder.mTitle.setTextColor(Utils.getThemeAccentColor(holder.mTitle.getContext()));
+            holder.mTitle.setTextColor(ContextCompat.getColor(holder.mTitle.getContext(), R.color.ColorBlue));
         }
         holder.mDescription.setText(this.data.get(position).getDescription());
         holder.mIcon.setImageDrawable(this.data.get(position).getIcon());

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nfs.nfsmanager.R;
@@ -38,7 +39,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.ViewHold
     public void onBindViewHolder(@NonNull CreditsAdapter.ViewHolder holder, int position) {
         holder.mTitle.setText(this.data.get(position).getTitle());
         if (Utils.isDarkTheme(holder.mTitle.getContext())) {
-            holder.mTitle.setTextColor(Utils.getThemeAccentColor(holder.mTitle.getContext()));
+            holder.mTitle.setTextColor(ContextCompat.getColor(holder.mTitle.getContext(), R.color.ColorBlue));
         }
         holder.mDescription.setText(this.data.get(position).getDescription());
         holder.mIcon.setImageDrawable(this.data.get(position).getIcon());

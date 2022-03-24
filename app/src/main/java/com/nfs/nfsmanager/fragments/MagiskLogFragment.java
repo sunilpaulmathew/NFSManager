@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,30 +58,30 @@ public class MagiskLogFragment extends Fragment {
             @Override
             public void onPreExecute() {
                 mProgressLayout.setVisibility(View.VISIBLE);
-                mProgressMessage.setText(context.getString(R.string.exporting, Utils.getInternalDataStorage(context) + "/magisk.log") + "...");
+                mProgressMessage.setText(context.getString(R.string.exporting, new File(Environment.getExternalStorageDirectory(),"NFSManager") + "/magisk.log") + "...");
             }
 
             @Override
             public void doInBackground() {
-                NFS.makeAppFolder(context);
+                Utils.mkdir(new File(Environment.getExternalStorageDirectory(),"NFSManager").getAbsolutePath());
                 Utils.runCommand("sleep 2");
-                Utils.copy("/cache/magisk.log", Utils.getInternalDataStorage(context) + "/magisk.log");
+                Utils.copy("/cache/magisk.log", new File(Environment.getExternalStorageDirectory(),"NFSManager") + "/magisk.log");
             }
 
             @Override
             public void onPostExecute() {
                 mProgressLayout.setVisibility(View.GONE);
-                if (Utils.exist(Utils.getInternalDataStorage(context) + "/magisk.log")) {
+                if (Utils.exist(new File(Environment.getExternalStorageDirectory(),"NFSManager") + "/magisk.log")) {
                     new MaterialAlertDialogBuilder(context)
                             .setIcon(R.mipmap.ic_launcher)
                             .setTitle(R.string.app_name)
-                            .setMessage(context.getString(R.string.export_completed, Utils.getInternalDataStorage(context)))
+                            .setMessage(context.getString(R.string.export_completed, new File(Environment.getExternalStorageDirectory(),"NFSManager")))
                             .setCancelable(false)
                             .setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> {
                             })
                             .setPositiveButton(context.getString(R.string.share), (dialog, id) -> {
                                 Uri uriFile = FileProvider.getUriForFile(context,
-                                        BuildConfig.APPLICATION_ID + ".provider", new File(Utils.getInternalDataStorage(context) + "/magisk.log"));
+                                        BuildConfig.APPLICATION_ID + ".provider", new File(new File(Environment.getExternalStorageDirectory(),"NFSManager") + "/magisk.log"));
                                 Intent shareScript = new Intent(Intent.ACTION_SEND);
                                 shareScript.setType("text/x-log");
                                 shareScript.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_by, context.getString(R.string.magisk_log)));

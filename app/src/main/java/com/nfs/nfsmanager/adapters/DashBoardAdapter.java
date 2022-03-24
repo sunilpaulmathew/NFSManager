@@ -7,13 +7,13 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
-import com.nfs.nfsmanager.utils.SerializableItems;
 import com.nfs.nfsmanager.utils.NFS;
-import com.nfs.nfsmanager.utils.Utils;
+import com.nfs.nfsmanager.utils.SerializableItems;
 
 import java.util.ArrayList;
 
@@ -44,27 +44,27 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.View
             holder.mIcon.setImageDrawable(this.data.get(position).getIcon());
             if (NFS.getNFSMode() == 0) {
                 if (position == 0) {
-                    holder.mLinearLayout.setBackgroundColor(Utils.getThemeAccentColor(holder.mLinearLayout.getContext()));
+                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorBlue));
                 } else {
-                    holder.mLinearLayout.setBackgroundColor(Utils.getCardBackground(holder.mLinearLayout.getContext()));
+                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorTeal));
                 }
             } else if (NFS.getNFSMode() == 1) {
                 if (position == 1) {
-                    holder.mLinearLayout.setBackgroundColor(Utils.getThemeAccentColor(holder.mLinearLayout.getContext()));
+                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorBlue));
                 } else {
-                    holder.mLinearLayout.setBackgroundColor(Utils.getCardBackground(holder.mLinearLayout.getContext()));
+                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorTeal));
                 }
             } else if (NFS.getNFSMode() == 2) {
                 if (position == 2) {
-                    holder.mLinearLayout.setBackgroundColor(Utils.getThemeAccentColor(holder.mLinearLayout.getContext()));
+                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorBlue));
                 } else {
-                    holder.mLinearLayout.setBackgroundColor(Utils.getCardBackground(holder.mLinearLayout.getContext()));
+                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorTeal));
                 }
             } else {
                 if (position == 3) {
-                    holder.mLinearLayout.setBackgroundColor(Utils.getThemeAccentColor(holder.mLinearLayout.getContext()));
+                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorBlue));
                 } else {
-                    holder.mLinearLayout.setBackgroundColor(Utils.getCardBackground(holder.mLinearLayout.getContext()));
+                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorTeal));
                 }
             }
         } catch (NullPointerException ignored) {}

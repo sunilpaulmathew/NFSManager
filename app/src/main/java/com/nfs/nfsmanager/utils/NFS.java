@@ -12,7 +12,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.BuildConfig;
 import com.nfs.nfsmanager.R;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +19,6 @@ import java.util.Objects;
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on January 07, 2020
  */
-
 public class NFS {
 
     private static final String MODULE_PARANT = "/data/adb/modules/injector";
@@ -56,14 +54,6 @@ public class NFS {
 
     private static int i;
 
-    public static void makeAppFolder(Context context) {
-        File file = new File(Utils.getInternalDataStorage(context));
-        if (file.exists() && file.isFile()) {
-            file.delete();
-        }
-        file.mkdirs();
-    }
-
     public static String getReleaseStatus() {
         try {
             for (String line : Objects.requireNonNull(Utils.read(MODULE_PARANT + "/module.prop")).split("\\r?\\n")) {
@@ -86,14 +76,8 @@ public class NFS {
     }
 
     public static String getDozeMode(Context context) {
-        if (getDozeMode() == 0) {
-            return context.getString(R.string.doze_disable);
-        } else if (getDozeMode() == 1) {
-            return context.getString(R.string.doze_default);
-        } else if (getDozeMode() == 2) {
-            return context.getString(R.string.doze_custom);
-        } else if (getDozeMode() == 3) {
-            return context.getString(R.string.doze_force);
+        if (getDozeMode() <= DozeMode(context).size()) {
+            return DozeMode(context).get(getDozeMode());
         } else {
             return context.getString(R.string.unknown);
         }
@@ -107,10 +91,8 @@ public class NFS {
     }
 
     public static String getShield(Context context) {
-        if (getShield() == 0) {
-            return context.getString(R.string.device_default);
-        } else if (getShield() == 1) {
-            return context.getString(R.string.custom_nfs);
+        if (getShield() <= Shield(context).size()) {
+            return Shield(context).get(getShield());
         } else {
             return context.getString(R.string.unknown);
         }
@@ -127,16 +109,8 @@ public class NFS {
     }
 
     public static String getDNSMode(Context context) {
-        if (getDNSMode() == 0) {
-            return context.getString(R.string.off);
-        } else if (getDNSMode() == 1) {
-            return context.getString(R.string.dns_cloudfare);
-        } else if (getDNSMode() == 2) {
-            return context.getString(R.string.dns_google);
-        } else if (getDNSMode() == 3) {
-            return context.getString(R.string.dns_watch);
-        } else if (getDNSMode() == 4) {
-            return context.getString(R.string.dns_neustar);
+        if (getDNSMode() <= DozeMode(context).size()) {
+            return DNSMode(context).get(getDNSMode());
         } else {
             return context.getString(R.string.unknown);
         }
@@ -151,12 +125,8 @@ public class NFS {
     }
 
     public static String getAds(Context context) {
-        if (getAds() == 0) {
-            return context.getString(R.string.execute_no);
-        } else if (getAds() == 1) {
-            return context.getString(R.string.execute_disable);
-        } else if (getAds() == 2) {
-            return context.getString(R.string.execute_default);
+        if (getAds() <= Ads(context).size()) {
+            return Ads(context).get(getAds());
         } else {
             return context.getString(R.string.unknown);
         }
@@ -171,17 +141,15 @@ public class NFS {
 
     public static String getEnableDisable(String string, Context context) {
         if (string.equals(context.getString(R.string.overwatch_engine))) {
-            i = getOW();
+            if ((getOW()) <= enableDisable(context).size()) {
+                return enableDisable(context).get(getOW());
+            }
         } else {
-            i = getZygote();
+            if ((getZygote()) <= enableDisable(context).size()) {
+                return enableDisable(context).get(getZygote());
+            }
         }
-        if (i == 0) {
-            return context.getString(R.string.disable);
-        } else if (i == 1) {
-            return context.getString(R.string.enable);
-        } else {
-            return context.getString(R.string.unknown);
-        }
+        return context.getString(R.string.unknown);
     }
 
     private static List<String> SELinux(Context context) {
@@ -192,10 +160,8 @@ public class NFS {
     }
 
     public static String getSELinuxMode(Context context) {
-        if (getSELinuxMode() == 0) {
-            return context.getString(R.string.permissive);
-        } else if (getSELinuxMode() == 1) {
-            return context.getString(R.string.enforcing);
+        if (getSELinuxMode() <= SELinux(context).size()) {
+            return SELinux(context).get(getSELinuxMode());
         } else {
             return context.getString(R.string.unknown);
         }
@@ -216,10 +182,8 @@ public class NFS {
     }
 
     public static String getLMK(Context context) {
-        if (getLMK() == 0) {
-            return context.getString(R.string.low);
-        } else if (getLMK() == 1) {
-            return context.getString(R.string.high);
+        if (getLMK() <= lowHigh(context).size()) {
+            return lowHigh(context).get(getLMK());
         } else {
             return context.getString(R.string.unknown);
         }
@@ -233,10 +197,8 @@ public class NFS {
         } else {
             i = getSF();
         }
-        if (i == 0) {
-            return context.getString(R.string.off);
-        } else if (i == 1) {
-            return context.getString(R.string.on);
+        if (i <= onOff(context).size()) {
+            return onOff(context).get(i);
         } else {
             return context.getString(R.string.unknown);
         }
