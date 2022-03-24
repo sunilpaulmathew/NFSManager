@@ -1,4 +1,4 @@
-package com.nfs.nfsmanager.utils.activities;
+package com.nfs.nfsmanager.activities;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

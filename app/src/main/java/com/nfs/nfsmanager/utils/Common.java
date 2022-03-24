@@ -8,7 +8,7 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nfs.nfsmanager.utils.fragments.CPUTimesFragment;
+import com.nfs.nfsmanager.adapters.CPUTimesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 public class Common {
 
     private static boolean mApplying, mFlashing = false, mModuleInvalid = false;
-    private static CPUTimesFragment.RecycleViewAdapter mRecycleViewAdapter;
+    private static CPUTimesAdapter mRecycleViewAdapter;
     private static final List<String> mFlashingOutput = new ArrayList<>(), mOutput = new ArrayList<>();
     private static RecyclerView mRecyclerView;
     private static String mURL = null, mZipName;
@@ -34,7 +34,7 @@ public class Common {
         return mModuleInvalid;
     }
 
-    public static CPUTimesFragment.RecycleViewAdapter getRecycleViewAdapter() {
+    public static CPUTimesAdapter getRecycleViewAdapter() {
         return mRecycleViewAdapter;
     }
 
@@ -63,7 +63,7 @@ public class Common {
     }
 
     public static void initializeRecycleViewAdapter(List<String> data) {
-        mRecycleViewAdapter = new CPUTimesFragment.RecycleViewAdapter(data);
+        mRecycleViewAdapter = new CPUTimesAdapter(data);
     }
 
     public static void initializeRecyclerView(View view, int id) {

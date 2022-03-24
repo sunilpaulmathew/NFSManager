@@ -29,12 +29,12 @@ import com.nfs.nfsmanager.utils.Flasher;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
-import com.nfs.nfsmanager.utils.activities.CPUTimesActivity;
-import com.nfs.nfsmanager.utils.activities.DeviceInfoActivity;
-import com.nfs.nfsmanager.utils.activities.LogsActivity;
-import com.nfs.nfsmanager.utils.fragments.AboutFragment;
-import com.nfs.nfsmanager.utils.fragments.DashBoardFragment;
-import com.nfs.nfsmanager.utils.fragments.NFSFragment;
+import com.nfs.nfsmanager.activities.CPUTimesActivity;
+import com.nfs.nfsmanager.activities.DeviceInfoActivity;
+import com.nfs.nfsmanager.activities.LogsActivity;
+import com.nfs.nfsmanager.fragments.AboutFragment;
+import com.nfs.nfsmanager.fragments.DashBoardFragment;
+import com.nfs.nfsmanager.fragments.NFSFragment;
 import com.wortise.ads.AdError;
 import com.wortise.ads.AdSize;
 import com.wortise.ads.WortiseSdk;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize App Theme
-        Utils.initializeAppTheme(this);
+        Utils.initializeAppTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -348,6 +348,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             new MaterialAlertDialogBuilder(this)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .setTitle(R.string.app_name)
                     .setMessage(getString(R.string.sure_message, mSelectedFile.getName()))
                     .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
                     })

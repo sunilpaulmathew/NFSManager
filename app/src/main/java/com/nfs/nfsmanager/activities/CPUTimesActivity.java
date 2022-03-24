@@ -1,4 +1,4 @@
-package com.nfs.nfsmanager.utils.activities;
+package com.nfs.nfsmanager.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +13,7 @@ import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.CPUTimes;
 import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.Utils;
-import com.nfs.nfsmanager.utils.fragments.CPUTimesFragment;
+import com.nfs.nfsmanager.fragments.CPUTimesFragment;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on December 10, 2020

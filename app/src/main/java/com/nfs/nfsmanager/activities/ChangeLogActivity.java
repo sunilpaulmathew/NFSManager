@@ -1,4 +1,4 @@
-package com.nfs.nfsmanager.utils.activities;
+package com.nfs.nfsmanager.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

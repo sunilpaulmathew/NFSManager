@@ -1,4 +1,4 @@
-package com.nfs.nfsmanager.utils.activities;
+package com.nfs.nfsmanager.activities;
 
 import android.os.Bundle;
 
@@ -9,8 +9,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.PagerAdapter;
-import com.nfs.nfsmanager.utils.fragments.MagiskLogFragment;
-import com.nfs.nfsmanager.utils.fragments.NFSLogFragment;
+import com.nfs.nfsmanager.fragments.MagiskLogFragment;
+import com.nfs.nfsmanager.fragments.NFSLogFragment;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on October 11, 2020

@@ -87,6 +87,7 @@ public class UpdateCheck {
 
     private static MaterialAlertDialogBuilder updateAvailableDialog(Context context) {
         return new MaterialAlertDialogBuilder(context)
+                .setIcon(R.mipmap.ic_launcher)
                 .setTitle(context.getString(R.string.update_available, UpdateCheck.versionName()))
                 .setMessage(UpdateCheck.getChangelogs())
                 .setCancelable(false)
@@ -167,6 +168,8 @@ public class UpdateCheck {
                         updateAvailableDialog(activity).show();
                     } else {
                         new MaterialAlertDialogBuilder(activity)
+                                .setIcon(R.mipmap.ic_launcher)
+                                .setTitle(R.string.app_name)
                                 .setMessage(R.string.update_unavailable)
                                 .setPositiveButton(activity.getString(R.string.cancel), (dialog, id) -> {
                                 })
@@ -232,6 +235,8 @@ public class UpdateCheck {
                     installUpdate(context);
                 } else {
                     new MaterialAlertDialogBuilder(context)
+                            .setIcon(R.mipmap.ic_launcher)
+                            .setTitle(R.string.app_name)
                             .setMessage(R.string.download_failed)
                             .setPositiveButton(R.string.cancel, (dialog, which) -> {
                             }).show();

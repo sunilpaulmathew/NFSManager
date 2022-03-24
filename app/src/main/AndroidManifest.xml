@@ -32,21 +32,21 @@
 
         <activity android:name=".MainActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.ApplyModeActivity"
+        <activity android:name=".activities.ApplyModeActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.ChangeLogActivity"
+        <activity android:name=".activities.ChangeLogActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.CPUTimesActivity"
+        <activity android:name=".activities.CPUTimesActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.CreditsActivity"
+        <activity android:name=".activities.CreditsActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.DeviceInfoActivity"
+        <activity android:name=".activities.DeviceInfoActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.FlashingActivity"
+        <activity android:name=".activities.FlashingActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.WebViewActivity"
+        <activity android:name=".activities.WebViewActivity"
             android:exported="false" />
-        <activity android:name=".utils.activities.LogsActivity"
+        <activity android:name=".activities.LogsActivity"
             android:exported="false" />
 
         <provider

@@ -1,4 +1,4 @@
-package com.nfs.nfsmanager.utils.fragments;
+package com.nfs.nfsmanager.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,7 +29,7 @@ import java.io.File;
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on November 05, 2020
  */
 
-public class MagiskLogFragment extends Fragment {
+public class NFSLogFragment extends Fragment {
 
     private LinearLayout mProgressLayout;
     private MaterialTextView mProgressMessage;
@@ -44,44 +44,46 @@ public class MagiskLogFragment extends Fragment {
         MaterialTextView mLogText = mRootView.findViewById(R.id.log_text);
         FloatingActionButton mSave = mRootView.findViewById(R.id.save_button);
 
-        mLogText.setText(NFS.readMagiskLog());
-        mSave.setOnClickListener(v -> exportMagiskLog(requireActivity()));
+        mLogText.setText(NFS.readNFSLog());
+        mSave.setOnClickListener(v -> exportNFSLog(requireActivity()));
         return mRootView;
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void exportMagiskLog(Context context) {
+    public void exportNFSLog(Context context) {
         new AsyncTasks() {
 
             @SuppressLint("SetTextI18n")
             @Override
             public void onPreExecute() {
                 mProgressLayout.setVisibility(View.VISIBLE);
-                mProgressMessage.setText(context.getString(R.string.exporting, Utils.getInternalDataStorage(context) + "/magisk.log") + "...");
+                mProgressMessage.setText(context.getString(R.string.exporting, Utils.getInternalDataStorage(context) + "/nfs.log") + "...");
             }
 
             @Override
             public void doInBackground() {
                 NFS.makeAppFolder(context);
                 Utils.runCommand("sleep 2");
-                Utils.copy("/cache/magisk.log", Utils.getInternalDataStorage(context) + "/magisk.log");
+                Utils.copy("/data/NFS/nfs.log", Utils.getInternalDataStorage(context) + "/nfs.log");
             }
 
             @Override
             public void onPostExecute() {
                 mProgressLayout.setVisibility(View.GONE);
-                if (Utils.exist(Utils.getInternalDataStorage(context) + "/magisk.log")) {
+                if (Utils.exist(Utils.getInternalDataStorage(context) + "/nfs.log")) {
                     new MaterialAlertDialogBuilder(context)
+                            .setIcon(R.mipmap.ic_launcher)
+                            .setTitle(R.string.app_name)
                             .setMessage(context.getString(R.string.export_completed, Utils.getInternalDataStorage(context)))
                             .setCancelable(false)
                             .setNegativeButton(context.getString(R.string.cancel), (dialog, id) -> {
                             })
                             .setPositiveButton(context.getString(R.string.share), (dialog, id) -> {
                                 Uri uriFile = FileProvider.getUriForFile(context,
-                                        BuildConfig.APPLICATION_ID + ".provider", new File(Utils.getInternalDataStorage(context) + "/magisk.log"));
+                                        BuildConfig.APPLICATION_ID + ".provider", new File(Utils.getInternalDataStorage(context) + "/nfs.log"));
                                 Intent shareScript = new Intent(Intent.ACTION_SEND);
                                 shareScript.setType("text/x-log");
-                                shareScript.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_by, context.getString(R.string.magisk_log)));
+                                shareScript.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_by, context.getString(R.string.nfs_log)));
                                 shareScript.putExtra(Intent.EXTRA_STREAM, uriFile);
                                 shareScript.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 context.startActivity(Intent.createChooser(shareScript, context.getString(R.string.share_with)));

@@ -1,4 +1,4 @@
-package com.nfs.nfsmanager.utils.activities;
+package com.nfs.nfsmanager.activities;
 
 import android.os.Bundle;
 
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.nfs.nfsmanager.R;
-import com.nfs.nfsmanager.utils.fragments.DeviceInfoFragment;
+import com.nfs.nfsmanager.fragments.DeviceInfoFragment;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on December 10, 2020

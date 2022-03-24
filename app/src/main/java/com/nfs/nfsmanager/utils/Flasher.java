@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.nfs.nfsmanager.utils.activities.FlashingActivity;
+import com.nfs.nfsmanager.activities.FlashingActivity;
 
 import java.io.File;
 import java.util.Objects;

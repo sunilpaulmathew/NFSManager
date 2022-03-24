@@ -44,10 +44,10 @@
     <string name="download_failed">It seems like the download is failed, or a corrupted file is downloaded! Aborting.</string>
     <string name="downloading">Downloading %s</string>
     <string name="doze">Doze</string>
-    <string name="doze_custom">Nap</string>
+    <string name="doze_custom">Naptime</string>
     <string name="doze_default">Stock Doze</string>
     <string name="doze_disable">Disable Doze</string>
-    <string name="doze_force">Balcked Out</string>
+    <string name="doze_force">Black Out</string>
     <string name="enable">Enable</string>
     <string name="enforcing">Enforcing</string>
     <string name="execute_default">Execute - Default</string>
