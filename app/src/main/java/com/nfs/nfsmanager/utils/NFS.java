@@ -54,16 +54,139 @@ public class NFS {
 
     private static int i;
 
-    public static String getReleaseStatus() {
-        try {
-            for (String line : Objects.requireNonNull(Utils.read(MODULE_PARANT + "/module.prop")).split("\\r?\\n")) {
-                if (line.startsWith("status=")) {
-                    return line.replace("status=", "");
-                }
-            }
-        } catch (Exception ignored) {
-        }
-        return "";
+    public static boolean hasZygote() {
+        return Utils.exist(ZYGOTE);
+    }
+
+    public static boolean hasSF() {
+        return Utils.exist(SF);
+    }
+
+    public static boolean hasDozeMode() {
+        return Utils.exist(DOZE);
+    }
+
+    public static boolean hasLMK() {
+        return Utils.exist(LMK);
+    }
+
+    public static boolean hasShield() {
+        return Utils.exist(SHIELD);
+    }
+
+    public static boolean hasDNSMode() {
+        return Utils.exist(DNS);
+    }
+
+    public static boolean hasAds() {
+        return Utils.exist(ADS);
+    }
+
+    public static boolean hasOW() {
+        return Utils.exist(OW);
+    }
+
+    public static boolean hasSELinux() {
+        return Utils.exist(LINUX);
+    }
+
+    public static boolean hasSync() {
+        return Utils.exist(SYNC);
+    }
+
+    public static boolean hasTT() {
+        return Utils.exist(TT);
+    }
+
+    public static boolean hasNFSLog() {
+        return Utils.exist(NFS_LOG);
+    }
+
+    public static boolean isModuleDisabled() {
+        return Utils.exist(MODULE_PARANT + "/disable");
+    }
+
+    public static boolean isModuleRemoved() {
+        return Utils.exist(MODULE_PARANT + "/remove");
+    }
+
+    public static boolean isProUser() {
+        if (BuildConfig.DEBUG) return true;
+        return hasAds() && hasTT() && hasOW() && hasShield() && hasSF();
+    }
+
+    public static boolean isNFSSleeping() {
+        return hasNFSLog() && readNFSLog().contains("NFS Will Comeback After 60 Seconds Sleeping")
+                || supported() && !hasNFSLog();
+    }
+
+    public static boolean isNFSRunning() {
+        return Utils.exist("/system/bin/injector") || !Utils.runAndGetError("injector --help")
+                .contains("injector: inaccessible or not found");
+    }
+
+    public static boolean magiskSupported() {
+        return Utils.exist("/sbin/.magisk") || Utils.exist("/data/adb/magisk");
+    }
+
+    public static boolean isModuleParent() {
+        return Utils.exist(MODULE_PARANT);
+    }
+
+    public static boolean isNFSParent() {
+        return Utils.exist(NFS_PARANT);
+    }
+
+    public static boolean supported() {
+        return isModuleParent() && isNFSParent() && isNFSRunning();
+    }
+
+    public static int getAds() {
+        return Utils.strToInt(Utils.read(ADS));
+    }
+
+    public static int getZygote() {
+        return Utils.strToInt(Utils.read(ZYGOTE));
+    }
+
+    public static int getNFSMode() {
+        return Utils.strToInt(Utils.read(MODE));
+    }
+
+    public static int getDozeMode() {
+        return Utils.strToInt(Utils.read(DOZE));
+    }
+
+    public static int getShield() {
+        return Utils.strToInt(Utils.read(SHIELD));
+    }
+
+    public static int getDNSMode() {
+        return Utils.strToInt(Utils.read(DNS));
+    }
+
+    public static int getOW() {
+        return Utils.strToInt(Utils.read(OW));
+    }
+
+    public static int getSELinuxMode() {
+        return Utils.strToInt(Utils.read(LINUX));
+    }
+
+    public static int getSync() {
+        return Utils.strToInt(Utils.read(SYNC));
+    }
+
+    public static int getTT() {
+        return Utils.strToInt(Utils.read(TT));
+    }
+
+    public static int getLMK() {
+        return Utils.strToInt(Utils.read(LMK));
+    }
+
+    public static int getSF() {
+        return Utils.strToInt(Utils.read(SF));
     }
 
     private static List<String> DozeMode(Context context) {
@@ -75,27 +198,11 @@ public class NFS {
         return list;
     }
 
-    public static String getDozeMode(Context context) {
-        if (getDozeMode() <= DozeMode(context).size()) {
-            return DozeMode(context).get(getDozeMode());
-        } else {
-            return context.getString(R.string.unknown);
-        }
-    }
-
     private static List<String> Shield(Context context) {
         List<String> list = new ArrayList<>();
         list.add(context.getString(R.string.device_default));
         list.add(context.getString(R.string.custom_nfs));
         return list;
-    }
-
-    public static String getShield(Context context) {
-        if (getShield() <= Shield(context).size()) {
-            return Shield(context).get(getShield());
-        } else {
-            return context.getString(R.string.unknown);
-        }
     }
 
     private static List<String> DNSMode(Context context) {
@@ -108,28 +215,12 @@ public class NFS {
         return list;
     }
 
-    public static String getDNSMode(Context context) {
-        if (getDNSMode() <= DozeMode(context).size()) {
-            return DNSMode(context).get(getDNSMode());
-        } else {
-            return context.getString(R.string.unknown);
-        }
-    }
-
     private static List<String> Ads(Context context) {
         List<String> list = new ArrayList<>();
         list.add(context.getString(R.string.execute_no));
         list.add(context.getString(R.string.execute_disable));
         list.add(context.getString(R.string.execute_default));
         return list;
-    }
-
-    public static String getAds(Context context) {
-        if (getAds() <= Ads(context).size()) {
-            return Ads(context).get(getAds());
-        } else {
-            return context.getString(R.string.unknown);
-        }
     }
 
     private static List<String> enableDisable(Context context) {
@@ -139,32 +230,11 @@ public class NFS {
         return list;
     }
 
-    public static String getEnableDisable(String string, Context context) {
-        if (string.equals(context.getString(R.string.overwatch_engine))) {
-            if ((getOW()) <= enableDisable(context).size()) {
-                return enableDisable(context).get(getOW());
-            }
-        } else {
-            if ((getZygote()) <= enableDisable(context).size()) {
-                return enableDisable(context).get(getZygote());
-            }
-        }
-        return context.getString(R.string.unknown);
-    }
-
     private static List<String> SELinux(Context context) {
         List<String> list = new ArrayList<>();
         list.add(context.getString(R.string.permissive));
         list.add(context.getString(R.string.enforcing));
         return list;
-    }
-
-    public static String getSELinuxMode(Context context) {
-        if (getSELinuxMode() <= SELinux(context).size()) {
-            return SELinux(context).get(getSELinuxMode());
-        } else {
-            return context.getString(R.string.unknown);
-        }
     }
 
     private static List<String> lowHigh(Context context) {
@@ -179,6 +249,91 @@ public class NFS {
         list.add(context.getString(R.string.off));
         list.add(context.getString(R.string.on));
         return list;
+    }
+
+    public static String readNFSLog() {
+        return Utils.read(NFS_LOG);
+    }
+
+    public static String readMagiskLog() {
+        return Utils.read(MAGISK_LOG);
+    }
+
+    public static String getModVersion() {
+        try {
+            for (String line : Objects.requireNonNull(Utils.read(MODULE_PARANT + "/module.prop")).split("\\r?\\n")) {
+                if (line.startsWith("version")) {
+                    return line.replace("version=", "");
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return "";
+    }
+
+    public static String getReleaseStatus() {
+        try {
+            for (String line : Objects.requireNonNull(Utils.read(MODULE_PARANT + "/module.prop")).split("\\r?\\n")) {
+                if (line.startsWith("status=")) {
+                    return line.replace("status=", "");
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return "";
+    }
+
+    public static String getDozeMode(Context context) {
+        if (getDozeMode() <= DozeMode(context).size()) {
+            return DozeMode(context).get(getDozeMode());
+        } else {
+            return context.getString(R.string.unknown);
+        }
+    }
+
+    public static String getShield(Context context) {
+        if (getShield() <= Shield(context).size()) {
+            return Shield(context).get(getShield());
+        } else {
+            return context.getString(R.string.unknown);
+        }
+    }
+
+    public static String getDNSMode(Context context) {
+        if (getDNSMode() <= DozeMode(context).size()) {
+            return DNSMode(context).get(getDNSMode());
+        } else {
+            return context.getString(R.string.unknown);
+        }
+    }
+
+    public static String getAds(Context context) {
+        if (getAds() <= Ads(context).size()) {
+            return Ads(context).get(getAds());
+        } else {
+            return context.getString(R.string.unknown);
+        }
+    }
+
+    public static String getEnableDisable(String string, Context context) {
+        if (string.equals(context.getString(R.string.overwatch_engine))) {
+            if (getOW() <= enableDisable(context).size()) {
+                return enableDisable(context).get(getOW());
+            }
+        } else {
+            if (getZygote() <= enableDisable(context).size()) {
+                return enableDisable(context).get(getZygote());
+            }
+        }
+        return context.getString(R.string.unknown);
+    }
+
+    public static String getSELinuxMode(Context context) {
+        if (getSELinuxMode() <= SELinux(context).size()) {
+            return SELinux(context).get(getSELinuxMode());
+        } else {
+            return context.getString(R.string.unknown);
+        }
     }
 
     public static String getLMK(Context context) {
@@ -226,6 +381,69 @@ public class NFS {
         return null;
     }
 
+    public static String availableTCPs() {
+        try {
+            return Utils.read(AVAILABLE_TCP);
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+    public static String getGOV() {
+        return Objects.requireNonNull(Utils.read(GOV)).toLowerCase();
+    }
+
+    public static String getSched() {
+        return Utils.read(SCHED);
+    }
+
+    public static String getTCP() {
+        return Utils.read(TCP);
+    }
+
+    public static String conflictsList(Context context) {
+        StringBuilder sb = new StringBuilder();
+        if (Utils.exist("/data/adb/modules/GPUTurboBoost")) {
+            sb.append("* GPU Turbo Boost Module\n");
+        }
+        if (Utils.exist("/data/adb/modules/legendary_kernel_tweaks")) {
+            sb.append("* LKT Module\n");
+        }
+        if (Utils.exist("/data/adb/modules/lspeed")) {
+            sb.append("* LSpeed Module\n");
+        }
+        if (Utils.exist("/data/adb/modules/FDE")) {
+            sb.append("* FDE.AI Module\n");
+        }
+        if (Utils.exist("/data/adb/modules/MAGNETAR")
+                || Utils.exist("/data/adb/modules/M4GN3T4R")) {
+            sb.append("* Magnetar Module\n");
+        }
+        if (Utils.isAppInstalled("com.feravolt.fdeai", context)
+                || Utils.isAppInstalled("com.feravolt.lite", context)) {
+            sb.append("* FDE.AI App\n");
+        }
+        if (Utils.isAppInstalled("vul.max", context)
+                || Utils.isAppInstalled("vul.pub", context)
+                || Utils.isAppInstalled("vulmax.game", context)) {
+            sb.append("* Vulmax App\n");
+        }
+        if (Utils.isAppInstalled("com.paget96.lspeedoptimizer", context)
+                || Utils.isAppInstalled("com.paget96.lspeed", context)
+                || Utils.isAppInstalled("com.paget96.l_speed", context)) {
+            sb.append("* LSpeed App\n");
+        }
+        return sb.toString();
+    }
+
+    public static String illegalAppsList(Context context) {
+        StringBuilder sb = new StringBuilder();
+        if (Utils.isAppInstalled("nfg.multi_crack.android", context)) {
+            sb.append("* NFG Multi Crack\n");
+        }
+        return sb.toString();
+    }
+
     public static void setScheduler(AppCompatTextView textView, View view) {
         String[] mItem = Objects.requireNonNull(getSchedulers()).split(" ");
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
@@ -245,14 +463,6 @@ public class NFS {
         popupMenu.show();
     }
 
-    public static String availableTCPs() {
-        try {
-            return Utils.read(AVAILABLE_TCP);
-        } catch (Exception ignored) {
-        }
-        return null;
-    }
-
     public static void setTCP(AppCompatTextView textView, View view) {
         String[] mItem = Objects.requireNonNull(availableTCPs()).split(" ");
         PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
@@ -270,18 +480,6 @@ public class NFS {
             return false;
         });
         popupMenu.show();
-    }
-
-    public static String getGOV() {
-        return Objects.requireNonNull(Utils.read(GOV)).toLowerCase();
-    }
-
-    public static String getSched() {
-        return Utils.read(SCHED);
-    }
-
-    public static String getTCP() {
-        return Utils.read(TCP);
     }
 
     public static void setNFSMode(int value) {
@@ -478,204 +676,6 @@ public class NFS {
             return false;
         });
         popupMenu.show();
-    }
-
-    public static int getAds() {
-        return Utils.strToInt(Utils.read(ADS));
-    }
-
-    public static int getZygote() {
-        return Utils.strToInt(Utils.read(ZYGOTE));
-    }
-
-    public static int getNFSMode() {
-        return Utils.strToInt(Utils.read(MODE));
-    }
-
-    public static int getDozeMode() {
-        return Utils.strToInt(Utils.read(DOZE));
-    }
-
-    public static int getShield() {
-        return Utils.strToInt(Utils.read(SHIELD));
-    }
-
-    public static int getDNSMode() {
-        return Utils.strToInt(Utils.read(DNS));
-    }
-
-    public static int getOW() {
-        return Utils.strToInt(Utils.read(OW));
-    }
-
-    public static int getSELinuxMode() {
-        return Utils.strToInt(Utils.read(LINUX));
-    }
-
-    public static int getSync() {
-        return Utils.strToInt(Utils.read(SYNC));
-    }
-
-    public static int getTT() {
-        return Utils.strToInt(Utils.read(TT));
-    }
-
-    public static int getLMK() {
-        return Utils.strToInt(Utils.read(LMK));
-    }
-
-    public static int getSF() {
-        return Utils.strToInt(Utils.read(SF));
-    }
-
-    public static boolean hasZygote() {
-        return Utils.exist(ZYGOTE);
-    }
-
-    public static boolean hasSF() {
-        return Utils.exist(SF);
-    }
-
-    public static boolean hasDozeMode() {
-        return Utils.exist(DOZE);
-    }
-
-    public static boolean hasLMK() {
-        return Utils.exist(LMK);
-    }
-
-    public static boolean hasShield() {
-        return Utils.exist(SHIELD);
-    }
-
-    public static boolean hasDNSMode() {
-        return Utils.exist(DNS);
-    }
-
-    public static boolean hasAds() {
-        return Utils.exist(ADS);
-    }
-
-    public static boolean hasOW() {
-        return Utils.exist(OW);
-    }
-
-    public static boolean hasSELinux() {
-        return Utils.exist(LINUX);
-    }
-
-    public static boolean hasSync() {
-        return Utils.exist(SYNC);
-    }
-
-    public static boolean hasTT() {
-        return Utils.exist(TT);
-    }
-
-    public static boolean hasNFSLog() {
-        return Utils.exist(NFS_LOG);
-    }
-
-    public static boolean isModuleDisabled() {
-        return Utils.exist(MODULE_PARANT + "/disable");
-    }
-
-    public static boolean isModuleRemoved() {
-        return Utils.exist(MODULE_PARANT + "/remove");
-    }
-
-    public static String readNFSLog() {
-        return Utils.read(NFS_LOG);
-    }
-
-    public static String readMagiskLog() {
-        return Utils.read(MAGISK_LOG);
-    }
-
-    public static String getModVersion() {
-        try {
-            for (String line : Objects.requireNonNull(Utils.read(MODULE_PARANT + "/module.prop")).split("\\r?\\n")) {
-                if (line.startsWith("version")) {
-                    return line.replace("version=", "");
-                }
-            }
-        } catch (Exception ignored) {
-        }
-        return "";
-    }
-
-    public static boolean isProUser() {
-        if (BuildConfig.DEBUG) return true;
-        return hasAds() && hasTT() && hasOW() && hasShield() && hasSF();
-    }
-
-    public static String conflictsList(Context context) {
-        StringBuilder sb = new StringBuilder();
-        if (Utils.exist("/data/adb/modules/GPUTurboBoost")) {
-            sb.append("* GPU Turbo Boost Module\n");
-        }
-        if (Utils.exist("/data/adb/modules/legendary_kernel_tweaks")) {
-            sb.append("* LKT Module\n");
-        }
-        if (Utils.exist("/data/adb/modules/lspeed")) {
-            sb.append("* LSpeed Module\n");
-        }
-        if (Utils.exist("/data/adb/modules/FDE")) {
-            sb.append("* FDE.AI Module\n");
-        }
-        if (Utils.exist("/data/adb/modules/MAGNETAR")
-                || Utils.exist("/data/adb/modules/M4GN3T4R")) {
-            sb.append("* Magnetar Module\n");
-        }
-        if (Utils.isAppInstalled("com.feravolt.fdeai", context)
-                || Utils.isAppInstalled("com.feravolt.lite", context)) {
-            sb.append("* FDE.AI App\n");
-        }
-        if (Utils.isAppInstalled("vul.max", context)
-                || Utils.isAppInstalled("vul.pub", context)
-                || Utils.isAppInstalled("vulmax.game", context)) {
-            sb.append("* Vulmax App\n");
-        }
-        if (Utils.isAppInstalled("com.paget96.lspeedoptimizer", context)
-                || Utils.isAppInstalled("com.paget96.lspeed", context)
-                || Utils.isAppInstalled("com.paget96.l_speed", context)) {
-            sb.append("* LSpeed App\n");
-        }
-        return sb.toString();
-    }
-
-    public static String illegalAppsList(Context context) {
-        StringBuilder sb = new StringBuilder();
-        if (Utils.isAppInstalled("nfg.multi_crack.android", context)) {
-            sb.append("* NFG Multi Crack\n");
-        }
-        return sb.toString();
-    }
-
-    public static boolean isNFSSleeping() {
-        return hasNFSLog() && readNFSLog().contains("NFS Will Comeback After 60 Seconds Sleeping")
-                || supported() && !hasNFSLog();
-    }
-
-    public static boolean isNFSRunning() {
-        return Utils.exist("/system/bin/injector") || !Utils.runAndGetError("injector --help")
-                .contains("injector: inaccessible or not found");
-    }
-
-    public static boolean magiskSupported() {
-        return Utils.exist("/sbin/.magisk") || Utils.exist("/data/adb/magisk");
-    }
-
-    public static boolean isModuleParent() {
-        return Utils.exist(MODULE_PARANT);
-    }
-
-    public static boolean isNFSParent() {
-        return Utils.exist(NFS_PARANT);
-    }
-
-    public static boolean supported() {
-        return isModuleParent() && isNFSParent() && isNFSRunning();
     }
 
 }
