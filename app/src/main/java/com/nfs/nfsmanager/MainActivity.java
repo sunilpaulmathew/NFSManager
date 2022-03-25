@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private int doze, shield, dns, ads, ow, selinux, sync, tt, sf, zygot, lmk;
     private String gov, sched, tcp;
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize App Theme
@@ -155,8 +155,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         BottomNavigationView mBottomNav = findViewById(R.id.bottom_navigation);
-        mBottomNav.setOnNavigationItemSelectedListener(navListener);
         mBottomNav.setVisibility(View.VISIBLE);
+        mBottomNav.setOnItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
+            switch (item.getItemId()) {
+                case R.id.nav_dashboard:
+                    selectedFragment = new DashBoardFragment();
+                    break;
+                case R.id.nav_nfs:
+                    selectedFragment = new NFSFragment();
+                    break;
+                case R.id.nav_about:
+                    selectedFragment = new AboutFragment();
+                    break;
+            }
+            assert selectedFragment != null;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    selectedFragment).commit();
+            return true;
+        });
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -194,30 +211,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
-    @SuppressLint("NonConstantResourceId")
-    private final BottomNavigationView.OnNavigationItemSelectedListener navListener
-            = menuItem -> {
-        Fragment selectedFragment = null;
-
-        switch (menuItem.getItemId()) {
-            case R.id.nav_dashboard:
-                selectedFragment = new DashBoardFragment();
-                break;
-            case R.id.nav_nfs:
-                selectedFragment = new NFSFragment();
-                break;
-            case R.id.nav_about:
-                selectedFragment = new AboutFragment();
-                break;
-        }
-
-        assert selectedFragment != null;
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                selectedFragment).commit();
-
-        return true;
-    };
 
     @SuppressLint("SetTextI18n")
     private void settingsMenu() {
