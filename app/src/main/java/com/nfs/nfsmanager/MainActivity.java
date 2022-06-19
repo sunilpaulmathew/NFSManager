@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (Utils.getBoolean("update_check_auto", true, this) && UpdateCheck.isSignatureMatched(this)) {
-            UpdateCheck.initialize(1, this);
+            UpdateCheck.initialize(1, false, this);
         }
     }
 

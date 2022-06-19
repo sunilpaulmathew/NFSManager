@@ -1,6 +1,5 @@
 package com.nfs.nfsmanager.adapters;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
@@ -21,8 +20,8 @@ import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.activities.ChangeLogActivity;
 import com.nfs.nfsmanager.activities.CreditsActivity;
 import com.nfs.nfsmanager.activities.WebViewActivity;
-import com.nfs.nfsmanager.utils.SerializableItems;
 import com.nfs.nfsmanager.utils.Common;
+import com.nfs.nfsmanager.utils.SerializableItems;
 import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
 
@@ -87,7 +86,7 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
                         .show();
             } else if (position == 12) {
                 UpdateCheck.isManualUpdate(true);
-                UpdateCheck.initialize(0, (Activity) holder.mRVLayout.getContext());
+                UpdateCheck.initialize(0, false, holder.mRVLayout.getContext());
             } else if (this.data.get(position).getURL() != null) {
                 Utils.launchUrl(holder.mRVLayout, this.data.get(position).getURL(), holder.mRVLayout.getContext());
             }

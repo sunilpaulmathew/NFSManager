@@ -1,21 +1,30 @@
 package com.nfs.nfsmanager.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.BuildConfig;
+import com.nfs.nfsmanager.MainActivity;
 import com.nfs.nfsmanager.R;
+import com.nfs.nfsmanager.receivers.UpdateReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,14 +138,14 @@ public class UpdateCheck {
         Utils.download(new File(context.getExternalFilesDir(""), "com.nfs.nfsmanager.apk").getAbsolutePath(), getDownloadUrl());
     }
 
-    public static void initialize(int updateCheckInterval, Activity activity) {
+    public static void initialize(int updateCheckInterval, boolean notificationService, Context context) {
         new AsyncTasks() {
 
             private long ucTimeStamp;
             private int interval;
             @Override
             public void onPreExecute() {
-                ucTimeStamp = PreferenceManager.getDefaultSharedPreferences(activity).getLong("ucTimeStamp", 0);
+                ucTimeStamp = PreferenceManager.getDefaultSharedPreferences(context).getLong("ucTimeStamp", 0);
                 interval = updateCheckInterval * 60 * 60 * 1000;
             }
 
@@ -152,6 +161,14 @@ public class UpdateCheck {
                         mSHA1 = mJSONObject.getString("sha1");
                         mVersionCode = mJSONObject.getInt("versionCode");
                         mVersionName = mJSONObject.getString("versionName");
+                        if (mJSONObject != null) {
+                            AlarmManager mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                            Intent mIntent = new Intent(context, UpdateReceiver.class);
+                            @SuppressLint("UnspecifiedImmutableFlag")
+                            PendingIntent mPendingIntent = PendingIntent.getBroadcast(context, 0, mIntent, PendingIntent.FLAG_IMMUTABLE);
+                            PreferenceManager.getDefaultSharedPreferences(context).edit().putLong("ucTimeStamp", System.currentTimeMillis()).apply();
+                            mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 60 * 1000, mPendingIntent);
+                        }
                     } catch (JSONException | IOException ignored) {
                     }
                 }
@@ -159,19 +176,53 @@ public class UpdateCheck {
 
             @Override
             public void onPostExecute() {
-                if (isManualUpdate()) {
+                if (notificationService) {
+                    Uri mAlarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                    Intent mIntent = new Intent(context, MainActivity.class);
+                    mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    PendingIntent mPendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_IMMUTABLE);
+                    NotificationChannel mNotificationChannel = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        mNotificationChannel = new NotificationChannel("channel", context.getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
+                    }
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "channel");
+                    Notification mNotification = mBuilder.setContentTitle(context.getString(R.string.update_available, UpdateCheck.versionName()))
+                            .setContentText(UpdateCheck.getChangelogs())
+                            .setStyle(new NotificationCompat.BigTextStyle())
+                            .setPriority(Notification.PRIORITY_HIGH)
+                            .setSmallIcon(R.drawable.ic_update)
+                            .setContentIntent(mPendingIntent)
+                            .setOnlyAlertOnce(true)
+                            .setSound(mAlarmSound)
+                            .setAutoCancel(true)
+                            .build();
+
+                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        notificationManager.createNotificationChannel(mNotificationChannel);
+                    }
+                    try {
+                        notificationManager.notify(0, mNotification);
+                    } catch (NullPointerException ignored) {}
+                } else if (isManualUpdate()) {
                     if (mJSONObject == null) {
-                        Utils.longSnackbar(activity.findViewById(android.R.id.content), activity.getString(R.string.no_internet));
+                        new MaterialAlertDialogBuilder(context)
+                                .setIcon(R.mipmap.ic_launcher)
+                                .setTitle(R.string.app_name)
+                                .setMessage(R.string.no_internet)
+                                .setPositiveButton(context.getString(R.string.cancel), (dialog, id) -> {
+                                })
+                                .show();
                         return;
                     }
                     if (isUpdateAvailable()) {
-                        updateAvailableDialog(activity).show();
+                        updateAvailableDialog(context).show();
                     } else {
-                        new MaterialAlertDialogBuilder(activity)
+                        new MaterialAlertDialogBuilder(context)
                                 .setIcon(R.mipmap.ic_launcher)
                                 .setTitle(R.string.app_name)
                                 .setMessage(R.string.update_unavailable)
-                                .setPositiveButton(activity.getString(R.string.cancel), (dialog, id) -> {
+                                .setPositiveButton(context.getString(R.string.cancel), (dialog, id) -> {
                                 })
                                 .show();
                     }
@@ -180,11 +231,9 @@ public class UpdateCheck {
                         return;
                     }
                     if (isUpdateAvailable()) {
-                        updateAvailableDialog(activity).show();
+                        updateAvailableDialog(context).show();
                     }
                 }
-                PreferenceManager.getDefaultSharedPreferences(activity).edit().putLong("ucTimeStamp", System
-                        .currentTimeMillis()).apply();
             }
         }.execute();
     }
