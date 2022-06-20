@@ -85,7 +85,6 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
                                 Utils.launchUrl(holder.mRVLayout, "https://www.paypal.me/menacherry", holder.mRVLayout.getContext()))
                         .show();
             } else if (position == 12) {
-                UpdateCheck.isManualUpdate(true);
                 UpdateCheck.initialize(0, false, holder.mRVLayout.getContext());
             } else if (this.data.get(position).getURL() != null) {
                 Utils.launchUrl(holder.mRVLayout, this.data.get(position).getURL(), holder.mRVLayout.getContext());

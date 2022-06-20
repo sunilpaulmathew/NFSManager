@@ -406,7 +406,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (Utils.getBoolean("update_check_auto", true, this) && UpdateCheck.isSignatureMatched(this)) {
-            UpdateCheck.initialize(1, false, this);
+            String mUpdateStatus = getIntent().getStringExtra(UpdateCheck.getUpdateStatus());
+            if (mUpdateStatus != null && mUpdateStatus.equals("UPDATE_AVAILABLE")) {
+                UpdateCheck.updateAvailableDialog(this).show();
+            } else {
+                UpdateCheck.initialize(1, false, this);
+            }
         }
     }
 

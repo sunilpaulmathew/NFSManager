@@ -47,14 +47,10 @@ import java.util.Objects;
 
 public class UpdateCheck {
 
-    private static boolean mManualUpdate = false;
     private static int mVersionCode;
     private static JSONObject mJSONObject = null;
+    private static final String mUPDATE_STATUS = "unavailable";
     private static String mDownloadURL = null, mReleaseNotes = null, mSHA1 = null, mVersionName = null;
-
-    private static boolean isManualUpdate() {
-        return mManualUpdate;
-    }
 
     /*
      * Based on the ApkSignatureVerifier.java in https://github.com/f-droid/fdroidclient
@@ -85,8 +81,8 @@ public class UpdateCheck {
         return outputStream.toByteArray();
     }
 
-    private static boolean isUpdateAvailable() {
-        return BuildConfig.VERSION_CODE < versionCode();
+    public static boolean isUpdateAvailable() {
+        return mJSONObject != null && BuildConfig.VERSION_CODE < versionCode();
     }
 
     private static int versionCode() {
@@ -94,7 +90,7 @@ public class UpdateCheck {
         return mVersionCode;
     }
 
-    private static MaterialAlertDialogBuilder updateAvailableDialog(Context context) {
+    public static MaterialAlertDialogBuilder updateAvailableDialog(Context context) {
         return new MaterialAlertDialogBuilder(context)
                 .setIcon(R.mipmap.ic_launcher)
                 .setTitle(context.getString(R.string.update_available, UpdateCheck.versionName()))
@@ -118,6 +114,10 @@ public class UpdateCheck {
     private static String getDownloadUrl() {
         if (mJSONObject == null) return null;
         return mDownloadURL;
+    }
+
+    public static String getUpdateStatus() {
+        return mUPDATE_STATUS;
     }
 
     private static String readAll(Reader rd) throws IOException {
@@ -162,13 +162,13 @@ public class UpdateCheck {
                         mVersionCode = mJSONObject.getInt("versionCode");
                         mVersionName = mJSONObject.getString("versionName");
                         if (mJSONObject != null) {
-                            AlarmManager mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                            Intent mIntent = new Intent(context, UpdateReceiver.class);
-                            @SuppressLint("UnspecifiedImmutableFlag")
-                            PendingIntent mPendingIntent = PendingIntent.getBroadcast(context, 0, mIntent, PendingIntent.FLAG_IMMUTABLE);
                             PreferenceManager.getDefaultSharedPreferences(context).edit().putLong("ucTimeStamp", System.currentTimeMillis()).apply();
-                            mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 60 * 1000, mPendingIntent);
                         }
+                        AlarmManager mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        Intent mIntent = new Intent(context, UpdateReceiver.class);
+                        @SuppressLint("UnspecifiedImmutableFlag")
+                        PendingIntent mPendingIntent = PendingIntent.getBroadcast(context, 0, mIntent, PendingIntent.FLAG_IMMUTABLE);
+                        mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 60 * 1000, mPendingIntent);
                     } catch (JSONException | IOException ignored) {
                     }
                 }
@@ -179,6 +179,7 @@ public class UpdateCheck {
                 if (notificationService) {
                     Uri mAlarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                     Intent mIntent = new Intent(context, MainActivity.class);
+                    mIntent.putExtra(getUpdateStatus(), "UPDATE_AVAILABLE");
                     mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent mPendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_IMMUTABLE);
                     NotificationChannel mNotificationChannel = null;
@@ -187,7 +188,7 @@ public class UpdateCheck {
                     }
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "channel");
                     Notification mNotification = mBuilder.setContentTitle(context.getString(R.string.update_available, UpdateCheck.versionName()))
-                            .setContentText(UpdateCheck.getChangelogs())
+                            .setContentText(context.getString(R.string.update_notification_summary))
                             .setStyle(new NotificationCompat.BigTextStyle())
                             .setPriority(Notification.PRIORITY_HIGH)
                             .setSmallIcon(R.drawable.ic_update)
@@ -204,7 +205,7 @@ public class UpdateCheck {
                     try {
                         notificationManager.notify(0, mNotification);
                     } catch (NullPointerException ignored) {}
-                } else if (isManualUpdate()) {
+                } else if (updateCheckInterval == 0) {
                     if (mJSONObject == null) {
                         new MaterialAlertDialogBuilder(context)
                                 .setIcon(R.mipmap.ic_launcher)
@@ -246,10 +247,6 @@ public class UpdateCheck {
                 new File(context.getExternalFilesDir(""), "com.nfs.nfsmanager.apk"));
         intent.setDataAndType(uriFile, "application/vnd.android.package-archive");
         context.startActivity(Intent.createChooser(intent, ""));
-    }
-
-    public static void isManualUpdate(boolean b) {
-        mManualUpdate = b;
     }
 
     private static void updaterTask(Context context) {
