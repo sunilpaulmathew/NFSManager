@@ -3,13 +3,12 @@ package com.nfs.nfsmanager.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.utils.NFS;
@@ -41,30 +40,29 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.View
     public void onBindViewHolder(@NonNull DashBoardAdapter.ViewHolder holder, int position) {
         try {
             holder.mTitle.setText(this.data.get(position).getTitle());
-            holder.mIcon.setImageDrawable(this.data.get(position).getIcon());
             if (NFS.getNFSMode() == 0) {
                 if (position == 0) {
-                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorBlue));
+                    holder.mLayoutCard.setCardBackgroundColor(ContextCompat.getColor(holder.mLayoutCard.getContext(), R.color.ColorBlue));
                 } else {
-                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorTeal));
+                    holder.mLayoutCard.setCardBackgroundColor(ContextCompat.getColor(holder.mLayoutCard.getContext(), R.color.ColorTeal));
                 }
             } else if (NFS.getNFSMode() == 1) {
                 if (position == 1) {
-                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorBlue));
+                    holder.mLayoutCard.setCardBackgroundColor(ContextCompat.getColor(holder.mLayoutCard.getContext(), R.color.ColorBlue));
                 } else {
-                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorTeal));
+                    holder.mLayoutCard.setCardBackgroundColor(ContextCompat.getColor(holder.mLayoutCard.getContext(), R.color.ColorTeal));
                 }
             } else if (NFS.getNFSMode() == 2) {
                 if (position == 2) {
-                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorBlue));
+                    holder.mLayoutCard.setCardBackgroundColor(ContextCompat.getColor(holder.mLayoutCard.getContext(), R.color.ColorBlue));
                 } else {
-                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorTeal));
+                    holder.mLayoutCard.setCardBackgroundColor(ContextCompat.getColor(holder.mLayoutCard.getContext(), R.color.ColorTeal));
                 }
             } else {
                 if (position == 3) {
-                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorBlue));
+                    holder.mLayoutCard.setCardBackgroundColor(ContextCompat.getColor(holder.mLayoutCard.getContext(), R.color.ColorBlue));
                 } else {
-                    holder.mLinearLayout.setBackgroundColor(ContextCompat.getColor(holder.mLinearLayout.getContext(), R.color.ColorTeal));
+                    holder.mLayoutCard.setCardBackgroundColor(ContextCompat.getColor(holder.mLayoutCard.getContext(), R.color.ColorTeal));
                 }
             }
         } catch (NullPointerException ignored) {}
@@ -76,16 +74,14 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final AppCompatImageButton mIcon;
+        private final MaterialCardView mLayoutCard;
         private final MaterialTextView mTitle;
-        private final LinearLayout mLinearLayout;
 
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
-            this.mIcon = view.findViewById(R.id.icon);
+            this.mLayoutCard = view.findViewById(R.id.main_card);
             this.mTitle = view.findViewById(R.id.title);
-            this.mLinearLayout = view.findViewById(R.id.rv_layout);
         }
 
         @Override

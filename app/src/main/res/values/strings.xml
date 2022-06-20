@@ -148,6 +148,7 @@
     <string name="update_check_summary">Check for new versions of NFS Manager</string>
     <string name="update_notification_summary">Click here to open the app and get new update.</string>
     <string name="update_unavailable">Congrats! You\'re up-to-date!</string>
+    <string name="user_guide">User Guide</string>
     <string name="version">Version: %s</string>
     <string name="voltage">Voltage: %s mV</string>
     <string name="warning">Warning</string>

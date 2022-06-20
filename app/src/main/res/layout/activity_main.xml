@@ -17,17 +17,17 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
-                android:layout_height="125dp"
-                android:gravity="center"
-                android:src="@drawable/ic_nfs"
+                android:layout_height="135dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher"
                 android:background="@color/ColorBlack"
-                android:visibility="visible" />
+                android:gravity="center" />
 
             <FrameLayout
                 android:id="@+id/support_statue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_margin="15dp"
                 android:baselineAligned="false"
                 android:visibility="gone" >
 

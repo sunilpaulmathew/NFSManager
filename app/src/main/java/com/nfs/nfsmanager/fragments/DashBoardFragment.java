@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +19,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.R;
 import com.nfs.nfsmanager.activities.ApplyModeActivity;
 import com.nfs.nfsmanager.adapters.DashBoardAdapter;
-import com.nfs.nfsmanager.utils.SerializableItems;
 import com.nfs.nfsmanager.utils.AsyncTasks;
 import com.nfs.nfsmanager.utils.Common;
 import com.nfs.nfsmanager.utils.NFS;
+import com.nfs.nfsmanager.utils.SerializableItems;
 import com.nfs.nfsmanager.utils.Utils;
 
 import java.util.ArrayList;
@@ -57,6 +56,8 @@ public class DashBoardFragment extends Fragment {
                     showUpdateModeDialog(2, getString(R.string.ultra));
                 } else if (position == 3) {
                     showUpdateModeDialog(3, getString(R.string.gaming));
+                } else if (position == 4) {
+                    Utils.launchUrl(mRootView, "https://github.com/k1ks/NFS-INJECTOR/wiki", requireActivity());
                 }
             }
         });
@@ -66,10 +67,12 @@ public class DashBoardFragment extends Fragment {
 
     private ArrayList<SerializableItems> getData() {
         ArrayList<SerializableItems> mData = new ArrayList<>();
-        mData.add(new SerializableItems(getString(R.string.battery), null, ContextCompat.getDrawable(requireActivity(), R.drawable.ic_battery), null));
-        mData.add(new SerializableItems(getString(R.string.balanced), null, ContextCompat.getDrawable(requireActivity(), R.drawable.ic_balanced), null));
-        mData.add(new SerializableItems(getString(R.string.ultra), null, ContextCompat.getDrawable(requireActivity(), R.drawable.ic_ultra), null));
-        mData.add(new SerializableItems(getString(R.string.gaming), null, ContextCompat.getDrawable(requireActivity(), R.drawable.ic_game), null));
+        mData.add(new SerializableItems(getString(R.string.battery), null, null, null));
+        mData.add(new SerializableItems(getString(R.string.balanced), null, null, null));
+        mData.add(new SerializableItems(getString(R.string.ultra), null, null, null));
+        mData.add(new SerializableItems(getString(R.string.gaming), null, null, null));
+        mData.add(new SerializableItems(getString(R.string.user_guide), null,
+                null, "https://github.com/k1ks/NFS-INJECTOR/wiki"));
         return mData;
     }
 
@@ -116,7 +119,7 @@ public class DashBoardFragment extends Fragment {
     }
 
     private int getSpanCount(Activity activity) {
-        return Utils.getOrientation(activity) == Configuration.ORIENTATION_LANDSCAPE ? 4 : 2;
+        return Utils.getOrientation(activity) == Configuration.ORIENTATION_LANDSCAPE ? 2 : 1;
     }
 
 }
