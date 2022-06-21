@@ -97,14 +97,10 @@ public class FlashingActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!Common.isFlashing()) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && !Common.isFlashing()) {
             finish();
         }
+        return true;
     }
 
 }
