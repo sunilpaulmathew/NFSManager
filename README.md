@@ -30,7 +30,7 @@ Please help us to translate this app. The original language string is available 
 ## Donations
 If you like to appreciate the developer ([sunilpaulmathew](https://github.com/sunilpaulmathew)) for maintaining this app up-to-date and fully compatible with each new Android & NFS Injector versions, please consider sending a small donation via [PayPal](https://www.paypal.me/menacherry). Thank You!
 
-<p><a href="https://www.paypal.me/menacherry" target="_blank"><img src="https://github.com/SmartPack/SmartPack.github.io/blob/master/asset/pic005.png?raw=true" alt="" height="60" /></a></p>
+<p><a href="https://www.paypal.me/menacherry" target="_blank"><img src="https://github.com/SmartPack/SmartPack.github.io/blob/master/assets/pic005.png?raw=true" alt="" height="60" /></a></p>
 
 <b>Please Note</b>: This donation won't make you eligible for NFS Injector Pro version!
 
