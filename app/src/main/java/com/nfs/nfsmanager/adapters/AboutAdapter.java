@@ -60,21 +60,21 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
                 Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
                 settings.setData(uri);
                 holder.mRVLayout.getContext().startActivity(settings);
-            } else if (position == 6) {
+            } else if (position == 5) {
                 Intent changeLogs = new Intent(holder.mRVLayout.getContext(), ChangeLogActivity.class);
                 holder.mRVLayout.getContext().startActivity(changeLogs);
-            } else if (position == 8) {
+            } else if (position == 7) {
                 Common.setURL("file:///android_asset/privacy-policy.html");
                 Intent privacyPolicy = new Intent(holder.mRVLayout.getContext(), WebViewActivity.class);
                 holder.mRVLayout.getContext().startActivity(privacyPolicy);
-            } else if (position == 9) {
+            } else if (position == 8) {
                 Common.setURL("https://www.gnu.org/licenses/gpl-3.0-standalone.html");
                 Intent licence = new Intent(holder.mRVLayout.getContext(), WebViewActivity.class);
                 holder.mRVLayout.getContext().startActivity(licence);
-            } else if (position == 10) {
+            } else if (position == 9) {
                 Intent credits = new Intent(holder.mRVLayout.getContext(), CreditsActivity.class);
                 holder.mRVLayout.getContext().startActivity(credits);
-            } else if (position == 11) {
+            } else if (position == 10) {
                 new MaterialAlertDialogBuilder(v.getContext())
                         .setIcon(R.mipmap.ic_launcher)
                         .setTitle(v.getContext().getString(R.string.app_name))
@@ -84,7 +84,7 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
                         .setPositiveButton(R.string.donate, (dialogInterface, ii) ->
                                 Utils.launchUrl(holder.mRVLayout, "https://www.paypal.me/menacherry", holder.mRVLayout.getContext()))
                         .show();
-            } else if (position == 12) {
+            } else if (position == 11) {
                 UpdateCheck.initialize(0, false, holder.mRVLayout.getContext());
             } else if (this.data.get(position).getURL() != null) {
                 Utils.launchUrl(holder.mRVLayout, this.data.get(position).getURL(), holder.mRVLayout.getContext());

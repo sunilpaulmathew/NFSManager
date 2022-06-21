@@ -48,7 +48,6 @@ public class AboutFragment extends Fragment {
         mData.add(new SerializableItems(getString(R.string.app_name), BuildConfig.VERSION_NAME, ContextCompat.getDrawable(requireActivity(), R.mipmap.ic_launcher_round), null));
         mData.add(new SerializableItems(getString(R.string.nfs_injector), NFS.getReleaseStatus(), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_info), null));
         mData.add(new SerializableItems(getString(R.string.support), getString(R.string.support_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_support), "https://t.me/nfsinjector"));
-        mData.add(new SerializableItems(getString(R.string.faq), getString(R.string.faq_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_help), "https://telegra.ph/NFS-Injector-Frequently-Asked-Questions-02-14"));
         mData.add(new SerializableItems(getString(R.string.source_code), getString(R.string.source_code_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_github), "https://github.com/sunilpaulmathew/NFSManager"));
         mData.add(new SerializableItems(getString(R.string.report_issue), getString(R.string.report_issue_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_bug), "https://github.com/sunilpaulmathew/NFSManager/issues/new"));
         mData.add(new SerializableItems(getString(R.string.change_logs), getString(R.string.change_logs_summary), ContextCompat.getDrawable(requireActivity(), R.drawable.ic_active), null));

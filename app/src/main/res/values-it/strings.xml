@@ -31,7 +31,6 @@
     <string name="execute_no">Non eseguire</string>
     <string name="export_completed">Il file Log è stato esportato con successo in \'%s\'. Vuoi condividerlo?</string>
     <string name="exporting">Il file Log è stato esportato in \'%s\'</string>
-    <string name="faq">FAQ</string>
     <string name="flash">Installa </string>
     <string name="flashing">Installazione di %s</string>
     <string name="flash_nfs">Installa NFS</string>

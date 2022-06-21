@@ -32,7 +32,6 @@
     <string name="execute_no">Ne pas exécuter</string>
     <string name="export_completed">Le fichier log a été correctement exporté dans \'%s\'. Voulez-vous le partager?</string>
     <string name="exporting">Exportation du log en tant que \'%s\'</string>
-    <string name="faq">FAQ</string>
     <string name="flash">Flash</string>
     <string name="flashing">flashage%s</string>
     <string name="flash_nfs">Flash NFS</string>

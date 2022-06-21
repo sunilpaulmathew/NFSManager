@@ -50,8 +50,6 @@
     <string name="execute_no">Não executar</string>
     <string name="export_completed">O ficheiro de registo foi exportado com sucesso para \'%s\'. Deseja partilhar?</string>
     <string name="exporting">Exportar registo como \'%s\'</string>
-    <string name="faq">FAQ</string>
-    <string name="faq_summary">Ler NFS Injector FAQ</string>
     <string name="flash">Instalar</string>
     <string name="flash_log">O registo de instalação foi exportado como %s!</string>
     <string name="flashing">A instalar %s</string>

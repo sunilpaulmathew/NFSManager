@@ -31,7 +31,6 @@
     <string name="execute_no">Nicht blockieren</string>
     <string name="export_completed">Die Logdatei wurde erfolgreich nach \'%s\' exportiert. Möchten Sie die Datei teilen?</string>
     <string name="exporting">Exportieren der Logdatei als \'%s\'</string>
-    <string name="faq">Häufig gestellte Fragen</string>
     <string name="flash">Installieren</string>
     <string name="flashing">installiere %s</string>
     <string name="flash_nfs">NFS installieren</string>

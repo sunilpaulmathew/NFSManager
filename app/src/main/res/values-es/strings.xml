@@ -33,7 +33,6 @@
     <string name="execute_no">No ejecutar</string>
     <string name="export_completed">El archivo de registro se exportó correctamente a \'%s\'. ¿Quieres compartirlo?</string>
     <string name="exporting">Exportando registro como \'%s\'</string>
-    <string name="faq">Preguntas más frecuentes (Telegram)</string>
     <string name="flash">Flashear</string>
     <string name="flashing">Flasheando %s</string>
     <string name="flash_nfs">Flashear NFS</string>

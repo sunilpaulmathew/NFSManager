@@ -55,8 +55,6 @@
     <string name="execute_no">Don\'t Execute</string>
     <string name="export_completed">Log file has been successfully exported into \'%s\'. Do you want to share it?</string>
     <string name="exporting">Exporting log as \'%s\'</string>
-    <string name="faq">FAQ</string>
-    <string name="faq_summary">Read NFS Injector FAQ</string>
     <string name="flash">Flash</string>
     <string name="flash_log">Flash log is exported as %s!</string>
     <string name="flashing">Flashing %s</string>
@@ -146,7 +144,7 @@
     <string name="update_check">Update Check</string>
     <string name="update_check_auto">Auto-Update Check</string>
     <string name="update_check_summary">Check for new versions of NFS Manager</string>
-    <string name="update_notification_summary">Click here to open the app and get new update.</string>
+    <string name="update_notification_summary">Click here to open the app and get new update</string>
     <string name="update_unavailable">Congrats! You\'re up-to-date!</string>
     <string name="user_guide">User Guide</string>
     <string name="version">Version: %s</string>

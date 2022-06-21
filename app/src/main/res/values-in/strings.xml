@@ -44,8 +44,6 @@
     <string name="execute_no">Jangan Menjalankan</string>
     <string name="export_completed">Berkas log berhasil diekspor ke \'%s\'. Apakah anda ingin membagikannya?</string>
     <string name="exporting">Mengekspor log sebagai \'%s\'</string>
-    <string name="faq">FAQ</string>
-    <string name="faq_summary">Baca FAQ NFS Injector</string>
     <string name="flash">Flash</string>
     <string name="flash_log">Log flash diekspor sebagai %s!</string>
     <string name="flashing">Flashing %s</string>
