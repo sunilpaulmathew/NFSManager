@@ -108,13 +108,6 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical" >
 
-        <FrameLayout
-            android:id="@+id/ad_frame"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:visibility="gone"
-            android:gravity="center" />
-
         <LinearLayout
             android:id="@+id/offline_ad"
             android:layout_width="match_parent"

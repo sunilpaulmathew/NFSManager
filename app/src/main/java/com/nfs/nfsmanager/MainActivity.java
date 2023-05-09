@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -37,18 +36,12 @@ import com.nfs.nfsmanager.utils.Flasher;
 import com.nfs.nfsmanager.utils.NFS;
 import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
-import com.wortise.ads.AdError;
-import com.wortise.ads.AdSize;
-import com.wortise.ads.WortiseSdk;
-import com.wortise.ads.banner.BannerAd;
-import com.wortise.ads.consent.ConsentManager;
 
 import java.io.File;
 import java.util.Objects;
 
 import in.sunilpaulmathew.rootfilepicker.activities.FilePickerActivity;
 import in.sunilpaulmathew.rootfilepicker.utils.FilePicker;
-import kotlin.Unit;
 
 /*
  * Created by sunilpaulmathew <sunil.kde@gmail.com> on January 07, 2020
@@ -57,7 +50,6 @@ import kotlin.Unit;
 public class MainActivity extends AppCompatActivity {
 
     private AppCompatImageButton mSettings;
-    private BannerAd mBannerAd;
     private MaterialTextView mProgressMessage;
     private boolean mExit, mSleeping = false, mWarning = true;
     private FrameLayout mBottomMenu;
@@ -87,13 +79,6 @@ public class MainActivity extends AppCompatActivity {
         mBottomMenu = findViewById(R.id.bottom_menu);
         mProgressLayout = findViewById(R.id.progress_layout);
         LinearLayout mUnsupportedLayout = findViewById(R.id.unsupported_layout);
-
-        // Initialize Banner Ad
-        WortiseSdk.initialize(this, "b44ffeb9-63bf-41b8-a5d8-dc4bd1897eb4");
-
-        mBannerAd = new BannerAd(this);
-        mBannerAd.setAdSize(AdSize.HEIGHT_90);
-        mBannerAd.setAdUnitId("388389a0-508b-4782-b11f-94989bf2394c");
 
         if (!Utils.rootAccess() || !NFS.magiskSupported() || !NFS.illegalAppsList(this).isEmpty() || NFS.isNFSSleeping()) {
             mBottomMenu.setVisibility(View.GONE);
@@ -181,34 +166,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!NFS.isProUser() && Utils.getOrientation(this) == Configuration.ORIENTATION_PORTRAIT) {
-            // Request user consent
-            WortiseSdk.wait(() -> {
-                ConsentManager.requestOnce(this);
-                return Unit.INSTANCE;
-            });
-
-            FrameLayout mAdFrame = findViewById(R.id.ad_frame);
-            mAdFrame.addView(mBannerAd);
-
-            mBannerAd.loadAd();
-
-            mBannerAd.setListener(new BannerAd.Listener() {
-                @Override
-                public void onBannerClicked(@NonNull BannerAd ad) {
-                }
-
-                @Override
-                public void onBannerFailed(@NonNull BannerAd ad, @NonNull AdError error) {
-                    mAdFrame.setVisibility(View.GONE);
-                    mOffLineAd.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onBannerLoaded(@NonNull BannerAd ad) {
-                    mAdFrame.setVisibility(View.VISIBLE);
-                    mOffLineAd.setVisibility(View.GONE);
-                }
-            });
+            mOffLineAd.setVisibility(View.VISIBLE);
         }
     }
 
@@ -445,24 +403,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mBannerAd.destroy();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mBannerAd.pause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mBannerAd.resume();
     }
 
 }
