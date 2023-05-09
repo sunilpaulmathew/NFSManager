@@ -1,6 +1,7 @@
 package com.nfs.nfsmanager;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -40,7 +43,6 @@ import com.nfs.nfsmanager.utils.Utils;
 import java.io.File;
 import java.util.Objects;
 
-import in.sunilpaulmathew.rootfilepicker.activities.FilePickerActivity;
 import in.sunilpaulmathew.rootfilepicker.utils.FilePicker;
 
 /*
@@ -239,10 +241,13 @@ public class MainActivity extends AppCompatActivity {
                             .show();
                     break;
                 case 5:
-                    FilePicker.setExtension("zip");
-                    FilePicker.setPath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
-                    mIntent = new Intent(this, FilePickerActivity.class);
-                    startActivityForResult(mIntent, 0);
+                    FilePicker filePicker = new FilePicker(
+                            activityResultLauncher,
+                            this
+                    );
+                    filePicker.setExtension("zip");
+                    filePicker.setPath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
+                    filePicker.launch();
                     break;
                 case 6:
                     Utils.reboot("", mProgressLayout, mProgressMessage, this);
@@ -295,25 +300,25 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mIntent);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 0 && data != null) {
-            File mSelectedFile = FilePicker.getSelectedFile();
-            if (!mSelectedFile.getName().endsWith("zip")) {
-                Utils.longSnackbar(mBottomMenu, getString(R.string.invalid_zip));
-                return;
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null && FilePicker.getSelectedFile().exists()) {
+                    File mSelectedFile = FilePicker.getSelectedFile();
+                    if (!mSelectedFile.getName().endsWith("zip")) {
+                        Utils.longSnackbar(mBottomMenu, getString(R.string.invalid_zip));
+                        return;
+                    }
+                    new MaterialAlertDialogBuilder(this)
+                            .setIcon(R.mipmap.ic_launcher)
+                            .setTitle(R.string.app_name)
+                            .setMessage(getString(R.string.sure_message, mSelectedFile.getName()))
+                            .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
+                            })
+                            .setPositiveButton(getString(R.string.flash), (dialogInterface, i) -> Flasher.flashModule(mSelectedFile, this)).show();
+                }
             }
-            new MaterialAlertDialogBuilder(this)
-                    .setIcon(R.mipmap.ic_launcher)
-                    .setTitle(R.string.app_name)
-                    .setMessage(getString(R.string.sure_message, mSelectedFile.getName()))
-                    .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
-                    })
-                    .setPositiveButton(getString(R.string.flash), (dialogInterface, i) -> Flasher.flashModule(mSelectedFile, this)).show();
-        }
-    }
+    );
 
     @Override
     public void onStart() {
