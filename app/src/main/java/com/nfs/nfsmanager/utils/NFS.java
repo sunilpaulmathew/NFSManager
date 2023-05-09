@@ -126,7 +126,7 @@ public class NFS {
     }
 
     public static boolean magiskSupported() {
-        return Utils.exist("/sbin/.magisk") || Utils.exist("/data/adb/magisk");
+        return Utils.exist("/sbin/.magisk") || Utils.exist("/data/adb/magisk") || Utils.exist("/data/adb/ksu/bin/busybox");
     }
 
     public static boolean isModuleParent() {

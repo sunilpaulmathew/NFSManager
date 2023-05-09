@@ -181,6 +181,8 @@ public class Utils {
     public static String magiskBusyBox() {
         if (Utils.exist("/data/adb/magisk/busybox")) {
             return "/data/adb/magisk/busybox";
+        } else if (Utils.exist("/data/adb/ksu/bin/busybox")) {
+            return "/data/adb/ksu/bin/busybox";
         } else {
             return null;
         }

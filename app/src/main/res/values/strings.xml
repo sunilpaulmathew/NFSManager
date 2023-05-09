@@ -101,10 +101,10 @@
     <string name="on">On</string>
     <string name="overwatch_engine">OverWatch Engine</string>
     <string name="no_internet">Please check your internet connection!</string>
-    <string name="no_magisk">Magisk not installed</string>
+    <string name="no_magisk">Magisk or KernelSU is not installed</string>
     <string name="normal">Normal</string>
     <string name="no_root">No Root</string>
-    <string name="no_support">Your device doesn\'t seems to have NFS installed. Hence, this app doesn\'t work on your device unless you install NFS injector module.</string>
+    <string name="no_support">Your device doesn\'t seems to have NFS installed. Hence, this app won\'t work on this device unless you install NFS injector module.</string>
     <string name="performance_warning">Using \'performance\' governor is highly inadvisable when using NFS Injector!\nPlease use at your own risk and no support will be given by NFS team.</string>
     <string name="permissive">Permissive</string>
     <string name="press_back">Press back again to exit</string>
