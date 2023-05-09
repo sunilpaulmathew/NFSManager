@@ -1,0 +1,33 @@
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_margin="10sp" >
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:src="@drawable/ic_developer"
+        android:layout_gravity="center"
+        android:background="@null" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copyright_developer_message"
+        android:textColor="@color/ColorBlue"
+        android:textStyle="bold|italic"
+        android:layout_gravity="center"
+        android:clickable="false" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/donations_message"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:layout_margin="10sp"
+        android:textStyle="italic" />
+</androidx.appcompat.widget.LinearLayoutCompat>

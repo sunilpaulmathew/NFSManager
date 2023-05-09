@@ -93,7 +93,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Copyright: © 2022-2023, sunilpaulmathew"
+                    android:text="@string/copyright_developer_message"
                     android:layout_marginBottom="10dp"
                     android:layout_marginStart="25dp"
                     android:textStyle="bold|italic"

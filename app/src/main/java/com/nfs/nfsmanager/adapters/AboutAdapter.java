@@ -75,10 +75,12 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
                 Intent credits = new Intent(holder.mRVLayout.getContext(), CreditsActivity.class);
                 holder.mRVLayout.getContext().startActivity(credits);
             } else if (position == 10) {
+                LayoutInflater mLayoutInflator = LayoutInflater.from(v.getContext());
+                View aboutLayout = mLayoutInflator.inflate(R.layout.layout_about, null);
+
                 new MaterialAlertDialogBuilder(v.getContext())
                         .setIcon(R.mipmap.ic_launcher)
-                        .setTitle(v.getContext().getString(R.string.app_name))
-                        .setMessage(v.getContext().getText(R.string.donations_message))
+                        .setView(aboutLayout)
                         .setNegativeButton(R.string.cancel, (dialogInterface, ii) -> {
                         })
                         .setPositiveButton(R.string.donate, (dialogInterface, ii) ->

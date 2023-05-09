@@ -15,6 +15,7 @@
     <string name="change_logs_summary">View recent changes on this app</string>
     <string name="charge_rate">Charge Rate: %s mA</string>
     <string name="copyright">&#169;<b>NFS Team</b></string>
+    <string name="copyright_developer_message">Copyright: &#169;2023–2024, sunilpaulmathew</string>
     <string name="copyright_message">Upgrade to the \'PRO\' version and receive more features. Click here to learn more!</string>
     <string name="cpu_core">Core %s</string>
     <string name="cpu_stats">CPU Statistics</string>
@@ -39,7 +40,7 @@
     <string name="dns_neustar">DNS Neustar Ultra</string>
     <string name="donate">Donate</string>
     <string name="donations">Donations</string>
-    <string name="donations_message">If you like to appreciate the developer (sunilpaulmathew) for maintaining this app up-to-date and fully compatible with each new Android/NFS Injector versions, please consider supporting him with a small donation.\n\nPlease Note: This donation won\'t make you eligible for NFS Injector Pro version!</string>
+    <string name="donations_message">If you like to appreciate the developer (sunilpaulmathew) for maintaining this app up-to-date and fully compatible with each new Android/NFS Injector versions, please consider supporting him with a small donation.\n\n<b>Please Note</b>: This donation won\'t make you eligible for NFS Injector Pro version!</string>
     <string name="donations_summary">Donate to app developer</string>
     <string name="download_failed">It seems like the download is failed, or a corrupted file is downloaded! Aborting.</string>
     <string name="downloading">Downloading %s</string>
