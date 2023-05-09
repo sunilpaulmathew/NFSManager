@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -33,7 +32,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -159,7 +157,7 @@ public class Utils {
 
     public static boolean exist(String file) {
         String output = runAndGetOutput("[ -e " + file + " ] && echo true");
-        return !output.isEmpty() && output.equals("true");
+        return output.equals("true");
     }
 
     public static void download(String path, String url) {
@@ -168,7 +166,7 @@ public class Utils {
          * Ref: https://stackoverflow.com/questions/15758856/android-how-to-download-file-from-webserver
          */
         try (InputStream input = new URL(url).openStream();
-             OutputStream output = new FileOutputStream(path)) {
+             FileOutputStream output = new FileOutputStream(path)) {
             byte[] data = new byte[4096];
             int count;
             while ((count = input.read(data)) != -1) {

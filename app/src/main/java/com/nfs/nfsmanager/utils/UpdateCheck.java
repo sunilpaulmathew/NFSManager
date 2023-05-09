@@ -15,10 +15,10 @@ import android.content.pm.Signature;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
-import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nfs.nfsmanager.BuildConfig;
