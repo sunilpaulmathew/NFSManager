@@ -11,13 +11,14 @@ android {
         }
     }
 
-    compileSdkVersion 31
+    namespace 'com.nfs.nfsmanager'
+    compileSdkVersion 33
     buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "com.nfs.nfsmanager"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 17
         versionName = "v2.6"
         vectorDrawables.useSupportLibrary = true
@@ -34,7 +35,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions {
+    lint {
         abortOnError false
     }
 }
@@ -44,6 +45,6 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.7.1'
     implementation 'com.github.sunilpaulmathew:RootFilePicker:v0.7'
     implementation "com.github.topjohnwu.libsu:core:4.0.3"
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.wortise:android-sdk:1.2.1'
 }
