@@ -1,8 +1,8 @@
 ![NFS Manager](app/src/main/res/drawable/ic_nfs.webp)
 
-[![](https://img.shields.io/badge/NFS%20Manager-v2.6-green)](https://github.com/sunilpaulmathew/NFSManager/releases/download/v2.6/com.nfs.nfsmanager-v2.6-release.apk)
+[![](https://img.shields.io/badge/NFS%20Manager-v2.7-green)](https://github.com/sunilpaulmathew/NFSManager/releases/download/v2.7/com.nfs.nfsmanager-v2.7-release.apk)
 ![](https://img.shields.io/github/downloads/sunilpaulmathew/NFSManager/total)
-![](https://img.shields.io/github/downloads/sunilpaulmathew/NFSManager/v2.6/total)
+![](https://img.shields.io/github/downloads/sunilpaulmathew/NFSManager/v2.7/total)
 ![](https://img.shields.io/github/contributors/sunilpaulmathew/NFSManager)
 ![](https://img.shields.io/github/license/sunilpaulmathew/NFSManager)
 
@@ -11,7 +11,7 @@ NFS Manager is a simple application to control NFS Injector, which is a Magisk m
 ## Download
 [<img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png"
 alt=""
-height="80">](https://github.com/sunilpaulmathew/NFSManager/releases/download/v2.6/com.nfs.nfsmanager-v2.6-release.apk)
+height="80">](https://github.com/sunilpaulmathew/NFSManager/releases/download/v2.7/com.nfs.nfsmanager-v2.7-release.apk)
 
 ## Requirements
 1. ROOT Access
@@ -40,7 +40,7 @@ If you like to appreciate the developer ([sunilpaulmathew](https://github.com/su
 
 ## License
 
-    Copyright (C) 2022-2023 sunilpaulmathew <sunil.kde@gmail.com>
+    Copyright (C) 2023-2024 sunilpaulmathew <sunil.kde@gmail.com>
 
     NFS Manager is a free softwares: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by the
