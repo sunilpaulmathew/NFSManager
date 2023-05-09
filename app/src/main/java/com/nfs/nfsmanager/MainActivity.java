@@ -1,10 +1,12 @@
 package com.nfs.nfsmanager;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -170,6 +172,14 @@ public class MainActivity extends AppCompatActivity {
         if (!NFS.isProUser() && Utils.getOrientation(this) == Configuration.ORIENTATION_PORTRAIT) {
             mOffLineAd.setVisibility(View.VISIBLE);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && Utils.getBoolean("update_check_auto", true, this)
+                && Utils.isNotificationAccessDenied(this)) {
+            notificationPermissionRequest.launch(
+                    Manifest.permission.POST_NOTIFICATIONS
+            );
+        }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -259,7 +269,17 @@ public class MainActivity extends AppCompatActivity {
                     Utils.reboot(" bootloader", mProgressLayout, mProgressMessage, this);
                     break;
                 case 9:
-                    Utils.saveBoolean("update_check_auto", !Utils.getBoolean("update_check_auto", true, this), this);
+                    if (Utils.getBoolean("update_check_auto", true, this)) {
+                        Utils.saveBoolean("update_check_auto", false, this);
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && Utils.isNotificationAccessDenied(this)) {
+                            notificationPermissionRequest.launch(
+                                    Manifest.permission.POST_NOTIFICATIONS
+                            );
+                        } else {
+                            Utils.saveBoolean("update_check_auto", true, this);
+                        }
+                    }
                     break;
                 case 10:
                     mIntent = new Intent(this, DeviceInfoActivity.class);
@@ -300,7 +320,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mIntent);
     }
 
-    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<String> notificationPermissionRequest =
+            registerForActivityResult(new ActivityResultContracts
+                    .RequestPermission(), isGranted -> Utils.saveBoolean("update_check_auto", isGranted, this)
+            );
+
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null && FilePicker.getSelectedFile().exists()) {
