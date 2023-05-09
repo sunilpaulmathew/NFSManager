@@ -1,4 +1,4 @@
-![NFS Manager](app/src/main/res/drawable/ic_nfs.png)
+![NFS Manager](app/src/main/res/drawable/ic_nfs.webp)
 
 [![](https://img.shields.io/badge/NFS%20Manager-v2.6-green)](https://github.com/sunilpaulmathew/NFSManager/releases/download/v2.6/com.nfs.nfsmanager-v2.6-release.apk)
 ![](https://img.shields.io/github/downloads/sunilpaulmathew/NFSManager/total)
