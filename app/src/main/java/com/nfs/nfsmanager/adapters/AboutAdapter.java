@@ -82,12 +82,12 @@ public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.ViewHolder> 
                         .setNegativeButton(R.string.cancel, (dialogInterface, ii) -> {
                         })
                         .setPositiveButton(R.string.donate, (dialogInterface, ii) ->
-                                Utils.launchUrl(holder.mRVLayout, "https://www.paypal.me/menacherry", holder.mRVLayout.getContext()))
+                                Utils.launchUrl("https://www.paypal.me/menacherry", holder.mRVLayout.getContext()))
                         .show();
             } else if (position == 11) {
                 UpdateCheck.initialize(0, false, holder.mRVLayout.getContext());
             } else if (this.data.get(position).getURL() != null) {
-                Utils.launchUrl(holder.mRVLayout, this.data.get(position).getURL(), holder.mRVLayout.getContext());
+                Utils.launchUrl(this.data.get(position).getURL(), holder.mRVLayout.getContext());
             }
         });
     }

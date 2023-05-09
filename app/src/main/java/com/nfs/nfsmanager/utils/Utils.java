@@ -229,17 +229,13 @@ public class Utils {
         snackbar.show();
     }
 
-    public static void launchUrl(View view, String url, Context context) {
-        if (isNetworkUnavailable(context)) {
-            longSnackbar(view, context.getString(R.string.no_internet));
-        } else {
-            try {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                context.startActivity(i);
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
-            }
+    public static void launchUrl(String url, Context context) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            context.startActivity(i);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -251,12 +247,6 @@ public class Utils {
     public static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-    }
-
-    public static boolean isNetworkUnavailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert cm != null;
-        return (cm.getActiveNetworkInfo() == null) || !cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
     public static String readAssetFile(Context context, String file) {

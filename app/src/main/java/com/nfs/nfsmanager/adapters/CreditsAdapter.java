@@ -45,7 +45,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<CreditsAdapter.ViewHold
         holder.mIcon.setImageDrawable(this.data.get(position).getIcon());
         holder.mRVLayout.setOnClickListener(v -> {
             if (this.data.get(position).getURL() != null) {
-                Utils.launchUrl(holder.mRVLayout, this.data.get(position).getURL(), holder.mRVLayout.getContext());
+                Utils.launchUrl(this.data.get(position).getURL(), holder.mRVLayout.getContext());
             }
         });
     }

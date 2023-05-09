@@ -57,7 +57,7 @@ public class DashBoardFragment extends Fragment {
                 } else if (position == 3) {
                     showUpdateModeDialog(3, getString(R.string.gaming));
                 } else if (position == 4) {
-                    Utils.launchUrl(mRootView, "https://github.com/k1ks/NFS-INJECTOR/wiki", requireActivity());
+                    Utils.launchUrl("https://github.com/k1ks/NFS-INJECTOR/wiki", requireActivity());
                 }
             }
         });

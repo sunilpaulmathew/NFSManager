@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     getString(R.string.illegal_apps) : getString(R.string.sleeping));
             mUnsupportedImage.setOnClickListener(v -> {
                 if (!Utils.rootAccess() || !NFS.magiskSupported()) {
-                    Utils.launchUrl(mBottomMenu, "https://www.google.com/search?site=&source=hp&q=android+rooting+magisk", this);
+                    Utils.launchUrl("https://www.google.com/search?site=&source=hp&q=android+rooting+magisk", this);
                 } else {
                     new MaterialAlertDialogBuilder(this)
                             .setIcon(R.mipmap.ic_launcher)
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSettings.setOnClickListener(v -> settingsMenu());
 
-        mOffLineAd.setOnClickListener(v -> Utils.launchUrl(mBottomMenu, "https://t.me/nfsreleases/424", this));
+        mOffLineAd.setOnClickListener(v -> Utils.launchUrl("https://t.me/nfsreleases/424", this));
 
         mModuleImage.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
         mModuleTitle.setText(getString(R.string.module_version, NFS.getModVersion() +
