@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,7 +20,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -43,7 +41,6 @@ import com.nfs.nfsmanager.utils.UpdateCheck;
 import com.nfs.nfsmanager.utils.Utils;
 
 import java.io.File;
-import java.util.Objects;
 
 import in.sunilpaulmathew.rootfilepicker.utils.FilePicker;
 
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppCompatImageButton mSettings;
     private MaterialTextView mProgressMessage;
-    private boolean mExit, mSleeping = false, mWarning = true;
+    private boolean mExit, mWarning = true;
     private FrameLayout mBottomMenu;
     private Intent mIntent;
     private LinearLayout mProgressLayout;
@@ -73,42 +70,13 @@ public class MainActivity extends AppCompatActivity {
 
         AppCompatImageButton mModuleImage = findViewById(R.id.module_image);
         mSettings =  findViewById(R.id.settings_menu);
-        AppCompatImageView mUnsupportedImage = findViewById(R.id.no_root_Image);
         MaterialTextView mModuleStatus = findViewById(R.id.status_message);
         MaterialTextView mModuleTitle = findViewById(R.id.module_version);
         mProgressMessage = findViewById(R.id.progress_text);
-        MaterialTextView mUnsupportedText = findViewById(R.id.unsupported_Text);
         FrameLayout mStatusLayout = findViewById(R.id.support_statue);
         LinearLayout mOffLineAd = findViewById(R.id.offline_ad);
         mBottomMenu = findViewById(R.id.bottom_menu);
         mProgressLayout = findViewById(R.id.progress_layout);
-        LinearLayout mUnsupportedLayout = findViewById(R.id.unsupported_layout);
-
-        if (!Utils.rootAccess() || !NFS.magiskSupported() || !NFS.illegalAppsList(this).isEmpty() || NFS.isNFSSleeping()) {
-            mBottomMenu.setVisibility(View.GONE);
-            mUnsupportedLayout.setVisibility(View.VISIBLE);
-            Drawable helpDrawable = ContextCompat.getDrawable(this, R.drawable.ic_help);
-            Objects.requireNonNull(helpDrawable).setTint(ContextCompat.getColor(this, R.color.ColorBlue));
-            mUnsupportedImage.setImageDrawable(helpDrawable);
-            mUnsupportedText.setText(!Utils.rootAccess() ? getString(R.string.no_root) : !NFS.magiskSupported() ?
-                    getString(R.string.no_magisk) : !NFS.illegalAppsList(this).isEmpty() ?
-                    getString(R.string.illegal_apps) : getString(R.string.sleeping));
-            mUnsupportedImage.setOnClickListener(v -> {
-                if (!Utils.rootAccess() || !NFS.magiskSupported()) {
-                    Utils.launchUrl("https://www.google.com/search?site=&source=hp&q=android+rooting+magisk", this);
-                } else {
-                    new MaterialAlertDialogBuilder(this)
-                            .setIcon(R.mipmap.ic_launcher)
-                            .setTitle(R.string.app_name)
-                            .setMessage(mSleeping ? getString(R.string.sleeping_message) : getString (
-                                    R.string.illegal_apps_summary, NFS.illegalAppsList(this)))
-                            .setCancelable(false)
-                            .setPositiveButton(getString(R.string.cancel), (dialog1, id1) -> super.onBackPressed())
-                            .show();
-                }
-            });
-            return;
-        }
 
         mSettings.setOnClickListener(v -> settingsMenu());
 
@@ -349,18 +317,9 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        if (!Utils.rootAccess()) {
-            return;
-        }
-        if (!NFS.supported()) {
-            return;
-        }
         if (NFS.isModuleParent() && Utils.getBoolean("warningMessage", true, this)
                 && !NFS.conflictsList(this).isEmpty()) {
             showWarning();
-        }
-        if (NFS.isNFSSleeping()) {
-            mSleeping = true;
         }
         if (NFS.isModuleRemoved() || NFS.isModuleDisabled()) {
             Utils.indefiniteSnackbar(findViewById(android.R.id.content), getString(R.string.module_status_message, NFS.isModuleRemoved() ?
@@ -405,33 +364,29 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (Utils.rootAccess() && NFS.magiskSupported() && NFS.supported() && !mSleeping) {
-            if (doze != NFS.getDozeMode() || shield != NFS.getShield()
-                    || dns != NFS.getDNSMode() || ads != NFS.getAds() || ow != NFS.getOW()
-                    || selinux != NFS.getSELinuxMode() || sync != NFS.getSync() || tt != NFS.getTT()
-                    || sf != NFS.getSF() || zygot != NFS.getZygote() || lmk != NFS.getLMK()
-                    || !gov.equals(NFS.getGOV()) || !sched.equals(NFS.getSched())
-                    || !tcp.equals(NFS.getTCP())) {
-                new MaterialAlertDialogBuilder(this)
-                        .setMessage(getString(R.string.reboot_dialog))
-                        .setCancelable(false)
-                        .setIcon(R.mipmap.ic_launcher)
-                        .setTitle(getString(R.string.reboot_required))
-                        .setNegativeButton(getString(R.string.cancel), (dialog1, id1) -> super.onBackPressed())
-                        .setPositiveButton(getString(R.string.reboot), (dialog1, id1) -> Utils.reboot("", mProgressLayout, mProgressMessage, this))
-                        .show();
-            } else {
-                if (mExit) {
-                    mExit = false;
-                    super.onBackPressed();
-                } else {
-                    Utils.longSnackbar(mBottomMenu, getString(R.string.press_back));
-                    mExit = true;
-                    mHandler.postDelayed(() -> mExit = false, 2000);
-                }
-            }
+        if (doze != NFS.getDozeMode() || shield != NFS.getShield()
+                || dns != NFS.getDNSMode() || ads != NFS.getAds() || ow != NFS.getOW()
+                || selinux != NFS.getSELinuxMode() || sync != NFS.getSync() || tt != NFS.getTT()
+                || sf != NFS.getSF() || zygot != NFS.getZygote() || lmk != NFS.getLMK()
+                || !gov.equals(NFS.getGOV()) || !sched.equals(NFS.getSched())
+                || !tcp.equals(NFS.getTCP())) {
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage(getString(R.string.reboot_dialog))
+                    .setCancelable(false)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .setTitle(getString(R.string.reboot_required))
+                    .setNegativeButton(getString(R.string.cancel), (dialog1, id1) -> super.onBackPressed())
+                    .setPositiveButton(getString(R.string.reboot), (dialog1, id1) -> Utils.reboot("", mProgressLayout, mProgressMessage, this))
+                    .show();
         } else {
-            super.onBackPressed();
+            if (mExit) {
+                mExit = false;
+                super.onBackPressed();
+            } else {
+                Utils.longSnackbar(mBottomMenu, getString(R.string.press_back));
+                mExit = true;
+                mHandler.postDelayed(() -> mExit = false, 2000);
+            }
         }
     }
 

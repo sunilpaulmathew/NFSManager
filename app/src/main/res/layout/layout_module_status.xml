@@ -1,0 +1,45 @@
+<FrameLayout
+    android:id="@+id/support_statue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:baselineAligned="false"
+    android:layout_margin="15dp"
+    android:visibility="gone" >
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/module_image"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center_vertical"
+        android:tint="?android:attr/textColorPrimary"
+        android:scaleType="fitCenter"
+        android:background="@null" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical" >
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/module_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textColor="?android:attr/colorAccent"
+            android:layout_gravity="start"
+            android:textSize="20sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/status_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_gravity="start"
+            android:textSize="15sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</FrameLayout>
